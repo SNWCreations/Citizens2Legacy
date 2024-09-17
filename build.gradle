@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+    id 'net.minecraftforge.gitpatcher' version '0.10.0.12'
+}
+
+group = 'snw'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+}
+
+test {
+}
+
+patches {
+    // The submodule path you just created
+    submodule = 'upstream'
+    // The target folder for the patched repositories
+    target = file('target')
+    // The folder where the patches are saved
+    patches = file('patches')
+}
