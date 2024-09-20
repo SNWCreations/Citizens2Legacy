@@ -9,10 +9,7 @@ Developed for The SRS Project because our tech stack
 
 ## Compiling
 
-Run `gradlew updateSubmodules` if upstream is not
- cloned while cloning this repository.
-
-Then run `gradlew applyPatches` to apply the patches
+Run `gradlew applyPatches` to apply the patches
  to the upstream project.
 
 Now the patched project is ready at `target` folder,
@@ -25,8 +22,17 @@ This project (excluding the upstream part) is only
  so changes to the project should be commited to
  the `target` submodule.
 
-When your patches are ready to be saved, commit them
- and then just run `gradlew makePatches` to export them.
+The `upstream` submodule is only used to sync with
+ the upstream. **DO NOT MODIFY IT.**
+
+When updating the project is needed,
+run `gradlew updateSubmodules` to sync the `upstream`
+ submodule with upstream, and then run
+ `gradlew applyPatches` to apply patches,
+ solve the conflict if any.
+
+When your patches are commited to the target repository,
+run `gradlew makePatches` to export them.
 
 After that, your patches are ready to be commited to
  the bootstrap repository (this project).
