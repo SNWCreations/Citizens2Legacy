@@ -1,8 +1,20 @@
 pluginManagement {
     repositories {
+        mavenLocal()
         maven {
-            name = "MinecraftForge"
-            url = "https://maven.minecraftforge.net/"
+            name = "Gradle Plugins Maven Repository"
+            url = "https://plugins.gradle.org/m2/"
+        }
+        maven {
+            name = "JitPack"
+            url = "https://jitpack.io/"
+        }
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == "ca.stellardrift.gitpatcher") {
+                useModule('com.github.SNWCreations:gitpatcher:deploy~jitpack-SNAPSHOT')
+            }
         }
     }
 }
