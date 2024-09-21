@@ -29,7 +29,8 @@ When updating the project is needed,
 run `gradlew updateSubmodules` to sync the `upstream`
  submodule with upstream, and then run
  `gradlew applyPatches` to apply patches,
- solve the conflict if any.
+ solve the conflict and then use Git CLI to
+ continue the process of applying patch, if any.
 
 When your patches are commited to the target repository,
 run `gradlew makePatches` to export them.
