@@ -1,0 +1,1375 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?ZX=E5=A4=8F=E5=A4=9C=E4=B9=8B=E9=A3=8E?=
+ <snwcreations@qq.com>
+Date: Tue, 17 Sep 2024 21:36:19 +0800
+Subject: [PATCH] fix: updated the use of renamed internal Minecraft stuff
+
+Replaced newer record method access to fields with direct field access, use correct but older Minecraft method names for some methods the upstream uses.
+
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
+index aa2461d2b6b934248cbd615b7cf39db83cad2d5d..42300c69027cf948c20052c39b0e1f91154a7dac 100644
+--- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
+@@ -38,15 +38,15 @@ import net.citizensnpcs.util.Util;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.network.chat.Component;
+ import net.minecraft.network.chat.MutableComponent;
+-import net.minecraft.network.chat.contents.PlainTextContents.LiteralContents;
++import net.minecraft.network.chat.contents/*.PlainTextContents*/.LiteralContents; // Backport - Relocated class
+ import net.minecraft.network.protocol.PacketFlow;
+ import net.minecraft.server.MinecraftServer;
+ import net.minecraft.server.PlayerAdvancements;
+-import net.minecraft.server.level.ClientInformation;
++//import net.minecraft.server.level.ClientInformation;
+ import net.minecraft.server.level.ServerLevel;
+ import net.minecraft.server.level.ServerPlayer;
+ import net.minecraft.server.level.ServerPlayerGameMode;
+-import net.minecraft.server.network.CommonListenerCookie;
++//import net.minecraft.server.network.CommonListenerCookie;
+ import net.minecraft.sounds.SoundEvent;
+ import net.minecraft.stats.ServerStatsCounter;
+ import net.minecraft.tags.TagKey;
+@@ -70,8 +70,8 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
+     private EmptyServerStatsCounter statsCache;
+ 
+     public EntityHumanNPC(MinecraftServer minecraftServer, ServerLevel world, GameProfile gameProfile,
+-            ClientInformation ci, NPC npc) {
+-        super(minecraftServer, world, gameProfile, ci);
++            /*ClientInformation ci,*/ NPC npc) {
++        super(minecraftServer, world, gameProfile/*, ci*/);
+         this.npc = (CitizensNPC) npc;
+         if (npc != null) {
+             ai = new BasicMobAI(this);
+@@ -81,7 +81,7 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
+             } catch (Throwable e) {
+                 e.printStackTrace();
+             }
+-            initialise(minecraftServer, ci);
++            initialise(minecraftServer/*, ci*/);
+         } else {
+             skinTracker = null;
+         }
+@@ -259,11 +259,12 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
+         return damaged;
+     }
+ 
+-    private void initialise(MinecraftServer minecraftServer, ClientInformation clientInfo) {
++    private void initialise(MinecraftServer minecraftServer/*, ClientInformation clientInfo*/) {
+         try {
+             EmptyConnection conn = new EmptyConnection(PacketFlow.CLIENTBOUND);
+-            connection = new EmptyPacketListener(minecraftServer, conn, this,
+-                    new CommonListenerCookie(getProfile(), 0, clientInfo, false));
++            connection = new EmptyPacketListener(minecraftServer, conn, this//,
++//                    new CommonListenerCookie(getProfile(), 0, clientInfo, false));
++            );
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+@@ -369,12 +370,16 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
+         if (npc == null)
+             return;
+ 
+-        detectEquipmentUpdatesPublic();
++        detectEquipmentUpdates/*Public*/(); // Backport - Different internal Minecraft method name
+         float scale = this.getScale();
++        // Backport start - Redefining scale is not supported on MC 1.20.1
++        /*
+         if (scale != this.appliedScale) {
+             appliedScale = scale;
+             refreshDimensions();
+         }
++        */
++        // Backport end
+         Bukkit.getServer().getPluginManager().unsubscribeFromPermission("bukkit.broadcast.user", getBukkitEntity());
+         updatePackets(npc.getNavigator().isNavigating());
+         npc.update();
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HumanController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HumanController.java
+index 56d6cd4896c96f535778e7d2cb321769c40cae71..f818fc5e539c5922df8d71a4f4a6671358f0707e 100644
+--- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HumanController.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HumanController.java
+@@ -19,7 +19,7 @@ import net.citizensnpcs.trait.ScoreboardTrait;
+ import net.citizensnpcs.util.NMS;
+ import net.citizensnpcs.util.Util;
+ import net.minecraft.server.MinecraftServer;
+-import net.minecraft.server.level.ClientInformation;
++//import net.minecraft.server.level.ClientInformation;
+ import net.minecraft.server.level.ServerLevel;
+ 
+ public class HumanController extends AbstractEntityController {
+@@ -41,7 +41,7 @@ public class HumanController extends AbstractEntityController {
+         }
+         final GameProfile profile = new GameProfile(uuid, name);
+         final EntityHumanNPC handle = new EntityHumanNPC(MinecraftServer.getServer(), nmsWorld, profile,
+-                ClientInformation.createDefault(), npc);
++                /*ClientInformation.createDefault(),*/ npc);
+         Skin skin = handle.getSkinTracker().getSkin();
+         if (skin != null) {
+             skin.apply(handle);
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PhantomController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PhantomController.java
+index 62dd816510ff2498a1f5eed59066f4b3a437b067..41831d667207a5f334188b454a5890dc0ca808b1 100644
+--- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PhantomController.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PhantomController.java
+@@ -83,7 +83,10 @@ public class PhantomController extends MobEntityController {
+                     this.lookControl = new LookControl(this);
+                 }
+                 if (npc.isProtected()) {
+-                    igniteForSeconds(0);
++                    // Backport start - Renamed Minecraft internal stuff
++//                    igniteForSeconds(0);
++                    setSecondsOnFire(0);
++                    // Backport end
+                 }
+                 npc.update();
+             }
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PufferFishController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PufferFishController.java
+index 0656b6b8cac7b7454289b1bb4ddc5f6236c7dcdc..56296335a69d868fcd0573ff55ab58c6b18479f3 100644
+--- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PufferFishController.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PufferFishController.java
+@@ -152,11 +152,20 @@ public class PufferFishController extends MobEntityController {
+         }
+ 
+         @Override
++        // Backport start - Renamed internal Minecraft method
++        /*
+         public EntityDimensions getDefaultDimensions(Pose entitypose) {
+             if (npc == null)
+                 return super.getDefaultDimensions(entitypose);
+             return super.getDefaultDimensions(entitypose).scale(1 / s(getPuffState())).scale(0.5F);
+         }
++        */
++        public EntityDimensions getDimensions(Pose entitypose) {
++            if (npc == null)
++                return super.getDimensions(entitypose);
++            return super.getDimensions(entitypose).scale(1 / s(getPuffState())).scale(0.5F);
++        }
++        // Backport end
+ 
+         @Override
+         protected SoundEvent getHurtSound(DamageSource damagesource) {
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/TadpoleController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/TadpoleController.java
+index c996f7cf43f1b4e2dc73b092f34e9573c20a159e..3bcba6440242e5ca9b1e7067e8d7aa1070a2a3e4 100644
+--- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/TadpoleController.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/TadpoleController.java
+@@ -200,7 +200,7 @@ public class TadpoleController extends MobEntityController {
+             if (npc == null || !npc.isProtected())
+                 return super.mobInteract(entityhuman, enumhand);
+             ItemStack itemstack = entityhuman.getItemInHand(enumhand);
+-            if ((itemstack.is(ItemTags.FROG_FOOD) || itemstack.getItem() == Items.WATER_BUCKET) && isAlive())
++            if ((/*itemstack.is(ItemTags.FROG_FOOD) || */itemstack.getItem() == Items.WATER_BUCKET) && isAlive()) // Backport - FROG_FOOD tag was added in MC 1.20.5 but not exist in MC 1.20.1
+                 return InteractionResult.FAIL;
+             return super.mobInteract(entityhuman, enumhand);
+         }
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/FishingHookController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/FishingHookController.java
+index 4ff67073f8b6c739b767514b57bd9d22cfd65190..776242e4353f9ec5774494a2435c7e1c66d880d8 100644
+--- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/FishingHookController.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/FishingHookController.java
+@@ -22,7 +22,7 @@ import net.citizensnpcs.npc.ai.NPCHolder;
+ import net.citizensnpcs.util.NMS;
+ import net.citizensnpcs.util.Util;
+ import net.minecraft.nbt.CompoundTag;
+-import net.minecraft.server.level.ClientInformation;
++//import net.minecraft.server.level.ClientInformation; // Backport - this does not exist in MC 1.20.1
+ import net.minecraft.server.level.ServerLevel;
+ import net.minecraft.server.level.ServerPlayer;
+ import net.minecraft.tags.TagKey;
+@@ -46,7 +46,7 @@ public class FishingHookController extends MobEntityController {
+     protected org.bukkit.entity.Entity createEntity(Location at, NPC npc) {
+         ServerLevel level = ((CraftWorld) at.getWorld()).getHandle();
+         ServerPlayer sp = new ServerPlayer(level.getServer(), level,
+-                new GameProfile(UUID.randomUUID(), "dummyfishhook"), ClientInformation.createDefault()) {
++                new GameProfile(UUID.randomUUID(), "dummyfishhook")/*, ClientInformation.createDefault()*/) { // Backport - ClientInformation does not exist in MC 1.20.1
+         };
+         sp.setPos(at.getX(), at.getY(), at.getZ());
+         sp.setYRot(at.getYaw());
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/network/EmptyConnection.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/network/EmptyConnection.java
+index 80fd0c65cdbaad820b75be2af3629bbfbda2e31c..7196f97932ade3cef2f3ee672ae359b10bb53741 100644
+--- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/network/EmptyConnection.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/network/EmptyConnection.java
+@@ -20,9 +20,13 @@ public class EmptyConnection extends Connection {
+         };
+     }
+ 
++    // Backport start - Newer methods does not exist in MC 1.20.1
++    /*
+     @Override
+     public void flushChannel() {
+     }
++    */
++    // Backport end
+ 
+     @Override
+     public boolean isConnected() {
+@@ -37,6 +41,8 @@ public class EmptyConnection extends Connection {
+     public void send(Packet packet, PacketSendListener genericfuturelistener) {
+     }
+ 
++    // Backport start - Newer methods does not exist in MC 1.20.1
++    /*
+     @Override
+     public void send(Packet packet, PacketSendListener genericfuturelistener, boolean flag) {
+     }
+@@ -50,4 +56,6 @@ public class EmptyConnection extends Connection {
+             e.printStackTrace();
+         }
+     }
++    */
++    // Backport end
+ }
+\ No newline at end of file
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/network/EmptyPacketListener.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/network/EmptyPacketListener.java
+index 679657d8b0f4bb1eade47c3f7bdfe54c4c386281..9078d3496081ed1b72f5964e0e0db84816702a9f 100644
+--- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/network/EmptyPacketListener.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/network/EmptyPacketListener.java
+@@ -4,18 +4,20 @@ import net.minecraft.network.Connection;
+ import net.minecraft.network.protocol.Packet;
+ import net.minecraft.server.MinecraftServer;
+ import net.minecraft.server.level.ServerPlayer;
+-import net.minecraft.server.network.CommonListenerCookie;
++//import net.minecraft.server.network.CommonListenerCookie;
+ import net.minecraft.server.network.ServerGamePacketListenerImpl;
+ 
+ public class EmptyPacketListener extends ServerGamePacketListenerImpl {
+-    public EmptyPacketListener(MinecraftServer minecraftServer, Connection networkManager, ServerPlayer entityPlayer,
+-            CommonListenerCookie clc) {
+-        super(minecraftServer, networkManager, entityPlayer, clc);
++    public EmptyPacketListener(MinecraftServer minecraftServer, Connection networkManager, ServerPlayer entityPlayer//,
++            /*CommonListenerCookie clc*/) {
++        super(minecraftServer, networkManager, entityPlayer/*, clc*/);
+     }
+ 
++    /*
+     @Override
+     public void resumeFlushing() {
+     }
++    */
+ 
+     @Override
+     public void send(Packet<?> packet) {
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EmptyAdvancementDataPlayer.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EmptyAdvancementDataPlayer.java
+index bbf57f7d44b72b54e1692bb93e8dec7885d21fd9..21ba3b2f686600490a9228a34fcc67e085da2e0e 100644
+--- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EmptyAdvancementDataPlayer.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EmptyAdvancementDataPlayer.java
+@@ -11,7 +11,7 @@ import com.mojang.datafixers.DataFixer;
+ 
+ import net.citizensnpcs.api.CitizensAPI;
+ import net.citizensnpcs.util.NMS;
+-import net.minecraft.advancements.AdvancementHolder;
++import net.minecraft.advancements.Advancement;
+ import net.minecraft.advancements.AdvancementProgress;
+ import net.minecraft.resources.ResourceLocation;
+ import net.minecraft.server.PlayerAdvancements;
+@@ -27,7 +27,7 @@ public class EmptyAdvancementDataPlayer extends PlayerAdvancements {
+     }
+ 
+     @Override
+-    public boolean award(AdvancementHolder advancement, String s) {
++    public boolean award(Advancement advancement, String s) {
+         return false;
+     }
+ 
+@@ -36,7 +36,7 @@ public class EmptyAdvancementDataPlayer extends PlayerAdvancements {
+     }
+ 
+     @Override
+-    public AdvancementProgress getOrStartProgress(AdvancementHolder advancement) {
++    public AdvancementProgress getOrStartProgress(Advancement advancement) {
+         return new AdvancementProgress();
+     }
+ 
+@@ -45,7 +45,7 @@ public class EmptyAdvancementDataPlayer extends PlayerAdvancements {
+     }
+ 
+     @Override
+-    public boolean revoke(AdvancementHolder advancement, String s) {
++    public boolean revoke(Advancement advancement, String s) {
+         return false;
+     }
+ 
+@@ -59,7 +59,7 @@ public class EmptyAdvancementDataPlayer extends PlayerAdvancements {
+     }
+ 
+     @Override
+-    public void setSelectedTab(AdvancementHolder advancement) {
++    public void setSelectedTab(Advancement advancement) {
+     }
+ 
+     @Override
+@@ -73,12 +73,12 @@ public class EmptyAdvancementDataPlayer extends PlayerAdvancements {
+         }
+ 
+         @Override
+-        public AdvancementHolder get(ResourceLocation minecraftkey) {
++        public Advancement getAdvancement(ResourceLocation minecraftkey) {
+             return null;
+         }
+ 
+         @Override
+-        public Collection<AdvancementHolder> getAllAdvancements() {
++        public Collection<Advancement> getAllAdvancements() {
+             return Collections.emptyList();
+         }
+     }
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNavigation.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNavigation.java
+index fa0f5c9b1bb45b5721b4aaa2bb0683bdb3def67b..89fa335122f2dc1a02d08d8895673d51cbcc3fd5 100644
+--- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNavigation.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNavigation.java
+@@ -28,7 +28,7 @@ import net.minecraft.world.level.pathfinder.Node;
+ import net.minecraft.world.level.pathfinder.NodeEvaluator;
+ import net.minecraft.world.level.pathfinder.Path;
+ import net.minecraft.world.level.pathfinder.PathFinder;
+-import net.minecraft.world.level.pathfinder.PathType;
++import net.minecraft.world.level.pathfinder.BlockPathTypes;
+ import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
+ import net.minecraft.world.phys.Vec3;
+ 
+@@ -67,9 +67,9 @@ public class EntityNavigation extends PathNavigation {
+     }
+ 
+     @Override
+-    public boolean canCutCorner(PathType pathtype) {
+-        return pathtype != PathType.DANGER_FIRE && pathtype != PathType.DANGER_POWDER_SNOW
+-                && pathtype != PathType.DANGER_OTHER && pathtype != PathType.WALKABLE_DOOR;
++    public boolean canCutCorner(BlockPathTypes pathtype) {
++        return pathtype != BlockPathTypes.DANGER_FIRE && pathtype != BlockPathTypes.DANGER_POWDER_SNOW
++                && pathtype != BlockPathTypes.DANGER_OTHER && pathtype != BlockPathTypes.WALKABLE_DOOR;
+     }
+ 
+     @Override
+@@ -139,7 +139,7 @@ public class EntityNavigation extends PathNavigation {
+ 
+     @Override
+     protected boolean canUpdatePath() {
+-        return this.mob.onGround() || this.mob.isInLiquid() || this.mob.isPassenger();
++        return this.mob.onGround() || /*this.mob.*/isInLiquid() || this.mob.isPassenger();
+     }
+ 
+     @Override
+@@ -324,11 +324,11 @@ public class EntityNavigation extends PathNavigation {
+         return new Vec3(this.mob.getX(), getSurfaceY(), this.mob.getZ());
+     }
+ 
+-    protected boolean hasValidPathType(PathType var0) {
+-        if (var0 == PathType.WATER || var0 == PathType.LAVA)
++    protected boolean hasValidPathType(BlockPathTypes var0) {
++        if (var0 == BlockPathTypes.WATER || var0 == BlockPathTypes.LAVA)
+             return false;
+         else
+-            return var0 != PathType.OPEN;
++            return var0 != BlockPathTypes.OPEN;
+     }
+ 
+     @Override
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluator.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluator.java
+index 24c658bdebcb17fd868c1133ee530e02a99c1751..e49f8dffcd8e845eb3da21bbd820b897c486976f 100644
+--- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluator.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluator.java
+@@ -23,7 +23,7 @@ import net.minecraft.world.level.block.state.BlockState;
+ import net.minecraft.world.level.material.Fluids;
+ import net.minecraft.world.level.pathfinder.Node;
+ import net.minecraft.world.level.pathfinder.PathComputationType;
+-import net.minecraft.world.level.pathfinder.PathType;
++import net.minecraft.world.level.pathfinder.BlockPathTypes;
+ import net.minecraft.world.level.pathfinder.PathfindingContext;
+ import net.minecraft.world.level.pathfinder.Target;
+ import net.minecraft.world.phys.AABB;
+@@ -52,27 +52,27 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+     }
+ 
+     protected boolean canStartAt(BlockPos var0) {
+-        PathType var1 = this.getCachedPathType(var0.getX(), var0.getY(), var0.getZ());
+-        return var1 != PathType.OPEN && this.mvmt.getPathfindingMalus(var1) >= 0.0F;
++        BlockPathTypes var1 = this.getCachedPathType(var0.getX(), var0.getY(), var0.getZ());
++        return var1 != BlockPathTypes.OPEN && this.mvmt.getPathfindingMalus(var1) >= 0.0F;
+     }
+ 
+     @Override
+     public void done() {
+-        this.mvmt.setPathfindingMalus(PathType.WATER, this.oldWaterCost);
++        this.mvmt.setPathfindingMalus(BlockPathTypes.WATER, this.oldWaterCost);
+         this.pathTypesByPosCacheByMob.clear();
+         this.collisionCache.clear();
+         super.done();
+     }
+ 
+     protected Node findAcceptedNode(int var0, int var1, int var2, int var3, double var4, Direction var6,
+-            PathType var7) {
++            BlockPathTypes var7) {
+         Node var8 = null;
+         BlockPos.MutableBlockPos var9 = new BlockPos.MutableBlockPos();
+         double var10 = this.getFloorLevel(var9.set(var0, var1, var2));
+         if (var10 - var4 > this.getMobJumpHeight())
+             return null;
+         else {
+-            PathType var12 = this.getCachedPathType(var0, var1, var2);
++            BlockPathTypes var12 = this.getCachedPathType(var0, var1, var2);
+             float var13 = this.mvmt.getPathfindingMalus(var12);
+             if (var13 >= 0.0F) {
+                 var8 = this.getNodeAndUpdateCostToMax(var0, var1, var2, var12, var13);
+@@ -81,14 +81,14 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+                     && !this.canReachWithoutCollision(var8)) {
+                 var8 = null;
+             }
+-            if (var12 != PathType.WALKABLE && (!this.isAmphibious() || var12 != PathType.WATER)) {
++            if (var12 != BlockPathTypes.WALKABLE && (!this.isAmphibious() || var12 != BlockPathTypes.WATER)) {
+                 if ((var8 == null || var8.costMalus < 0.0F) && var3 > 0
+-                        && (var12 != PathType.FENCE || this.canWalkOverFences()) && var12 != PathType.UNPASSABLE_RAIL
+-                        && var12 != PathType.TRAPDOOR && var12 != PathType.POWDER_SNOW) {
++                        && (var12 != BlockPathTypes.FENCE || this.canWalkOverFences()) && var12 != BlockPathTypes.UNPASSABLE_RAIL
++                        && var12 != BlockPathTypes.TRAPDOOR && var12 != BlockPathTypes.POWDER_SNOW) {
+                     var8 = this.tryJumpOn(var0, var1, var2, var3, var4, var6, var7, var9);
+-                } else if (!this.isAmphibious() && var12 == PathType.WATER && !this.canFloat()) {
++                } else if (!this.isAmphibious() && var12 == BlockPathTypes.WATER && !this.canFloat()) {
+                     var8 = this.tryFindFirstNonWaterBelow(var0, var1, var2, var8);
+-                } else if (var12 == PathType.OPEN) {
++                } else if (var12 == BlockPathTypes.OPEN) {
+                     var8 = this.tryFindFirstGroundNodeBelow(var0, var1, var2);
+                 } else if (doesBlockHavePartialCollision(var12) && var8 == null) {
+                     var8 = this.getClosedNode(var0, var1, var2, var12);
+@@ -100,17 +100,17 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+ 
+     private Node getBlockedNode(int var0, int var1, int var2) {
+         Node var3 = this.getNode(var0, var1, var2);
+-        var3.type = PathType.BLOCKED;
++        var3.type = BlockPathTypes.BLOCKED;
+         var3.costMalus = -1.0F;
+         return var3;
+     }
+ 
+-    protected PathType getCachedPathType(int var0, int var1, int var2) {
+-        return (PathType) this.pathTypesByPosCacheByMob.computeIfAbsent(BlockPos.asLong(var0, var1, var2),
++    protected BlockPathTypes getCachedPathType(int var0, int var1, int var2) {
++        return (BlockPathTypes) this.pathTypesByPosCacheByMob.computeIfAbsent(BlockPos.asLong(var0, var1, var2),
+                 var3 -> this.getPathTypeOfMob(this.currentContext, var0, var1, var2, this.mob));
+     }
+ 
+-    private Node getClosedNode(int var0, int var1, int var2, PathType var3) {
++    private Node getClosedNode(int var0, int var1, int var2, BlockPathTypes var3) {
+         Node var4 = this.getNode(var0, var1, var2);
+         var4.closed = true;
+         var4.type = var3;
+@@ -133,9 +133,9 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+     public int getNeighbors(Node[] var0, Node var1) {
+         int var2 = 0;
+         int var3 = 0;
+-        PathType var4 = this.getCachedPathType(var1.x, var1.y + 1, var1.z);
+-        PathType var5 = this.getCachedPathType(var1.x, var1.y, var1.z);
+-        if (this.mvmt.getPathfindingMalus(var4) >= 0.0F && var5 != PathType.STICKY_HONEY) {
++        BlockPathTypes var4 = this.getCachedPathType(var1.x, var1.y + 1, var1.z);
++        BlockPathTypes var5 = this.getCachedPathType(var1.x, var1.y, var1.z);
++        if (this.mvmt.getPathfindingMalus(var4) >= 0.0F && var5 != BlockPathTypes.STICKY_HONEY) {
+             var3 = Mth.floor(Math.max(1.0F, this.mob.maxUpStep()));
+         }
+         double var6 = this.getFloorLevel(new BlockPos(var1.x, var1.y, var1.z));
+@@ -167,7 +167,7 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+         return var2;
+     }
+ 
+-    private Node getNodeAndUpdateCostToMax(int var0, int var1, int var2, PathType var3, float var4) {
++    private Node getNodeAndUpdateCostToMax(int var0, int var1, int var2, BlockPathTypes var3, float var4) {
+         Node var5 = this.getNode(var0, var1, var2);
+         var5.type = var3;
+         var5.costMalus = Math.max(var5.costMalus, var4);
+@@ -175,65 +175,65 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+     }
+ 
+     @Override
+-    public PathType getPathType(PathfindingContext var0, int var1, int var2, int var3) {
++    public BlockPathTypes getPathType(PathfindingContext var0, int var1, int var2, int var3) {
+         return getPathTypeStatic(var0, new BlockPos.MutableBlockPos(var1, var2, var3));
+     }
+ 
+-    public PathType getPathTypeOfMob(PathfindingContext var0, int var1, int var2, int var3, LivingEntity var4) {
++    public BlockPathTypes getPathTypeOfMob(PathfindingContext var0, int var1, int var2, int var3, LivingEntity var4) {
+         Set var5 = this.getPathTypeWithinMobBB(var0, var1, var2, var3);
+-        if (var5.contains(PathType.FENCE))
+-            return PathType.FENCE;
+-        else if (var5.contains(PathType.UNPASSABLE_RAIL))
+-            return PathType.UNPASSABLE_RAIL;
++        if (var5.contains(BlockPathTypes.FENCE))
++            return BlockPathTypes.FENCE;
++        else if (var5.contains(BlockPathTypes.UNPASSABLE_RAIL))
++            return BlockPathTypes.UNPASSABLE_RAIL;
+         else {
+-            PathType var6 = PathType.BLOCKED;
++            BlockPathTypes var6 = BlockPathTypes.BLOCKED;
+             Iterator<PathType> var88 = var5.iterator();
+ 
+             while (var88.hasNext()) {
+-                PathType var8 = var88.next();
++                BlockPathTypes var8 = var88.next();
+                 if (mvmt.getPathfindingMalus(var8) < 0.0F)
+                     return var8;
+                 if (mvmt.getPathfindingMalus(var8) >= mvmt.getPathfindingMalus(var6)) {
+                     var6 = var8;
+                 }
+             }
+-            if (this.entityWidth <= 1 && var6 != PathType.OPEN && mvmt.getPathfindingMalus(var6) == 0.0F
+-                    && this.getPathType(var0, var1, var2, var3) == PathType.OPEN)
+-                return PathType.OPEN;
++            if (this.entityWidth <= 1 && var6 != BlockPathTypes.OPEN && mvmt.getPathfindingMalus(var6) == 0.0F
++                    && this.getPathType(var0, var1, var2, var3) == BlockPathTypes.OPEN)
++                return BlockPathTypes.OPEN;
+             else
+                 return var6;
+         }
+     }
+ 
+     @Override
+-    public PathType getPathTypeOfMob(PathfindingContext var0, int var1, int var2, int var3, Mob var4) {
++    public BlockPathTypes getPathTypeOfMob(PathfindingContext var0, int var1, int var2, int var3, Mob var4) {
+         Set var5 = this.getPathTypeWithinMobBB(var0, var1, var2, var3);
+-        if (var5.contains(PathType.FENCE))
+-            return PathType.FENCE;
+-        else if (var5.contains(PathType.UNPASSABLE_RAIL))
+-            return PathType.UNPASSABLE_RAIL;
++        if (var5.contains(BlockPathTypes.FENCE))
++            return BlockPathTypes.FENCE;
++        else if (var5.contains(BlockPathTypes.UNPASSABLE_RAIL))
++            return BlockPathTypes.UNPASSABLE_RAIL;
+         else {
+-            PathType var6 = PathType.BLOCKED;
++            BlockPathTypes var6 = BlockPathTypes.BLOCKED;
+             Iterator<PathType> var88 = var5.iterator();
+ 
+             while (var88.hasNext()) {
+-                PathType var8 = var88.next();
++                BlockPathTypes var8 = var88.next();
+                 if (var4.getPathfindingMalus(var8) < 0.0F)
+                     return var8;
+                 if (var4.getPathfindingMalus(var8) >= var4.getPathfindingMalus(var6)) {
+                     var6 = var8;
+                 }
+             }
+-            if (this.entityWidth <= 1 && var6 != PathType.OPEN && var4.getPathfindingMalus(var6) == 0.0F
+-                    && this.getPathType(var0, var1, var2, var3) == PathType.OPEN)
+-                return PathType.OPEN;
++            if (this.entityWidth <= 1 && var6 != BlockPathTypes.OPEN && var4.getPathfindingMalus(var6) == 0.0F
++                    && this.getPathType(var0, var1, var2, var3) == BlockPathTypes.OPEN)
++                return BlockPathTypes.OPEN;
+             else
+                 return var6;
+         }
+     }
+ 
+     public Set getPathTypeWithinMobBB(PathfindingContext var0, int var1, int var2, int var3) {
+-        EnumSet var4 = EnumSet.noneOf(PathType.class);
++        EnumSet var4 = EnumSet.noneOf(BlockPathTypes.class);
+ 
+         for (int var5 = 0; var5 < this.entityWidth; ++var5) {
+             for (int var6 = 0; var6 < this.entityHeight; ++var6) {
+@@ -241,19 +241,19 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+                     int var8 = var5 + var1;
+                     int var9 = var6 + var2;
+                     int var10 = var7 + var3;
+-                    PathType var11 = this.getPathType(var0, var8, var9, var10);
++                    BlockPathTypes var11 = this.getPathType(var0, var8, var9, var10);
+                     BlockPos var12 = this.mob.blockPosition();
+                     boolean var13 = this.canPassDoors();
+-                    if (var11 == PathType.DOOR_WOOD_CLOSED && this.canOpenDoors() && var13) {
+-                        var11 = PathType.WALKABLE_DOOR;
++                    if (var11 == BlockPathTypes.DOOR_WOOD_CLOSED && this.canOpenDoors() && var13) {
++                        var11 = BlockPathTypes.WALKABLE_DOOR;
+                     }
+-                    if (var11 == PathType.DOOR_OPEN && !var13) {
+-                        var11 = PathType.BLOCKED;
++                    if (var11 == BlockPathTypes.DOOR_OPEN && !var13) {
++                        var11 = BlockPathTypes.BLOCKED;
+                     }
+-                    if (var11 == PathType.RAIL
+-                            && this.getPathType(var0, var12.getX(), var12.getY(), var12.getZ()) != PathType.RAIL
+-                            && this.getPathType(var0, var12.getX(), var12.getY() - 1, var12.getZ()) != PathType.RAIL) {
+-                        var11 = PathType.UNPASSABLE_RAIL;
++                    if (var11 == BlockPathTypes.RAIL
++                            && this.getPathType(var0, var12.getX(), var12.getY(), var12.getZ()) != BlockPathTypes.RAIL
++                            && this.getPathType(var0, var12.getX(), var12.getY() - 1, var12.getZ()) != BlockPathTypes.RAIL) {
++                        var11 = BlockPathTypes.UNPASSABLE_RAIL;
+                     }
+                     var4.add(var11);
+                 }
+@@ -335,7 +335,7 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+     }
+ 
+     protected boolean isDiagonalValid(Node var0) {
+-        if (var0 == null || var0.closed || var0.type == PathType.WALKABLE_DOOR)
++        if (var0 == null || var0.closed || var0.type == BlockPathTypes.WALKABLE_DOOR)
+             return false;
+         else
+             return var0.costMalus >= 0.0F;
+@@ -343,8 +343,8 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+ 
+     protected boolean isDiagonalValid(Node var0, Node var1, Node var2) {
+         if (var2 != null && var1 != null && var2.y <= var0.y && var1.y <= var0.y) {
+-            if (var1.type != PathType.WALKABLE_DOOR && var2.type != PathType.WALKABLE_DOOR) {
+-                boolean var3 = var2.type == PathType.FENCE && var1.type == PathType.FENCE
++            if (var1.type != BlockPathTypes.WALKABLE_DOOR && var2.type != BlockPathTypes.WALKABLE_DOOR) {
++                boolean var3 = var2.type == BlockPathTypes.FENCE && var1.type == BlockPathTypes.FENCE
+                         && this.mob.getBbWidth() < 0.5;
+                 return (var2.y < var0.y || var2.costMalus >= 0.0F || var3)
+                         && (var1.y < var0.y || var1.costMalus >= 0.0F || var3);
+@@ -361,22 +361,22 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+     @Override
+     public void prepare(PathNavigationRegion var0, LivingEntity var1) {
+         super.prepare(var0, var1);
+-        this.oldWaterCost = mvmt.getPathfindingMalus(PathType.WATER);
++        this.oldWaterCost = mvmt.getPathfindingMalus(BlockPathTypes.WATER);
+     }
+ 
+     @Override
+     public void prepare(PathNavigationRegion var0, Mob var1) {
+         super.prepare(var0, var1);
+-        this.oldWaterCost = mvmt.getPathfindingMalus(PathType.WATER);
++        this.oldWaterCost = mvmt.getPathfindingMalus(BlockPathTypes.WATER);
+     }
+ 
+     private Node tryFindFirstGroundNodeBelow(int var0, int var1, int var2) {
+         for (int var3 = var1 - 1; var3 >= this.mob.level().getMinBuildHeight(); --var3) {
+             if (var1 - var3 > this.mob.getMaxFallDistance())
+                 return this.getBlockedNode(var0, var3, var2);
+-            PathType var4 = this.getCachedPathType(var0, var3, var2);
++            BlockPathTypes var4 = this.getCachedPathType(var0, var3, var2);
+             float var5 = this.mvmt.getPathfindingMalus(var4);
+-            if (var4 != PathType.OPEN) {
++            if (var4 != BlockPathTypes.OPEN) {
+                 if (var5 >= 0.0F)
+                     return this.getNodeAndUpdateCostToMax(var0, var3, var2, var4, var5);
+                 return this.getBlockedNode(var0, var3, var2);
+@@ -389,8 +389,8 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+         --var1;
+ 
+         while (var1 > this.mob.level().getMinBuildHeight()) {
+-            PathType var4 = this.getCachedPathType(var0, var1, var2);
+-            if (var4 != PathType.WATER)
++            BlockPathTypes var4 = this.getCachedPathType(var0, var1, var2);
++            if (var4 != BlockPathTypes.WATER)
+                 return var3;
+             var3 = this.getNodeAndUpdateCostToMax(var0, var1, var2, var4, this.mvmt.getPathfindingMalus(var4));
+             --var1;
+@@ -398,12 +398,12 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+         return var3;
+     }
+ 
+-    private Node tryJumpOn(int var0, int var1, int var2, int var3, double var4, Direction var6, PathType var7,
++    private Node tryJumpOn(int var0, int var1, int var2, int var3, double var4, Direction var6, BlockPathTypes var7,
+             BlockPos.MutableBlockPos var8) {
+         Node var9 = this.findAcceptedNode(var0, var1 + 1, var2, var3 - 1, var4, var6, var7);
+         if (var9 == null)
+             return null;
+-        else if (this.mob.getBbWidth() >= 1.0F || var9.type != PathType.OPEN && var9.type != PathType.WALKABLE)
++        else if (this.mob.getBbWidth() >= 1.0F || var9.type != BlockPathTypes.OPEN && var9.type != BlockPathTypes.WALKABLE)
+             return var9;
+         else {
+             double var10 = var0 - var6.getStepX() + 0.5;
+@@ -418,20 +418,20 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+         }
+     }
+ 
+-    public static PathType checkNeighbourBlocks(PathfindingContext var0, int var1, int var2, int var3, PathType var4) {
++    public static BlockPathTypes checkNeighbourBlocks(PathfindingContext var0, int var1, int var2, int var3, BlockPathTypes var4) {
+         for (int var5 = -1; var5 <= 1; ++var5) {
+             for (int var6 = -1; var6 <= 1; ++var6) {
+                 for (int var7 = -1; var7 <= 1; ++var7) {
+                     if (var5 != 0 || var7 != 0) {
+-                        PathType var8 = var0.getPathTypeFromState(var1 + var5, var2 + var6, var3 + var7);
+-                        if (var8 == PathType.DAMAGE_OTHER)
+-                            return PathType.DANGER_OTHER;
+-                        if (var8 == PathType.DAMAGE_FIRE || var8 == PathType.LAVA)
+-                            return PathType.DANGER_FIRE;
+-                        if (var8 == PathType.WATER)
+-                            return PathType.WATER_BORDER;
+-                        if (var8 == PathType.DAMAGE_CAUTIOUS)
+-                            return PathType.DAMAGE_CAUTIOUS;
++                        BlockPathTypes var8 = var0.getPathTypeFromState(var1 + var5, var2 + var6, var3 + var7);
++                        if (var8 == BlockPathTypes.DAMAGE_OTHER)
++                            return BlockPathTypes.DANGER_OTHER;
++                        if (var8 == BlockPathTypes.DAMAGE_FIRE || var8 == BlockPathTypes.LAVA)
++                            return BlockPathTypes.DANGER_FIRE;
++                        if (var8 == BlockPathTypes.WATER)
++                            return BlockPathTypes.WATER_BORDER;
++                        if (var8 == BlockPathTypes.DAMAGE_CAUTIOUS)
++                            return BlockPathTypes.DAMAGE_CAUTIOUS;
+                     }
+                 }
+             }
+@@ -439,8 +439,8 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+         return var4;
+     }
+ 
+-    private static boolean doesBlockHavePartialCollision(PathType var0) {
+-        return var0 == PathType.FENCE || var0 == PathType.DOOR_WOOD_CLOSED || var0 == PathType.DOOR_IRON_CLOSED;
++    private static boolean doesBlockHavePartialCollision(BlockPathTypes var0) {
++        return var0 == BlockPathTypes.FENCE || var0 == BlockPathTypes.DOOR_WOOD_CLOSED || var0 == BlockPathTypes.DOOR_IRON_CLOSED;
+     }
+ 
+     public static double getFloorLevel(BlockGetter var0, BlockPos var1) {
+@@ -449,40 +449,40 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+         return var2.getY() + (var3.isEmpty() ? 0.0 : var3.max(Axis.Y));
+     }
+ 
+-    public static PathType getPathTypeStatic(PathfindingContext var0, BlockPos.MutableBlockPos var1) {
++    public static BlockPathTypes getPathTypeStatic(PathfindingContext var0, BlockPos.MutableBlockPos var1) {
+         int var2 = var1.getX();
+         int var3 = var1.getY();
+         int var4 = var1.getZ();
+-        PathType var5 = var0.getPathTypeFromState(var2, var3, var4);
+-        if (var5 == PathType.OPEN && var3 >= var0.level().getMinBuildHeight() + 1) {
+-            PathType var10000;
++        BlockPathTypes var5 = var0.getPathTypeFromState(var2, var3, var4);
++        if (var5 == BlockPathTypes.OPEN && var3 >= var0.level().getMinBuildHeight() + 1) {
++            BlockPathTypes var10000;
+             switch (var0.getPathTypeFromState(var2, var3 - 1, var4)) {
+                 case OPEN:
+                 case WATER:
+                 case LAVA:
+                 case WALKABLE:
+-                    var10000 = PathType.OPEN;
++                    var10000 = BlockPathTypes.OPEN;
+                     break;
+                 case DAMAGE_FIRE:
+-                    var10000 = PathType.DAMAGE_FIRE;
++                    var10000 = BlockPathTypes.DAMAGE_FIRE;
+                     break;
+                 case DAMAGE_OTHER:
+-                    var10000 = PathType.DAMAGE_OTHER;
++                    var10000 = BlockPathTypes.DAMAGE_OTHER;
+                     break;
+                 case STICKY_HONEY:
+-                    var10000 = PathType.STICKY_HONEY;
++                    var10000 = BlockPathTypes.STICKY_HONEY;
+                     break;
+                 case POWDER_SNOW:
+-                    var10000 = PathType.DANGER_POWDER_SNOW;
++                    var10000 = BlockPathTypes.DANGER_POWDER_SNOW;
+                     break;
+                 case DAMAGE_CAUTIOUS:
+-                    var10000 = PathType.DAMAGE_CAUTIOUS;
++                    var10000 = BlockPathTypes.DAMAGE_CAUTIOUS;
+                     break;
+                 case TRAPDOOR:
+-                    var10000 = PathType.DANGER_TRAPDOOR;
++                    var10000 = BlockPathTypes.DANGER_TRAPDOOR;
+                     break;
+                 default:
+-                    var10000 = checkNeighbourBlocks(var0, var2, var3, var4, PathType.WALKABLE);
++                    var10000 = checkNeighbourBlocks(var0, var2, var3, var4, BlockPathTypes.WALKABLE);
+             }
+             return var10000;
+         } else
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluatorBase.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluatorBase.java
+index dd0098e79a2a818ab302985b9b4c77d477a0fb59..61793c23ae52a48587d41b69d634b1eebdf8ec07 100644
+--- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluatorBase.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluatorBase.java
+@@ -9,7 +9,7 @@ import net.minecraft.world.entity.Mob;
+ import net.minecraft.world.level.PathNavigationRegion;
+ import net.minecraft.world.level.pathfinder.Node;
+ import net.minecraft.world.level.pathfinder.NodeEvaluator;
+-import net.minecraft.world.level.pathfinder.PathType;
++import net.minecraft.world.level.pathfinder.BlockPathTypes;
+ import net.minecraft.world.level.pathfinder.PathfindingContext;
+ import net.minecraft.world.level.pathfinder.Target;
+ 
+@@ -64,7 +64,7 @@ public abstract class EntityNodeEvaluatorBase extends NodeEvaluator {
+     }
+ 
+     @Override
+-    public PathType getPathType(Mob var0, BlockPos var1) {
++    public BlockPathTypes getPathType(Mob var0, BlockPos var1) {
+         return this.getPathType(new PathfindingContext(var0.level(), var0), var1.getX(), var1.getY(), var1.getZ());
+     }
+ 
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/MobAI.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/MobAI.java
+index dd4dd6dddeefd02107edcc33d8452afd005f3d11..37c9935df87801f138eeaa7ecdbb94668c7763c5 100644
+--- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/MobAI.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/MobAI.java
+@@ -12,25 +12,25 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
+ import net.minecraft.world.entity.ai.control.JumpControl;
+ import net.minecraft.world.entity.ai.control.MoveControl;
+ import net.minecraft.world.entity.ai.navigation.PathNavigation;
+-import net.minecraft.world.level.pathfinder.PathType;
++import net.minecraft.world.level.pathfinder.BlockPathTypes;
+ 
+ public interface MobAI {
+     org.bukkit.entity.Entity getBukkitEntity();
+ 
+     JumpControl getJumpControl();
+ 
+-    Map<PathType, Float> getMalus();
++    Map<BlockPathTypes, Float> getMalus();
+ 
+     MoveControl getMoveControl();
+ 
+     PathNavigation getNavigation();
+ 
+-    default float getPathfindingMalus(PathType var1) {
+-        Map<PathType, Float> malus = getMalus();
++    default float getPathfindingMalus(BlockPathTypes var1) {
++        Map<BlockPathTypes, Float> malus = getMalus();
+         return malus.containsKey(var1) ? malus.get(var1) : var1.getMalus();
+     }
+ 
+-    default void setPathfindingMalus(PathType water, float oldWaterCost) {
++    default void setPathfindingMalus(BlockPathTypes water, float oldWaterCost) {
+         getMalus().put(water, oldWaterCost);
+     }
+ 
+@@ -51,7 +51,7 @@ public interface MobAI {
+         private final EntityJumpControl controllerJump;
+         private final EntityMoveControl controllerMove;
+         private final LivingEntity entity;
+-        private final Map<PathType, Float> malus;
++        private final Map<BlockPathTypes, Float> malus;
+         private final EntityNavigation navigation;
+ 
+         public BasicMobAI(LivingEntity entity) {
+@@ -61,7 +61,7 @@ public interface MobAI {
+             controllerJump = new EntityJumpControl(entity);
+             controllerMove = new EntityMoveControl(entity);
+             navigation = new EntityNavigation(entity, entity.level());
+-            malus = Maps.newEnumMap(PathType.class);
++            malus = Maps.newEnumMap(BlockPathTypes.class);
+         }
+ 
+         @Override
+@@ -75,7 +75,7 @@ public interface MobAI {
+         }
+ 
+         @Override
+-        public Map<PathType, Float> getMalus() {
++        public Map<BlockPathTypes, Float> getMalus() {
+             return malus;
+         }
+ 
+@@ -105,7 +105,7 @@ public interface MobAI {
+         }
+ 
+         @Override
+-        default Map<PathType, Float> getMalus() {
++        default Map<BlockPathTypes, Float> getMalus() {
+             return getAI().getMalus();
+         }
+ 
+@@ -135,7 +135,7 @@ public interface MobAI {
+                 }
+ 
+                 @Override
+-                public Map<PathType, Float> getMalus() {
++                public Map<BlockPathTypes, Float> getMalus() {
+                     return null;
+                 }
+ 
+@@ -150,12 +150,12 @@ public interface MobAI {
+                 }
+ 
+                 @Override
+-                public float getPathfindingMalus(PathType var1) {
++                public float getPathfindingMalus(BlockPathTypes var1) {
+                     return mob.getPathfindingMalus(var1);
+                 }
+ 
+                 @Override
+-                public void setPathfindingMalus(PathType water, float oldWaterCost) {
++                public void setPathfindingMalus(BlockPathTypes water, float oldWaterCost) {
+                     mob.setPathfindingMalus(water, oldWaterCost);
+                 }
+ 
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
+index 2a4cfd4a403649ed40621f2e2d23a7af8c2eef82..dd05523c24700cd16d80ec5410bd6fe42700984f 100644
+--- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
+@@ -18,6 +18,7 @@ import java.util.function.Function;
+ import java.util.function.Supplier;
+ import java.util.stream.Collectors;
+ 
++import net.minecraft.core.Position;
+ import org.bukkit.Bukkit;
+ import org.bukkit.Location;
+ import org.bukkit.Material;
+@@ -65,7 +66,7 @@ import com.mojang.authlib.minecraft.client.MinecraftClient;
+ import com.mojang.authlib.properties.Property;
+ import com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService;
+ import com.mojang.authlib.yggdrasil.response.MinecraftProfilePropertiesResponse;
+-import com.mojang.util.UndashedUuid;
++//import com.mojang.util.UndashedUuid; // Backport - Renamed class
+ 
+ import net.citizensnpcs.Settings.Setting;
+ import net.citizensnpcs.api.CitizensAPI;
+@@ -276,7 +277,7 @@ import net.minecraft.nbt.Tag;
+ import net.minecraft.network.Connection;
+ import net.minecraft.network.chat.Component;
+ import net.minecraft.network.chat.MutableComponent;
+-import net.minecraft.network.chat.contents.PlainTextContents.LiteralContents;
++import net.minecraft.network.chat.contents.LiteralContents; // Backport - PlainContents.LiteralContents -> LiteralContents
+ import net.minecraft.network.protocol.Packet;
+ import net.minecraft.network.protocol.game.ClientboundBundlePacket;
+ import net.minecraft.network.protocol.game.ClientboundMoveEntityPacket;
+@@ -367,7 +368,7 @@ import net.minecraft.world.level.material.FluidState;
+ import net.minecraft.world.level.pathfinder.Node;
+ import net.minecraft.world.level.pathfinder.Path;
+ import net.minecraft.world.level.pathfinder.PathFinder;
+-import net.minecraft.world.level.pathfinder.PathType;
++import net.minecraft.world.level.pathfinder.BlockPathTypes; // Backport - PathType -> BlockPathTypes
+ import net.minecraft.world.level.portal.PortalInfo;
+ import net.minecraft.world.phys.AABB;
+ import net.minecraft.world.phys.Vec3;
+@@ -393,12 +394,29 @@ public class NMSImpl implements NMSBridge {
+ 
+         if (entity instanceof Player) {
+             chunkMap = ((ServerChunkCache) getHandle(entity).level().getChunkSource()).chunkMap;
++            // Backport start - Use old way to set view distance
++            /*
+             viewDistance = chunkMap.serverViewDistance;
+             chunkMap.serverViewDistance = -1;
++            */
++            try {
++                viewDistance = (int) PLAYER_CHUNK_MAP_VIEW_DISTANCE_GETTER.invoke(chunkMap);
++                PLAYER_CHUNK_MAP_VIEW_DISTANCE_SETTER.invoke(chunkMap, -1);
++            } catch (Throwable e) {
++                e.printStackTrace();
++            }
++            // Backport end
+         }
+         boolean success = getHandle(entity).level().addFreshEntity(getHandle(entity), custom);
+         if (chunkMap != null) {
+-            chunkMap.serverViewDistance = viewDistance;
++            // Backport start - Use old way to set view distance
++//            chunkMap.serverViewDistance = viewDistance;
++            try {
++                PLAYER_CHUNK_MAP_VIEW_DISTANCE_SETTER.invoke(chunkMap, viewDistance);
++            } catch (Throwable e) {
++                e.printStackTrace();
++            }
++            // Backport end
+         }
+         return success;
+     }
+@@ -448,7 +466,7 @@ public class NMSImpl implements NMSBridge {
+         }
+         float f = (float) (hasAttackDamage ? source.getAttributeValue(Attributes.ATTACK_DAMAGE) : 1f);
+         int i = source.isSprinting() ? 1 : 0;
+-        f += EnchantmentHelper.getDamageBonus(source.getMainHandItem(), target.getType());
++        f += EnchantmentHelper.getDamageBonus(source.getMainHandItem(), target.getMobType()); // Backport - getType -> getMobType
+         i += EnchantmentHelper.getKnockbackBonus(source);
+         /*       boolean crit = source.fallDistance > 0 && !source.isSprinting() && !source.onGround() && !source.onClimbable()
+                 && !source.isPassenger() && !source.isInWater() && !source.hasEffect(MobEffects.BLINDNESS);
+@@ -465,7 +483,7 @@ public class NMSImpl implements NMSBridge {
+         }
+         int fireAspectLevel = EnchantmentHelper.getFireAspect(source);
+         if (fireAspectLevel > 0) {
+-            target.igniteForSeconds(fireAspectLevel * 4, false);
++            target./*igniteForSeconds*/setSecondsOnFire(fireAspectLevel * 4, false); // Backport - igniteForSeconds -> setSecondsOnFire
+         }
+         if (target instanceof ServerPlayer) {
+             ServerPlayer entityhuman = (ServerPlayer) target;
+@@ -576,14 +594,25 @@ public class NMSImpl implements NMSBridge {
+             throw new IllegalStateException("NMS.fillProfileProperties cannot be invoked from the main thread.");
+         MinecraftSessionService sessionService = ((CraftServer) Bukkit.getServer()).getServer().getSessionService();
+         if (!(sessionService instanceof YggdrasilMinecraftSessionService))
+-            return sessionService.fetchProfile(profile.getId(), requireSecure).profile();
++            // Backport start - Use old way to fill profile properties
++//            return sessionService.fetchProfile(profile.getId(), requireSecure).profile();
++            return sessionService.fillProfileProperties(profile, requireSecure);
++            // Backport end
+         URL url = HttpAuthenticationService
+-                .constantURL(getAuthServerBaseUrl() + UndashedUuid.toString(profile.getId()));
++                .constantURL(getAuthServerBaseUrl() + /*UndashedUuid.toString*/com.mojang.util.UUIDTypeAdapter.fromUUID(profile.getId())); // Backport - UndashedUuid -> UUIDTypeAdapter
+         url = HttpAuthenticationService.concatenateURL(url, "unsigned=" + !requireSecure);
+         MinecraftClient client = (MinecraftClient) MINECRAFT_CLIENT.invoke(sessionService);
+         MinecraftProfilePropertiesResponse response = client.get(url, MinecraftProfilePropertiesResponse.class);
+ 
+-        return response.toProfile();
++        // Backport start - Older authlib does not provide toProfile method so we use old way there
++//        return response.toProfile();
++        if (response == null)
++            return profile;
++        GameProfile result = new GameProfile(response.getId(), response.getName());
++        result.getProperties().putAll(response.getProperties());
++        profile.getProperties().putAll(response.getProperties());
++        return result;
++        // Backport end
+     }
+ 
+     public String getAuthServerBaseUrl() {
+@@ -759,7 +788,10 @@ public class NMSImpl implements NMSBridge {
+     @Override
+     public String getSoundPath(Sound flag) throws CommandException {
+         try {
+-            SoundEvent effect = CraftSound.bukkitToMinecraft(flag);
++            // Backport start - bukkitToMinecraft -> getSoundEffect
++//            SoundEvent effect = CraftSound.bukkitToMinecraft(flag);
++            SoundEvent effect = CraftSound.getSoundEffect(flag);
++            // Backport end
+             if (effect == null)
+                 throw new CommandException(Messages.INVALID_SOUND);
+             return effect.getLocation().getPath();
+@@ -816,13 +848,15 @@ public class NMSImpl implements NMSBridge {
+         // navigation won't execute, and calling entity.move doesn't
+         // entirely fix the problem.
+         final PathNavigation navigation = getNavigation(entity);
+-        final float oldWater = raw instanceof MobAI ? ((MobAI) raw).getPathfindingMalus(PathType.WATER)
+-                : ((Mob) raw).getPathfindingMalus(PathType.WATER);
++        // Backport start - PathType -> BlockPathTypes
++        final float oldWater = raw instanceof MobAI ? ((MobAI) raw).getPathfindingMalus(BlockPathTypes.WATER)
++                : ((Mob) raw).getPathfindingMalus(BlockPathTypes.WATER);
+         if (params.avoidWater() && oldWater >= 0) {
+             if (raw instanceof MobAI) {
+-                ((MobAI) raw).setPathfindingMalus(PathType.WATER, oldWater + 1F);
++                ((MobAI) raw).setPathfindingMalus(BlockPathTypes.WATER, oldWater + 1F);
+             } else {
+-                ((Mob) raw).setPathfindingMalus(PathType.WATER, oldWater + 1F);
++                ((Mob) raw).setPathfindingMalus(BlockPathTypes.WATER, oldWater + 1F);
++        // Backport end
+             }
+         }
+         navigation.getNodeEvaluator().setCanOpenDoors(params.hasExaminer(DoorExaminer.class));
+@@ -858,9 +892,9 @@ public class NMSImpl implements NMSBridge {
+                 }
+                 if (oldWater >= 0) {
+                     if (raw instanceof MobAI) {
+-                        ((MobAI) raw).setPathfindingMalus(PathType.WATER, oldWater);
++                        ((MobAI) raw).setPathfindingMalus(BlockPathTypes.WATER, oldWater); // Backport - PathType -> BlockPathTypes
+                     } else {
+-                        ((Mob) raw).setPathfindingMalus(PathType.WATER, oldWater);
++                        ((Mob) raw).setPathfindingMalus(BlockPathTypes.WATER, oldWater); // Backport - PathType -> BlockPathTypes
+                     }
+                 }
+                 navigation.stop();
+@@ -875,7 +909,7 @@ public class NMSImpl implements NMSBridge {
+                         size = (EntityDimensions) SIZE_FIELD_GETTER.invoke(handle);
+                         if (handle instanceof AbstractHorse) {
+                             SIZE_FIELD_SETTER.invoke(handle,
+-                                    EntityDimensions.fixed(Math.min(0.99F, size.width()), size.height()));
++                                    EntityDimensions.fixed(Math.min(0.99F, size.width/*()*/), size.height/*()*/)); // Backport - Refactored class
+                         }
+                     } catch (Throwable e) {
+                         e.printStackTrace();
+@@ -1015,10 +1049,16 @@ public class NMSImpl implements NMSBridge {
+         EntityControllers.setEntityControllerForType(EntityType.CAT, CatController.class);
+         EntityControllers.setEntityControllerForType(EntityType.CAVE_SPIDER, CaveSpiderController.class);
+         EntityControllers.setEntityControllerForType(EntityType.CHEST_BOAT, ChestBoatController.class);
+-        EntityControllers.setEntityControllerForType(EntityType.CHEST_MINECART, MinecartChestController.class);
++        // Backport start - Renamed enum constant name
++//        EntityControllers.setEntityControllerForType(EntityType.CHEST_MINECART, MinecartChestController.class);
++        EntityControllers.setEntityControllerForType(EntityType.MINECART_CHEST, MinecartChestController.class);
++        // Backport end
+         EntityControllers.setEntityControllerForType(EntityType.CHICKEN, ChickenController.class);
+         EntityControllers.setEntityControllerForType(EntityType.COD, CodController.class);
+-        EntityControllers.setEntityControllerForType(EntityType.COMMAND_BLOCK_MINECART,
++        // Backport start - Renamed enum constant name
++//        EntityControllers.setEntityControllerForType(EntityType.COMMAND_BLOCK_MINECART,
++        EntityControllers.setEntityControllerForType(EntityType.MINECART_COMMAND,
++        // Backport end
+                 MinecartCommandController.class);
+         EntityControllers.setEntityControllerForType(EntityType.COW, CowController.class);
+         EntityControllers.setEntityControllerForType(EntityType.CREEPER, CreeperController.class);
+@@ -1028,7 +1068,10 @@ public class NMSImpl implements NMSBridge {
+         EntityControllers.setEntityControllerForType(EntityType.DROWNED, DrownedController.class);
+         EntityControllers.setEntityControllerForType(EntityType.EGG, EggController.class);
+         EntityControllers.setEntityControllerForType(EntityType.ELDER_GUARDIAN, GuardianElderController.class);
+-        EntityControllers.setEntityControllerForType(EntityType.END_CRYSTAL, EnderCrystalController.class);
++        // Backport start - Renamed enum constant name
++//        EntityControllers.setEntityControllerForType(EntityType.END_CRYSTAL, EnderCrystalController.class);
++        EntityControllers.setEntityControllerForType(EntityType.ENDER_CRYSTAL, EnderCrystalController.class);
++        // Backport end
+         EntityControllers.setEntityControllerForType(EntityType.ENDER_DRAGON, EnderDragonController.class);
+         EntityControllers.setEntityControllerForType(EntityType.ENDER_PEARL, EnderPearlController.class);
+         EntityControllers.setEntityControllerForType(EntityType.ENDERMAN, EndermanController.class);
+@@ -1036,15 +1079,26 @@ public class NMSImpl implements NMSBridge {
+         EntityControllers.setEntityControllerForType(EntityType.EVOKER, EvokerController.class);
+         EntityControllers.setEntityControllerForType(EntityType.EVOKER_FANGS, EvokerFangsController.class);
+         EntityControllers.setEntityControllerForType(EntityType.EXPERIENCE_ORB, ExperienceOrbController.class);
+-        EntityControllers.setEntityControllerForType(EntityType.EXPERIENCE_BOTTLE, ThrownExpBottleController.class);
+-        EntityControllers.setEntityControllerForType(EntityType.EYE_OF_ENDER, EyeOfEnderController.class);
++        // Backport start - Renamed enum constant name
++//        EntityControllers.setEntityControllerForType(EntityType.EXPERIENCE_BOTTLE, ThrownExpBottleController.class);
++        EntityControllers.setEntityControllerForType(EntityType.THROWN_EXP_BOTTLE, ThrownExpBottleController.class);
++//        EntityControllers.setEntityControllerForType(EntityType.EYE_OF_ENDER, EyeOfEnderController.class);
++        EntityControllers.setEntityControllerForType(EntityType.ENDER_SIGNAL, EyeOfEnderController.class);
++        // Backport end
+         EntityControllers.setEntityControllerForType(EntityType.FALLING_BLOCK, FallingBlockController.class);
+         EntityControllers.setEntityControllerForType(EntityType.FIREBALL, LargeFireballController.class);
+-        EntityControllers.setEntityControllerForType(EntityType.FIREWORK_ROCKET, FireworkController.class);
+-        EntityControllers.setEntityControllerForType(EntityType.FISHING_BOBBER, FishingHookController.class);
++        // Backport start - Renamed enum constant name
++//        EntityControllers.setEntityControllerForType(EntityType.FIREWORK_ROCKET, FireworkController.class);
++        EntityControllers.setEntityControllerForType(EntityType.FIREWORK, FireworkController.class);
++//        EntityControllers.setEntityControllerForType(EntityType.FISHING_BOBBER, FishingHookController.class);
++        EntityControllers.setEntityControllerForType(EntityType.FISHING_HOOK, FishingHookController.class);
++        // Backport end
+         EntityControllers.setEntityControllerForType(EntityType.FOX, FoxController.class);
+         EntityControllers.setEntityControllerForType(EntityType.FROG, FrogController.class);
+-        EntityControllers.setEntityControllerForType(EntityType.FURNACE_MINECART, MinecartFurnaceController.class);
++        // Backport start - Renamed enum constant name
++//        EntityControllers.setEntityControllerForType(EntityType.FURNACE_MINECART, MinecartFurnaceController.class);
++        EntityControllers.setEntityControllerForType(EntityType.MINECART_FURNACE, MinecartFurnaceController.class);
++        // Backport end
+         EntityControllers.setEntityControllerForType(EntityType.GHAST, GhastController.class);
+         EntityControllers.setEntityControllerForType(EntityType.GIANT, GiantController.class);
+         EntityControllers.setEntityControllerForType(EntityType.GLOW_ITEM_FRAME, GlowItemFrameController.class);
+@@ -1052,13 +1106,19 @@ public class NMSImpl implements NMSBridge {
+         EntityControllers.setEntityControllerForType(EntityType.GOAT, GoatController.class);
+         EntityControllers.setEntityControllerForType(EntityType.GUARDIAN, GuardianController.class);
+         EntityControllers.setEntityControllerForType(EntityType.HOGLIN, HoglinController.class);
+-        EntityControllers.setEntityControllerForType(EntityType.HOPPER_MINECART, MinecartHopperController.class);
++        // Backport start - Renamed enum constant name
++//        EntityControllers.setEntityControllerForType(EntityType.HOPPER_MINECART, MinecartHopperController.class);
++        EntityControllers.setEntityControllerForType(EntityType.MINECART_HOPPER, MinecartHopperController.class);
++        // Backport end
+         EntityControllers.setEntityControllerForType(EntityType.HORSE, HorseController.class);
+         EntityControllers.setEntityControllerForType(EntityType.HUSK, ZombieHuskController.class);
+         EntityControllers.setEntityControllerForType(EntityType.ILLUSIONER, IllusionerController.class);
+         EntityControllers.setEntityControllerForType(EntityType.INTERACTION, InteractionController.class);
+         EntityControllers.setEntityControllerForType(EntityType.IRON_GOLEM, IronGolemController.class);
+-        EntityControllers.setEntityControllerForType(EntityType.ITEM, ItemController.class);
++        // Backport start - Renamed enum constant name
++//        EntityControllers.setEntityControllerForType(EntityType.ITEM, ItemController.class);
++        EntityControllers.setEntityControllerForType(EntityType.DROPPED_ITEM, ItemController.class);
++        // Backport end
+         EntityControllers.setEntityControllerForType(EntityType.ITEM_DISPLAY, ItemDisplayController.class);
+         EntityControllers.setEntityControllerForType(EntityType.ITEM_FRAME, ItemFrameController.class);
+         // Backport start - This does not exist in MC 1.20.1
+@@ -1067,13 +1127,19 @@ public class NMSImpl implements NMSBridge {
+                 OminousItemSpawnerController.class);
+         */
+         // Backport end
+-        EntityControllers.setEntityControllerForType(EntityType.LEASH_KNOT, LeashController.class);
++        // Backport start - Renamed enum constant name
++//        EntityControllers.setEntityControllerForType(EntityType.LEASH_KNOT, LeashController.class);
++        EntityControllers.setEntityControllerForType(EntityType.LEASH_HITCH, LeashController.class);
++        // Backport end
+         EntityControllers.setEntityControllerForType(EntityType.LLAMA, LlamaController.class);
+         EntityControllers.setEntityControllerForType(EntityType.LLAMA_SPIT, LlamaSpitController.class);
+         EntityControllers.setEntityControllerForType(EntityType.MAGMA_CUBE, MagmaCubeController.class);
+         EntityControllers.setEntityControllerForType(EntityType.MARKER, MarkerController.class);
+         EntityControllers.setEntityControllerForType(EntityType.MINECART, MinecartRideableController.class);
+-        EntityControllers.setEntityControllerForType(EntityType.MOOSHROOM, MushroomCowController.class);
++        // Backport start - Renamed enum constant name
++//        EntityControllers.setEntityControllerForType(EntityType.MOOSHROOM, MushroomCowController.class);
++        EntityControllers.setEntityControllerForType(EntityType.MUSHROOM_COW, MushroomCowController.class);
++        // Backport end
+         EntityControllers.setEntityControllerForType(EntityType.MULE, HorseMuleController.class);
+         EntityControllers.setEntityControllerForType(EntityType.OCELOT, OcelotController.class);
+         EntityControllers.setEntityControllerForType(EntityType.PAINTING, PaintingController.class);
+@@ -1086,8 +1152,13 @@ public class NMSImpl implements NMSBridge {
+         EntityControllers.setEntityControllerForType(EntityType.PILLAGER, PillagerController.class);
+         EntityControllers.setEntityControllerForType(EntityType.PLAYER, HumanController.class);
+         EntityControllers.setEntityControllerForType(EntityType.POLAR_BEAR, PolarBearController.class);
++        // Backport start - Renamed enum constant name
++        /*
+         EntityControllers.setEntityControllerForType(EntityType.POTION, ThrownPotionController.class);
+         EntityControllers.setEntityControllerForType(EntityType.POTION, ThrownPotionController.class);
++        */
++        EntityControllers.setEntityControllerForType(EntityType.SPLASH_POTION, ThrownPotionController.class);
++        // Backport end
+         EntityControllers.setEntityControllerForType(EntityType.PUFFERFISH, PufferFishController.class);
+         EntityControllers.setEntityControllerForType(EntityType.RABBIT, RabbitController.class);
+         EntityControllers.setEntityControllerForType(EntityType.RAVAGER, RavagerController.class);
+@@ -1101,7 +1172,10 @@ public class NMSImpl implements NMSBridge {
+         EntityControllers.setEntityControllerForType(EntityType.SLIME, SlimeController.class);
+         EntityControllers.setEntityControllerForType(EntityType.SMALL_FIREBALL, SmallFireballController.class);
+         EntityControllers.setEntityControllerForType(EntityType.SNIFFER, SnifferController.class);
+-        EntityControllers.setEntityControllerForType(EntityType.SNOW_GOLEM, SnowmanController.class);
++        // Backport start - Renamed enum constant name
++//        EntityControllers.setEntityControllerForType(EntityType.SNOW_GOLEM, SnowmanController.class);
++        EntityControllers.setEntityControllerForType(EntityType.SNOWMAN, SnowmanController.class);
++        // Backport end
+         EntityControllers.setEntityControllerForType(EntityType.SNOWBALL, SnowballController.class);
+         EntityControllers.setEntityControllerForType(EntityType.SPECTRAL_ARROW, SpectralArrowController.class);
+         EntityControllers.setEntityControllerForType(EntityType.SPECTRAL_ARROW, TippedArrowController.class);
+@@ -1111,8 +1185,12 @@ public class NMSImpl implements NMSBridge {
+         EntityControllers.setEntityControllerForType(EntityType.STRIDER, StriderController.class);
+         EntityControllers.setEntityControllerForType(EntityType.TADPOLE, TadpoleController.class);
+         EntityControllers.setEntityControllerForType(EntityType.TEXT_DISPLAY, TextDisplayController.class);
+-        EntityControllers.setEntityControllerForType(EntityType.TNT, TNTPrimedController.class);
+-        EntityControllers.setEntityControllerForType(EntityType.TNT_MINECART, MinecartTNTController.class);
++        // Backport start - Renamed enum constant name
++//        EntityControllers.setEntityControllerForType(EntityType.TNT, TNTPrimedController.class);
++        EntityControllers.setEntityControllerForType(EntityType.PRIMED_TNT, TNTPrimedController.class);
++//        EntityControllers.setEntityControllerForType(EntityType.TNT_MINECART, MinecartTNTController.class);
++        EntityControllers.setEntityControllerForType(EntityType.MINECART_TNT, MinecartTNTController.class);
++        // Backport end
+         EntityControllers.setEntityControllerForType(EntityType.TRADER_LLAMA, TraderLlamaController.class);
+         EntityControllers.setEntityControllerForType(EntityType.TRIDENT, ThrownTridentController.class);
+         EntityControllers.setEntityControllerForType(EntityType.TROPICAL_FISH, TropicalFishController.class);
+@@ -1353,15 +1431,15 @@ public class NMSImpl implements NMSBridge {
+             org.bukkit.entity.Entity mount, double offset) {
+         offset += getRidingHeightOffset(entity, mount);
+         sendPacket(player,
+-                new ClientboundBundlePacket(List.of(
++                new ClientboundBundlePacket(Arrays.asList/*.of*/( // Backport - use Java 8 alternative
+                         new ClientboundSetEntityDataPacket(entity.getEntityId(),
+-                                List.of(new SynchedEntityData.DataItem<>(INTERACTION_WIDTH, 0f).value(),
++                                Arrays.asList/*.of*/(new SynchedEntityData.DataItem<>(INTERACTION_WIDTH, 0f).value(), // Backport - use Java 8 alternative
+                                         new SynchedEntityData.DataItem<>(INTERACTION_HEIGHT, (float) offset).value(),
+                                         new SynchedEntityData.DataItem<>(DATA_POSE, Pose.CROAKING).value(),
+                                         new SynchedEntityData.DataItem<>(DATA_NAME_VISIBLE, true).value())),
+                         new ClientboundSetPassengersPacket(getHandle(mount)),
+                         new ClientboundSetEntityDataPacket(entity.getEntityId(),
+-                                List.of(new SynchedEntityData.DataItem<>(INTERACTION_HEIGHT, 999999f).value())))));
++                                Arrays.asList/*.of*/(new SynchedEntityData.DataItem<>(INTERACTION_HEIGHT, 999999f).value()))))); // Backport - use Java 8 alternative
+     }
+ 
+     @Override
+@@ -1448,7 +1526,7 @@ public class NMSImpl implements NMSBridge {
+                 .createPlayerInitializing(Arrays.asList(from));
+         boolean list = from instanceof NPCHolder ? !((NPCHolder) from).getNPC().shouldRemoveFromTabList() : true;
+         ClientboundPlayerInfoUpdatePacket.Entry entry = new ClientboundPlayerInfoUpdatePacket.Entry(from.getUUID(),
+-                from.getGameProfile(), list, from.connection.latency(), from.gameMode.getGameModeForPlayer(),
++                from.getGameProfile(), list, from./*connection.*/latency/*()*/, from.gameMode.getGameModeForPlayer(), // Backport - Refactored class
+                 list ? from.getTabListDisplayName() : Component.empty(),
+                 from.getChatSession() == null ? null : from.getChatSession().asData());
+         try {
+@@ -1705,9 +1783,23 @@ public class NMSImpl implements NMSBridge {
+         ((PolarBear) getHandle(entity)).setStanding(rearing);
+     }
+ 
++    // Backport start - Pose.BY_ID does not exist in MC 1.20.1, so we simulate it there
++    private static final it.unimi.dsi.fastutil.ints.Int2ObjectMap<Pose> POSE_BY_ID;
++    static {
++        POSE_BY_ID = new it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap<>();
++        for (Pose minecraftPose : Pose.values()) {
++            final int id = minecraftPose.ordinal();
++            POSE_BY_ID.put(id, minecraftPose);
++        }
++    }
++    // Backport end
++
+     @Override
+     public void setPose(org.bukkit.entity.Entity entity, EntityPose pose) {
+-        getHandle(entity).setPose(Pose.BY_ID.apply(pose.id()));
++        // Backport start - Use our own POSE_BY_ID
++//        getHandle(entity).setPose(Pose.BY_ID.apply(pose.id()));
++        getHandle(entity).setPose(POSE_BY_ID.get(pose.id()));
++        // Backport end
+     }
+ 
+     @Override
+@@ -1767,9 +1859,14 @@ public class NMSImpl implements NMSBridge {
+     @Override
+     public void setStepHeight(org.bukkit.entity.Entity entity, float height) {
+         Entity handle = getHandle(entity);
++        // Backport start - Re-implement setStepHeight using MC 1.20.1 method
++        /*
+         if (!(handle instanceof LivingEntity))
+             return;
+         ((LivingEntity) handle).getAttribute(Attributes.STEP_HEIGHT).setBaseValue(height);
++        */
++        handle.setMaxUpStep(height);
++        // Backport end
+     }
+ 
+     @Override
+@@ -2110,10 +2207,12 @@ public class NMSImpl implements NMSBridge {
+             e.printStackTrace();
+             return;
+         }
+-        float oldw = size.width();
+-        float oldl = size.height();
++        // Backport start - Refactored class
++        float oldw = size.width;//();
++        float oldl = size.height;//();
++        // Backport end
+         cb.accept(datawatcherobject);
+-        if (oldw != size.width() || size.height() != oldl) {
++        if (oldw != size.width/*()*/ || size.height/*()*/ != oldl) { // Backport - Refactored class
+             living.setPos(living.getX() - 0.01, living.getY(), living.getZ() - 0.01);
+             living.setPos(living.getX() + 0.01, living.getY(), living.getZ() + 0.01);
+         }
+@@ -2482,12 +2581,20 @@ public class NMSImpl implements NMSBridge {
+     }
+ 
+     public static void setAttribute(LivingEntity entity, Holder<Attribute> attribute, double value) {
++    // Backport start - MC 1.20.1 does not use Holder<Attribute> for attributes
++        setAttribute(entity, attribute.value(), value);
++    }
++
++    public static void setAttribute(LivingEntity entity, Attribute attribute, double value) {
++    // Backport end
+         AttributeInstance attr = entity.getAttribute(attribute);
+         if (attr == null) {
+             try {
+                 AttributeSupplier provider = (AttributeSupplier) ATTRIBUTE_SUPPLIER.invoke(entity.getAttributes());
+-                Map<Holder<Attribute>, AttributeInstance> all = Maps.newHashMap(
+-                        (Map<Holder<Attribute>, AttributeInstance>) ATTRIBUTE_PROVIDER_MAP.invoke(provider));
++                // Backport start - MC 1.20.1 does not use Holder<Attribute> for attributes
++                Map</*Holder<*/Attribute/*>*/, AttributeInstance> all = Maps.newHashMap(
++                        (Map</*Holder<*/Attribute/*>*/, AttributeInstance>) ATTRIBUTE_PROVIDER_MAP.invoke(provider));
++                // Backport end
+                 all.put(attribute, new AttributeInstance(attribute, att -> {
+                     throw new UnsupportedOperationException(
+                             "Tried to change value for default attribute instance FOLLOW_RANGE");
+@@ -2559,18 +2666,22 @@ public class NMSImpl implements NMSBridge {
+             Pose entitypose = entity.getPose();
+             EntityDimensions entitysize1 = entity.getDimensions(entitypose);
+             SIZE_FIELD_SETTER.invoke(entity, entitysize1);
+-            HEAD_HEIGHT.invoke(entity, entity.getType().getDimensions().eyeHeight());
+-            if (entitysize1.width() < entitysize.width() && false /* TODO: PREVIOUS CITIZENS ADDITION ?reason */) {
+-                double d0 = entitysize1.width() / 2.0D;
++            // Backport start - Fit the old method
++            HEAD_HEIGHT.invoke(entity, HEAD_HEIGHT_METHOD.invoke(entity, entitypose, entitysize1)/*entity.getType().getDimensions().eyeHeight()*/);
++            if (entitysize1.width/*()*/ < entitysize.width/*()*/ && false /* TODO: PREVIOUS CITIZENS ADDITION ?reason */) {
++                double d0 = entitysize1.width/*()*/ / 2.0D;
+                 entity.setBoundingBox(new AABB(entity.getX() - d0, entity.getY(), entity.getZ() - d0,
+-                        entity.getX() + d0, entity.getY() + entitysize1.height(), entity.getZ() + d0));
++                        entity.getX() + d0, entity.getY() + entitysize1.height/*()*/, entity.getZ() + d0));
++            // Backport end
+             } else {
+                 AABB axisalignedbb = entity.getBoundingBox();
+                 entity.setBoundingBox(new AABB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ,
+-                        axisalignedbb.minX + entitysize1.width(), axisalignedbb.minY + entitysize1.height(),
+-                        axisalignedbb.minZ + entitysize1.width()));
+-                if (entitysize1.width() > entitysize.width() && !justCreated && !entity.level().isClientSide) {
+-                    float f = entitysize.width() - entitysize1.width();
++                        // Backport start - Fit the old class
++                        axisalignedbb.minX + entitysize1.width/*()*/, axisalignedbb.minY + entitysize1.height/*()*/,
++                        axisalignedbb.minZ + entitysize1.width/*()*/));
++                if (entitysize1.width/*()*/ > entitysize.width/*()*/ && !justCreated && !entity.level().isClientSide) {
++                    float f = entitysize.width/*()*/ - entitysize1.width/*()*/;
++                        // Backport end
+                     entity.move(MoverType.SELF, new Vec3(f, 0.0D, f));
+                 }
+             }
+@@ -2582,13 +2693,17 @@ public class NMSImpl implements NMSBridge {
+     public static void setSize(Entity entity, EntityDimensions size) {
+         try {
+             SIZE_FIELD_SETTER.invoke(entity, size);
+-            HEAD_HEIGHT.invoke(entity, entity.getType().getDimensions().eyeHeight());
++            // Backport start - Fit the old method
++//            HEAD_HEIGHT.invoke(entity, entity.getType().getDimensions().eyeHeight());
++            HEAD_HEIGHT.invoke(entity,
++                    HEAD_HEIGHT_METHOD.invoke(entity, entity.getPose(), entity.getDimensions(entity.getPose())));
++            // Backport end
+         } catch (Throwable e) {
+             e.printStackTrace();
+         }
+     }
+ 
+-    public static Entity teleportAcrossWorld(Entity entity, ServerLevel worldserver, Vec3 location) {
++    public static Entity teleportAcrossWorld(Entity entity, ServerLevel worldserver, /*Vec3*/ Position location) { // Backport - Incompatible argument type
+         if (FIND_DIMENSION_ENTRY_POINT == null || entity.isRemoved())
+             return null;
+         NPC npc = ((NPCHolder) entity).getNPC();
+@@ -2667,8 +2782,12 @@ public class NMSImpl implements NMSBridge {
+             ServerPlayer.class, boolean.class);
+     private static final Map<Class<?>, net.minecraft.world.entity.EntityType<?>> CITIZENS_ENTITY_TYPES = Maps
+             .newHashMap();
++    // Backport start - Connection listener does not exist in MC 1.20.1
++    /*
+     public static final MethodHandle CONNECTION_DISCONNECT_LISTENER = NMS.getSetter(Connection.class, "p");
+     public static final MethodHandle CONNECTION_PACKET_LISTENER = NMS.getSetter(Connection.class, "q");
++    */
++    // Backport end
+     private static final MethodHandle CRAFT_BOSSBAR_HANDLE_FIELD = NMS.getFirstSetter(CraftBossBar.class,
+             ServerBossEvent.class);
+     private static EntityDataAccessor<Boolean> DATA_NAME_VISIBLE = null;
+@@ -2763,4 +2882,12 @@ public class NMSImpl implements NMSBridge {
+         } catch (Throwable e) {
+         }
+     }
++    // Backport start - Copied from old Citizens code supporting MC 1.20.1
++    private static final MethodHandle PLAYER_CHUNK_MAP_VIEW_DISTANCE_GETTER = NMS.getFirstGetter(ChunkMap.class,
++            int.class);
++    private static final MethodHandle PLAYER_CHUNK_MAP_VIEW_DISTANCE_SETTER = NMS.getFirstSetter(ChunkMap.class,
++            int.class);
++    private static final MethodHandle HEAD_HEIGHT_METHOD = NMS.getFirstMethodHandle(Entity.class, true, Pose.class,
++            EntityDimensions.class);
++    // Backport end
+ }

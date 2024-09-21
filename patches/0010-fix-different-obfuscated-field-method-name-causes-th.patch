@@ -1,0 +1,56 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?ZX=E5=A4=8F=E5=A4=9C=E4=B9=8B=E9=A3=8E?=
+ <snwcreations@qq.com>
+Date: Sat, 21 Sep 2024 21:28:05 +0800
+Subject: [PATCH] fix: different obfuscated field/method name causes the plugin
+ refuse to work
+
+
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/CitizensEntityTracker.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/CitizensEntityTracker.java
+index 9faafe9887f7ec0b889b76d1ec1d3d7a2f39c783..8e97c81de919fe23b82d1bcb2ead2e3c4ec6376d 100644
+--- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/CitizensEntityTracker.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/CitizensEntityTracker.java
+@@ -148,11 +148,11 @@ public class CitizensEntityTracker extends ChunkMap.TrackedEntity {
+     }
+ 
+     private static volatile Boolean REQUIRES_SYNC;
+-    private static final MethodHandle TRACK_DELTA = NMS.getGetter(ServerEntity.class, "i");
++    private static final MethodHandle TRACK_DELTA = NMS.getGetter(ServerEntity.class, "f"); // Backport - Update Obfuscated name
+     private static final MethodHandle TRACKER = NMS.getFirstGetter(TrackedEntity.class, Entity.class);
+     private static final MethodHandle TRACKER_ENTRY = NMS.getFirstGetter(TrackedEntity.class, ServerEntity.class);
+     private static final MethodHandle TRACKING_RANGE = NMS.getFirstGetter(TrackedEntity.class, int.class);
+     private static final MethodHandle TRACKING_RANGE_SETTER = NMS.getFirstFinalSetter(TrackedEntity.class, int.class);
+     private static final MethodHandle TRACKING_SET_SETTER = NMS.getFirstFinalSetter(TrackedEntity.class, Set.class);
+-    private static final MethodHandle UPDATE_INTERVAL = NMS.getGetter(ServerEntity.class, "h");
++    private static final MethodHandle UPDATE_INTERVAL = NMS.getGetter(ServerEntity.class, "e"); // Backport - Update obfuscated name
+ }
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
+index 529ce81601a44ff223cdecfe136f3809d632f36f..16c5ab5b726179c9bd2dec49c9bce43301a19e2b 100644
+--- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
+@@ -2843,8 +2843,10 @@ public class NMSImpl implements NMSBridge {
+     private static final MethodHandle PORTAL_ENTRANCE_POS_SETTER = NMS.getSetter(Entity.class, "ay");
+     private static final MethodHandle POSITION_CODEC_GETTER = NMS.getFirstGetter(ServerEntity.class,
+             VecDeltaCodec.class);
+-    private static final MethodHandle PUFFERFISH_DEFLATE = NMS.getSetter(Pufferfish.class, "bZ");
+-    private static final MethodHandle PUFFERFISH_INFLATE = NMS.getSetter(Pufferfish.class, "bY");
++    // Backport start - Update obfuscated name
++    private static final MethodHandle PUFFERFISH_DEFLATE = NMS.getSetter(Pufferfish.class, "bU");
++    private static final MethodHandle PUFFERFISH_INFLATE = NMS.getSetter(Pufferfish.class, "bT");
++    // Backport end
+     public static EntityDataAccessor<Integer> RABBIT_TYPE_DATAWATCHER = null;
+     private static final Random RANDOM = Util.getFastRandom();
+     private static final MethodHandle SERVER_ENTITY_GETTER = NMS.getFirstGetter(TrackedEntity.class,
+@@ -2882,8 +2884,10 @@ public class NMSImpl implements NMSBridge {
+         } catch (Throwable e) {
+         }
+         try {
+-            DATA_POSE = (EntityDataAccessor<Pose>) NMS.getGetter(Entity.class, "at").invoke();
+-            DATA_NAME_VISIBLE = (EntityDataAccessor<Boolean>) NMS.getGetter(Entity.class, "aT").invoke();
++            // Backport start - Update obfuscated name
++            DATA_POSE = (EntityDataAccessor<Pose>) NMS.getGetter(Entity.class, "ar").invoke();
++            DATA_NAME_VISIBLE = (EntityDataAccessor<Boolean>) NMS.getGetter(Entity.class, "aV").invoke();
++            // Backport end
+         } catch (Throwable e) {
+         }
+     }

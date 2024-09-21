@@ -1,0 +1,20 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?ZX=E5=A4=8F=E5=A4=9C=E4=B9=8B=E9=A3=8E?=
+ <snwcreations@qq.com>
+Date: Tue, 17 Sep 2024 13:08:19 +0800
+Subject: [PATCH] build: let v1_20_R4 module use Minecraft 1.20.1
+
+
+diff --git a/v1_20_R4/pom.xml b/v1_20_R4/pom.xml
+index 1c0ab862b0213ad6a06f5ed361bc849f69868e96..bea16c0a2ed282d946bbf00fa8949e36e72b2c45 100644
+--- a/v1_20_R4/pom.xml
++++ b/v1_20_R4/pom.xml
+@@ -9,7 +9,7 @@
+     <artifactId>citizens-v1_20_R4</artifactId>
+     <properties>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+-        <craftbukkit.version>1.20.6-R0.1-SNAPSHOT</craftbukkit.version>
++        <craftbukkit.version>1.20.1-R0.1-SNAPSHOT</craftbukkit.version> <!-- Backport - Use 1.20.1 for this module -->
+     </properties>
+ 
+     <dependencies>

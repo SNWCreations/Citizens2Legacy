@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?ZX=E5=A4=8F=E5=A4=9C=E4=B9=8B=E9=A3=8E?=
+ <snwcreations@qq.com>
+Date: Thu, 19 Sep 2024 11:37:53 +0800
+Subject: [PATCH] fix: backport implementation of NMS#getRidingHeightOffset for
+ Minecraft 1.20.1
+
+
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
+index dd05523c24700cd16d80ec5410bd6fe42700984f..529ce81601a44ff223cdecfe136f3809d632f36f 100644
+--- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
+@@ -781,8 +781,13 @@ public class NMSImpl implements NMSBridge {
+ 
+     @Override
+     public float getRidingHeightOffset(org.bukkit.entity.Entity entity, org.bukkit.entity.Entity mount) {
++        // Backport start - Re-implement getRidingHeightOffset using MC 1.20.1 method
++        /*
+         Entity handle = getHandle(entity);
+         return (float) (handle.getPassengerRidingPosition(getHandle(mount)).y - handle.position().y);
++        */
++        return (float) getHandle(mount).getPassengersRidingOffset();
++        // Backport end
+     }
+ 
+     @Override

@@ -1,0 +1,328 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?ZX=E5=A4=8F=E5=A4=9C=E4=B9=8B=E9=A3=8E?=
+ <snwcreations@qq.com>
+Date: Thu, 19 Sep 2024 12:44:06 +0800
+Subject: [PATCH] fix: backport logic of EntityNodeEvaluator
+
+
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluator.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluator.java
+index e49f8dffcd8e845eb3da21bbd820b897c486976f..a2278dee92b19a5391b09a5ef196949c5643f2ab 100644
+--- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluator.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluator.java
+@@ -24,7 +24,7 @@ import net.minecraft.world.level.material.Fluids;
+ import net.minecraft.world.level.pathfinder.Node;
+ import net.minecraft.world.level.pathfinder.PathComputationType;
+ import net.minecraft.world.level.pathfinder.BlockPathTypes;
+-import net.minecraft.world.level.pathfinder.PathfindingContext;
++//import net.minecraft.world.level.pathfinder.PathfindingContext; // Backport - this does not exist in MC 1.20.1
+ import net.minecraft.world.level.pathfinder.Target;
+ import net.minecraft.world.phys.AABB;
+ import net.minecraft.world.phys.Vec3;
+@@ -34,7 +34,10 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+     private final Object2BooleanMap collisionCache = new Object2BooleanOpenHashMap();
+     protected float oldWaterCost;
+     private final Long2ObjectMap pathTypesByPosCacheByMob = new Long2ObjectOpenHashMap();
+-    private final Node[] reusableNeighbors = new Node[Plane.HORIZONTAL.length()];
++    // Backport start - use stream API for counting the reusable neighbors array
++//    private final Node[] reusableNeighbors = new Node[Plane.HORIZONTAL.length()];
++    private final Node[] reusableNeighbors = new Node[Math.toIntExact(Plane.HORIZONTAL.stream().count())];
++    // Backport end
+ 
+     private boolean canReachWithoutCollision(Node var0) {
+         AABB var1 = this.mob.getBoundingBox();
+@@ -107,9 +110,23 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+ 
+     protected BlockPathTypes getCachedPathType(int var0, int var1, int var2) {
+         return (BlockPathTypes) this.pathTypesByPosCacheByMob.computeIfAbsent(BlockPos.asLong(var0, var1, var2),
+-                var3 -> this.getPathTypeOfMob(this.currentContext, var0, var1, var2, this.mob));
++                // Backport start - getPathTypeOfMob -> getBlockPathType
++//                var3 -> this.getPathTypeOfMob(this.currentContext, var0, var1, var2, this.mob));
++                var3 -> this.getBlockPathType(this.level, var0, var1, var2, this.mob));
++                // Backport end
+     }
+ 
++    // Backport start - getTarget -> getGoal
++    public Target getTarget(double x, double y, double z) {
++        return this.getGoal(x, y, z);
++    }
++
++    @Override
++    public Target getGoal(double var0, double var2, double var4) {
++        return this.getTargetFromNode(this.getNode(Mth.floor(var0), Mth.floor(var2), Mth.floor(var4)));
++    }
++    // Backport end
++
+     private Node getClosedNode(int var0, int var1, int var2, BlockPathTypes var3) {
+         Node var4 = this.getNode(var0, var1, var2);
+         var4.closed = true;
+@@ -119,7 +136,10 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+     }
+ 
+     protected double getFloorLevel(BlockPos var0) {
+-        BlockGetter var1 = this.currentContext.level();
++        // Backport start - PathfindingContext does not exist in MC 1.20.1
++//        BlockGetter var1 = this.currentContext.level();
++        BlockGetter var1 = this.level;
++        // Backport end
+         return (this.canFloat() || this.isAmphibious()) && var1.getFluidState(var0).is(FluidTags.WATER)
+                 ? var0.getY() + 0.5
+                 : getFloorLevel(var1, var0);
+@@ -174,12 +194,21 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+         return var5;
+     }
+ 
++    // Backport start - Alias to the method used by the upstream for easier patching, PathfindingContext does not exist in MC 1.20.1
++    public BlockPathTypes getPathType(/*PathfindingContext*/ BlockGetter var0, int var1, int var2, int var3) {
++        return getBlockPathType(var0, var1, var2, var3);
++    }
++
+     @Override
+-    public BlockPathTypes getPathType(PathfindingContext var0, int var1, int var2, int var3) {
++    public BlockPathTypes getBlockPathType(BlockGetter var0, int var1, int var2, int var3) {
+         return getPathTypeStatic(var0, new BlockPos.MutableBlockPos(var1, var2, var3));
+     }
++    // Backport end
+ 
+-    public BlockPathTypes getPathTypeOfMob(PathfindingContext var0, int var1, int var2, int var3, LivingEntity var4) {
++    // Backport start - different Minecraft internal method name
++//    public BlockPathTypes getPathTypeOfMob(PathfindingContext var0, int var1, int var2, int var3, LivingEntity var4) {
++    public BlockPathTypes getBlockPathType(BlockGetter var0, int var1, int var2, int var3, LivingEntity var4) {
++    // Backport end
+         Set var5 = this.getPathTypeWithinMobBB(var0, var1, var2, var3);
+         if (var5.contains(BlockPathTypes.FENCE))
+             return BlockPathTypes.FENCE;
+@@ -187,7 +216,10 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+             return BlockPathTypes.UNPASSABLE_RAIL;
+         else {
+             BlockPathTypes var6 = BlockPathTypes.BLOCKED;
+-            Iterator<PathType> var88 = var5.iterator();
++            // Backport start - PathType -> BlockPathType in MC 1.20.1
++//            Iterator<PathType> var88 = var5.iterator();
++            Iterator<BlockPathTypes> var88 = var5.iterator();
++            // Backport end
+ 
+             while (var88.hasNext()) {
+                 BlockPathTypes var8 = var88.next();
+@@ -205,8 +237,9 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+         }
+     }
+ 
+-    @Override
+-    public BlockPathTypes getPathTypeOfMob(PathfindingContext var0, int var1, int var2, int var3, Mob var4) {
++//    @Override
++//    public BlockPathTypes getPathTypeOfMob(PathfindingContext BlockGetter var0, int var1, int var2, int var3, Mob var4) {
++    public BlockPathTypes getBlockPathType(/*PathfindingContext*/ BlockGetter var0, int var1, int var2, int var3, Mob var4) {
+         Set var5 = this.getPathTypeWithinMobBB(var0, var1, var2, var3);
+         if (var5.contains(BlockPathTypes.FENCE))
+             return BlockPathTypes.FENCE;
+@@ -214,7 +247,10 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+             return BlockPathTypes.UNPASSABLE_RAIL;
+         else {
+             BlockPathTypes var6 = BlockPathTypes.BLOCKED;
+-            Iterator<PathType> var88 = var5.iterator();
++            // Backport start - PathType -> BlockPathType in MC 1.20.1
++//            Iterator<PathType> var88 = var5.iterator();
++            Iterator<BlockPathTypes> var88 = var5.iterator();
++            // Backport end
+ 
+             while (var88.hasNext()) {
+                 BlockPathTypes var8 = var88.next();
+@@ -232,7 +268,7 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+         }
+     }
+ 
+-    public Set getPathTypeWithinMobBB(PathfindingContext var0, int var1, int var2, int var3) {
++    public Set getPathTypeWithinMobBB(/*PathfindingContext*/ BlockGetter var0, int var1, int var2, int var3) { // Backport - PathfindingContext does not exist in MC 1.20.1
+         EnumSet var4 = EnumSet.noneOf(BlockPathTypes.class);
+ 
+         for (int var5 = 0; var5 < this.entityWidth; ++var5) {
+@@ -266,7 +302,10 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+     public Node getStart() {
+         BlockPos.MutableBlockPos var1 = new BlockPos.MutableBlockPos();
+         int var0 = this.mob.getBlockY();
+-        BlockState var2 = this.currentContext.getBlockState(var1.set(this.mob.getX(), var0, this.mob.getZ()));
++        // Backport start - PathfindingContext does not exist in MC 1.20.1
++        BlockState var2 = this./*currentContext*/level.getBlockState(var1.set(this.mob.getX(), var0, this.mob.getZ())); // Backport - PathfindingContext is not exist in MC 1.20.1
++//        BlockPos var3;
++        // Backport end
+         if (!this.mob.canStandOnFluid(var2.getFluidState())) {
+             if (this.canFloat() && this.mob.isInWater()) {
+                 while (true) {
+@@ -275,18 +314,20 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+                         break;
+                     }
+                     ++var0;
+-                    var2 = this.currentContext.getBlockState(var1.set(this.mob.getX(), var0, this.mob.getZ()));
++                    var2 = this.level/*currentContext*/.getBlockState(var1.set(this.mob.getX(), var0, this.mob.getZ())); // Backport - PathfindingContext is not exist in MC 1.20.1
+                 }
+             } else if (this.mob.onGround()) {
+                 var0 = Mth.floor(this.mob.getY() + 0.5);
+             } else {
+                 var1.set(this.mob.getX(), this.mob.getY() + 1.0, this.mob.getZ());
+ 
+-                while (var1.getY() > this.currentContext.level().getMinBuildHeight()) {
++                while (var1.getY() > this/*.currentContext*/.level/*()*/.getMinBuildHeight()) { // Backport - PathfindingContext does not exist in MC 1.20.1
+                     var0 = var1.getY();
+                     var1.setY(var1.getY() - 1);
+-                    BlockState var3 = this.currentContext.getBlockState(var1);
+-                    if (!var3.isAir() && !var3.isPathfindable(PathComputationType.LAND)) {
++                    // Backport start - PathfindingContext does not exist in MC 1.20.1
++                    BlockState var3 = this./*currentContext*/level.getBlockState(var1);
++                    if (!var3.isAir() && !var3.isPathfindable(this.level, var1, PathComputationType.LAND)) {
++                    // Backport end
+                         break;
+                     }
+                 }
+@@ -298,7 +339,7 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+                     break;
+                 }
+                 ++var0;
+-                var2 = this.currentContext.getBlockState(var1.set(this.mob.getX(), var0, this.mob.getZ()));
++                var2 = this./*currentContext*/level.getBlockState(var1.set(this.mob.getX(), var0, this.mob.getZ())); // Backport - PathfindingContext does not exist in MC 1.20.1
+             }
+         }
+         BlockPos var3 = this.mob.blockPosition();
+@@ -320,14 +361,18 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+         return var1;
+     }
+ 
++    // Backport start - the original method does not exist in MC 1.20.1
++    /*
+     @Override
+     public Target getTarget(double var0, double var2, double var4) {
+         return this.getTargetNodeAt(var0, var2, var4);
+     }
++    */
++    // Backport end
+ 
+     private boolean hasCollisions(AABB var0) {
+         return this.collisionCache.computeIfAbsent(var0,
+-                var1 -> !this.currentContext.level().noCollision(this.mob, var0));
++                var1 -> !this./*currentContext.*/level/*()*/.noCollision(this.mob, var0)); // Backport - PathfindingContext does not exist in MC 1.20.1
+     }
+ 
+     protected boolean isAmphibious() {
+@@ -418,12 +463,15 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+         }
+     }
+ 
+-    public static BlockPathTypes checkNeighbourBlocks(PathfindingContext var0, int var1, int var2, int var3, BlockPathTypes var4) {
++    public static BlockPathTypes checkNeighbourBlocks(/*PathfindingContext*/ BlockGetter var0, int var1, int var2, int var3, BlockPathTypes var4) { // Backport - PathfindingContext does not exist in MC 1.20.1
+         for (int var5 = -1; var5 <= 1; ++var5) {
+             for (int var6 = -1; var6 <= 1; ++var6) {
+                 for (int var7 = -1; var7 <= 1; ++var7) {
+                     if (var5 != 0 || var7 != 0) {
+-                        BlockPathTypes var8 = var0.getPathTypeFromState(var1 + var5, var2 + var6, var3 + var7);
++                        // Backport start - PathfindingContext does not exist in MC 1.20.1
++//                        BlockPathTypes var8 = var0.getPathTypeFromState(var1 + var5, var2 + var6, var3 + var7);
++                        BlockPathTypes var8 = getPathTypeStatic(var0, new BlockPos.MutableBlockPos(var1 + var5, var2 + var6, var3 + var7));
++                        // Backport end
+                         if (var8 == BlockPathTypes.DAMAGE_OTHER)
+                             return BlockPathTypes.DANGER_OTHER;
+                         if (var8 == BlockPathTypes.DAMAGE_FIRE || var8 == BlockPathTypes.LAVA)
+@@ -449,7 +497,10 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+         return var2.getY() + (var3.isEmpty() ? 0.0 : var3.max(Axis.Y));
+     }
+ 
+-    public static BlockPathTypes getPathTypeStatic(PathfindingContext var0, BlockPos.MutableBlockPos var1) {
++    // Backport start - PathfindingContext does not exist in MC 1.20.1, backport entity node evaluator
++    public static BlockPathTypes getPathTypeStatic(/*PathfindingContext*/ BlockGetter var0, BlockPos.MutableBlockPos var1) {
++        return net.minecraft.world.level.pathfinder.WalkNodeEvaluator.getBlockPathTypeStatic(var0, var1);
++        /*
+         int var2 = var1.getX();
+         int var3 = var1.getY();
+         int var4 = var1.getZ();
+@@ -487,7 +538,9 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+             return var10000;
+         } else
+             return var5;
++        */
+     }
++    // Backport end
+ 
+     public static final double SPACE_BETWEEN_WALL_POSTS = 0.5;
+ }
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluatorBase.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluatorBase.java
+index 61793c23ae52a48587d41b69d634b1eebdf8ec07..f6c804f9eaa0bdb4f7eccc24c8aed4b684e5a563 100644
+--- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluatorBase.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluatorBase.java
+@@ -10,7 +10,7 @@ import net.minecraft.world.level.PathNavigationRegion;
+ import net.minecraft.world.level.pathfinder.Node;
+ import net.minecraft.world.level.pathfinder.NodeEvaluator;
+ import net.minecraft.world.level.pathfinder.BlockPathTypes;
+-import net.minecraft.world.level.pathfinder.PathfindingContext;
++//import net.minecraft.world.level.pathfinder.PathfindingContext;
+ import net.minecraft.world.level.pathfinder.Target;
+ 
+ public abstract class EntityNodeEvaluatorBase extends NodeEvaluator {
+@@ -18,13 +18,13 @@ public abstract class EntityNodeEvaluatorBase extends NodeEvaluator {
+     protected boolean canOpenDoors;
+     protected boolean canPassDoors;
+     protected boolean canWalkOverFences;
+-    protected PathfindingContext currentContext;
+     protected int entityDepth;
+     protected int entityHeight;
+     protected int entityWidth;
++    protected PathNavigationRegion level;
+     protected LivingEntity mob;
+     protected MobAI mvmt;
+-    protected final Int2ObjectMap nodes = new Int2ObjectOpenHashMap();
++    protected final Int2ObjectMap<Node> nodes = new Int2ObjectOpenHashMap<Node>();
+ 
+     @Override
+     public boolean canFloat() {
+@@ -48,7 +48,10 @@ public abstract class EntityNodeEvaluatorBase extends NodeEvaluator {
+ 
+     @Override
+     public void done() {
+-        this.currentContext = null;
++        // Backport start - PathfindingContext does not exist in MC 1.20.1
++//        this.currentContext = null;
++        this.level = null;
++        // Backport end
+         this.mob = null;
+         this.mvmt = null;
+     }
+@@ -63,20 +66,29 @@ public abstract class EntityNodeEvaluatorBase extends NodeEvaluator {
+         return (Node) this.nodes.computeIfAbsent(Node.createHash(var0, var1, var2), var3 -> new Node(var0, var1, var2));
+     }
+ 
++    // Backport start - Super method does not exist in MC 1.20.1
++    /*
+     @Override
+     public BlockPathTypes getPathType(Mob var0, BlockPos var1) {
+         return this.getPathType(new PathfindingContext(var0.level(), var0), var1.getX(), var1.getY(), var1.getZ());
+     }
++    */
+ 
+     @Override
++    /*
+     protected Target getTargetNodeAt(double var0, double var2, double var4) {
+         return new Target(this.getNode(Mth.floor(var0), Mth.floor(var2), Mth.floor(var4)));
+     }
++    */
++    protected Target getTargetFromNode(Node var0) {
++        return new Target(var0);
++    // Backport end
++    }
+ 
+     public void prepare(PathNavigationRegion var0, LivingEntity var1) {
+         this.mob = var1;
+         this.mvmt = MobAI.from(var1);
+-        this.currentContext = new EntityPathfindingContext(var0, var1);
++        this.level = var0;
+         this.nodes.clear();
+         this.entityWidth = Mth.floor(var1.getBbWidth() + 1.0F);
+         this.entityHeight = Mth.floor(var1.getBbHeight() + 1.0F);
+@@ -85,7 +97,10 @@ public abstract class EntityNodeEvaluatorBase extends NodeEvaluator {
+ 
+     @Override
+     public void prepare(PathNavigationRegion var0, Mob var1) {
+-        this.currentContext = new PathfindingContext(var0, var1);
++        // Backport start - PathfindingContext does not exist in MC 1.20.1
++//        this.currentContext = new PathfindingContext(var0, var1);
++        this.level = var0;
++        // Backport end
+         this.mob = var1;
+         this.nodes.clear();
+         this.entityWidth = Mth.floor(var1.getBbWidth() + 1.0F);
