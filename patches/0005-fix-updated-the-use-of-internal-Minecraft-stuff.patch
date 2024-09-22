@@ -2,12 +2,12 @@ From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?ZX=E5=A4=8F=E5=A4=9C=E4=B9=8B=E9=A3=8E?=
  <snwcreations@qq.com>
 Date: Tue, 17 Sep 2024 21:36:19 +0800
-Subject: [PATCH] fix: updated the use of renamed internal Minecraft stuff
+Subject: [PATCH] fix: updated the use of internal Minecraft stuff
 
 Replaced newer record method access to fields with direct field access, use correct but older Minecraft method names for some methods the upstream uses.
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
-index aa2461d2b6b934248cbd615b7cf39db83cad2d5d..42300c69027cf948c20052c39b0e1f91154a7dac 100644
+index aa2461d2b6b934248cbd615b7cf39db83cad2d5d..cd03f8026c8ec3da8e86aff5dae1c3ffda1a3760 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 @@ -38,15 +38,15 @@ import net.citizensnpcs.util.Util;
@@ -20,52 +20,56 @@ index aa2461d2b6b934248cbd615b7cf39db83cad2d5d..42300c69027cf948c20052c39b0e1f91
  import net.minecraft.server.MinecraftServer;
  import net.minecraft.server.PlayerAdvancements;
 -import net.minecraft.server.level.ClientInformation;
-+//import net.minecraft.server.level.ClientInformation;
++//import net.minecraft.server.level.ClientInformation; // Backport - This does not exist in MC 1.20.1
  import net.minecraft.server.level.ServerLevel;
  import net.minecraft.server.level.ServerPlayer;
  import net.minecraft.server.level.ServerPlayerGameMode;
 -import net.minecraft.server.network.CommonListenerCookie;
-+//import net.minecraft.server.network.CommonListenerCookie;
++//import net.minecraft.server.network.CommonListenerCookie; // Backport - This does not exist in MC 1.20.1
  import net.minecraft.sounds.SoundEvent;
  import net.minecraft.stats.ServerStatsCounter;
  import net.minecraft.tags.TagKey;
-@@ -70,8 +70,8 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
+@@ -70,8 +70,10 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
      private EmptyServerStatsCounter statsCache;
  
      public EntityHumanNPC(MinecraftServer minecraftServer, ServerLevel world, GameProfile gameProfile,
 -            ClientInformation ci, NPC npc) {
 -        super(minecraftServer, world, gameProfile, ci);
++        // Backport start - ClientInformation does not exist in MC 1.20.1
 +            /*ClientInformation ci,*/ NPC npc) {
 +        super(minecraftServer, world, gameProfile/*, ci*/);
++        // Backport end
          this.npc = (CitizensNPC) npc;
          if (npc != null) {
              ai = new BasicMobAI(this);
-@@ -81,7 +81,7 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
+@@ -81,7 +83,7 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
              } catch (Throwable e) {
                  e.printStackTrace();
              }
 -            initialise(minecraftServer, ci);
-+            initialise(minecraftServer/*, ci*/);
++            initialise(minecraftServer/*, ci*/); // Backport - ClientInformation does not exist in MC 1.20.1
          } else {
              skinTracker = null;
          }
-@@ -259,11 +259,12 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
+@@ -259,11 +261,14 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
          return damaged;
      }
  
 -    private void initialise(MinecraftServer minecraftServer, ClientInformation clientInfo) {
-+    private void initialise(MinecraftServer minecraftServer/*, ClientInformation clientInfo*/) {
++    private void initialise(MinecraftServer minecraftServer/*, ClientInformation clientInfo*/) { // Backport - ClientInformation does not exist in MC 1.20.1
          try {
              EmptyConnection conn = new EmptyConnection(PacketFlow.CLIENTBOUND);
 -            connection = new EmptyPacketListener(minecraftServer, conn, this,
 -                    new CommonListenerCookie(getProfile(), 0, clientInfo, false));
++            // Backport start - Cookie system does not exist in MC 1.20.1
 +            connection = new EmptyPacketListener(minecraftServer, conn, this//,
 +//                    new CommonListenerCookie(getProfile(), 0, clientInfo, false));
 +            );
++            // Backport end
          } catch (IOException e) {
              e.printStackTrace();
          }
-@@ -369,12 +370,16 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
+@@ -369,12 +374,16 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
          if (npc == null)
              return;
  
