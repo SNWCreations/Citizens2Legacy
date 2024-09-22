@@ -7,6 +7,10 @@ Developed for [The SRS Project](https://github.com/TheSRSProject)
  because our tech stack is based on Minecraft 1.20.1,
  so other older patch versions are not considered.
 
+This is based on (my fork of)
+ [GitPatcher](https://github.com/zml2008/gitpatcher),
+ it makes us maintain the patches easier.
+
 ## Compiling
 
 Run `gradlew applyPatches` to apply the patches
