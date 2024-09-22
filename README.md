@@ -3,9 +3,9 @@
 This project brings back the support of
  Minecraft 1.20.1 for Citizens 2.
 
-Developed for The SRS Project because our tech stack
- is based on Minecraft 1.20.1, so other older patch
- versions are not considered.
+Developed for [The SRS Project](https://github.com/TheSRSProject)
+ because our tech stack is based on Minecraft 1.20.1,
+ so other older patch versions are not considered.
 
 ## Compiling
 
