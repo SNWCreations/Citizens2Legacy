@@ -25,11 +25,32 @@ index 9faafe9887f7ec0b889b76d1ec1d3d7a2f39c783..8e97c81de919fe23b82d1bcb2ead2e3c
 +    private static final MethodHandle UPDATE_INTERVAL = NMS.getGetter(ServerEntity.class, "e"); // Backport - Update obfuscated name
  }
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 529ce81601a44ff223cdecfe136f3809d632f36f..16c5ab5b726179c9bd2dec49c9bce43301a19e2b 100644
+index 529ce81601a44ff223cdecfe136f3809d632f36f..e7d23ab365156b0c6ab9d6ab9dd810c93605c81d 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-@@ -2843,8 +2843,10 @@ public class NMSImpl implements NMSBridge {
-     private static final MethodHandle PORTAL_ENTRANCE_POS_SETTER = NMS.getSetter(Entity.class, "ay");
+@@ -2820,10 +2820,10 @@ public class NMSImpl implements NMSBridge {
+     private static final MethodHandle FLYING_MOVECONTROL_FLOAT_SETTER = NMS.getFirstSetter(FlyingMoveControl.class,
+             boolean.class);
+     private static final Location FROM_LOCATION = new Location(null, 0, 0, 0);
+-    private static final MethodHandle HEAD_HEIGHT = NMS.getSetter(Entity.class, "bg");
++    private static final MethodHandle HEAD_HEIGHT = NMS.getSetter(Entity.class, "bi"); // Backport - Update obfuscated name
+     private static EntityDataAccessor<Float> INTERACTION_HEIGHT = null;
+     private static EntityDataAccessor<Float> INTERACTION_WIDTH = null;
+-    private static final MethodHandle JUMP_FIELD = NMS.getGetter(LivingEntity.class, "bn");
++    private static final MethodHandle JUMP_FIELD = NMS.getGetter(LivingEntity.class, "bk"); // Backport - Update obfuscated name
+     private static final MethodHandle LOOK_CONTROL_SETTER = NMS.getFirstSetter(Mob.class, LookControl.class);
+     private static MethodHandle META_COMPOUND_TAG;
+     private static final MethodHandle MINECRAFT_CLIENT = NMS.getFirstGetter(YggdrasilMinecraftSessionService.class,
+@@ -2839,12 +2839,16 @@ public class NMSImpl implements NMSBridge {
+             .getFirstFinalSetter(ClientboundPlayerInfoUpdatePacket.class, List.class);
+ 
+     private static final MethodHandle PLAYERINFO_ENTRIES = PLAYER_INFO_ENTRIES_LIST;
+-    private static final MethodHandle PORTAL_ENTRANCE_POS_GETTER = NMS.getGetter(Entity.class, "ay");
+-    private static final MethodHandle PORTAL_ENTRANCE_POS_SETTER = NMS.getSetter(Entity.class, "ay");
++    // Backport start - Update obfuscated name
++    private static final MethodHandle PORTAL_ENTRANCE_POS_GETTER = NMS.getGetter(Entity.class, "aw");
++    private static final MethodHandle PORTAL_ENTRANCE_POS_SETTER = NMS.getSetter(Entity.class, "aw");
++    // Backport end
      private static final MethodHandle POSITION_CODEC_GETTER = NMS.getFirstGetter(ServerEntity.class,
              VecDeltaCodec.class);
 -    private static final MethodHandle PUFFERFISH_DEFLATE = NMS.getSetter(Pufferfish.class, "bZ");
@@ -41,7 +62,24 @@ index 529ce81601a44ff223cdecfe136f3809d632f36f..16c5ab5b726179c9bd2dec49c9bce433
      public static EntityDataAccessor<Integer> RABBIT_TYPE_DATAWATCHER = null;
      private static final Random RANDOM = Util.getFastRandom();
      private static final MethodHandle SERVER_ENTITY_GETTER = NMS.getFirstGetter(TrackedEntity.class,
-@@ -2882,8 +2884,10 @@ public class NMSImpl implements NMSBridge {
+@@ -2858,14 +2862,14 @@ public class NMSImpl implements NMSBridge {
+     static {
+         try {
+             ENTITY_REGISTRY = new CustomEntityRegistry(BuiltInRegistries.ENTITY_TYPE);
+-            ENTITY_REGISTRY_SETTER = NMS.getFinalSetter(BuiltInRegistries.class, "g");
++            ENTITY_REGISTRY_SETTER = NMS.getFinalSetter(BuiltInRegistries.class, "h"); // Backport - Update obfuscated name
+             ENTITY_REGISTRY_SETTER.invoke(ENTITY_REGISTRY);
+         } catch (Throwable e) {
+             Messaging.logTr(Messages.ERROR_GETTING_ID_MAPPING, e.getMessage());
+         }
+         try {
+             // Middle one
+-            ENDERMAN_CREEPY = (EntityDataAccessor<Boolean>) NMS.getField(EnderMan.class, "ca").get(null);
++            ENDERMAN_CREEPY = (EntityDataAccessor<Boolean>) NMS.getField(EnderMan.class, "bV").get(null); // Backport - Update obfuscated name
+         } catch (Exception e) {
+         }
+         try {
+@@ -2882,8 +2886,10 @@ public class NMSImpl implements NMSBridge {
          } catch (Throwable e) {
          }
          try {
