@@ -6,7 +6,7 @@ Subject: [PATCH] fix: rewrite profile property requester
 
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index e7d23ab365156b0c6ab9d6ab9dd810c93605c81d..6ad60372ee097f784ac5fc60d3d5a5830d0b89e9 100644
+index e7d23ab365156b0c6ab9d6ab9dd810c93605c81d..a184e625bbffdf7706e55acd7c85492cd4e4df78 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -601,8 +601,14 @@ public class NMSImpl implements NMSBridge {
@@ -24,11 +24,13 @@ index e7d23ab365156b0c6ab9d6ab9dd810c93605c81d..6ad60372ee097f784ac5fc60d3d5a583
  
          // Backport start - Older authlib does not provide toProfile method so we use old way there
  //        return response.toProfile();
-@@ -2826,8 +2832,12 @@ public class NMSImpl implements NMSBridge {
+@@ -2826,8 +2832,14 @@ public class NMSImpl implements NMSBridge {
      private static final MethodHandle JUMP_FIELD = NMS.getGetter(LivingEntity.class, "bk"); // Backport - Update obfuscated name
      private static final MethodHandle LOOK_CONTROL_SETTER = NMS.getFirstSetter(Mob.class, LookControl.class);
      private static MethodHandle META_COMPOUND_TAG;
 +    // Backport start - Rewrite MinecraftProfilePropertiesResponse retriever
++    private static final MethodHandle MAKE_REQUEST = NMS.getMethodHandle(com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService.class, "makeRequest", true,
++            URL.class, Object.class, Class.class);
 +    /*
      private static final MethodHandle MINECRAFT_CLIENT = NMS.getFirstGetter(YggdrasilMinecraftSessionService.class,
              MinecraftClient.class);
@@ -37,12 +39,3 @@ index e7d23ab365156b0c6ab9d6ab9dd810c93605c81d..6ad60372ee097f784ac5fc60d3d5a583
      private static final MethodHandle MOVE_CONTROLLER_OPERATION = NMS.getSetter(MoveControl.class, "k");
      private static final MethodHandle NAVIGATION_CREATE_PATHFINDER = NMS
              .getFirstMethodHandleWithReturnType(PathNavigation.class, true, PathFinder.class, int.class);
-@@ -2901,4 +2911,8 @@ public class NMSImpl implements NMSBridge {
-     private static final MethodHandle HEAD_HEIGHT_METHOD = NMS.getFirstMethodHandle(Entity.class, true, Pose.class,
-             EntityDimensions.class);
-     // Backport end
-+    // Backport start - Rewrite MinecraftProfilePropertiesResponse retriever
-+    private static final MethodHandle MAKE_REQUEST = NMS.getMethodHandle(com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService.class, "makeRequest", true,
-+            URL.class, Object.class, Class.class);
-+    // Backport end
- }
