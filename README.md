@@ -10,8 +10,14 @@ Developed for [The SRS Project](https://github.com/TheSRSProject)
 This is based on (my fork of)
  [GitPatcher](https://github.com/zml2008/gitpatcher),
  it makes us maintain the patches easier.
+_See my fork of it there: [Link](https://github.com/SNWCreations/gitpatcher)_
 
 ## Compiling
+
+Run `git submodule update --init` if you forget to
+ add `--recurse-submodules` flag while cloning this repository,
+ this make sure the upstream repository exists so
+ the patch would be able to be applied.
 
 Run `gradlew applyPatches` to apply the patches
  to the upstream project.
