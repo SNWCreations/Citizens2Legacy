@@ -36,10 +36,9 @@ The `upstream` submodule is only used to sync with
  the upstream. **DO NOT MODIFY IT.**
 
 When updating the project is needed,
-run `gradlew updateSubmodules` to sync the `upstream`
- submodule with upstream, and then run
- `gradlew applyPatches` to apply patches,
- solve the conflict and then use Git CLI to
+run `git pull` in `upstream` submodule to sync
+ with upstream, and then run `gradlew applyPatches`
+ to apply patches, solve the conflict and then use Git CLI to
  continue the process of applying patch, if any.
 
 When your patches are commited to the target repository,
