@@ -6,7 +6,7 @@ Subject: [PATCH] fix: backport logic of EntityNodeEvaluator
 
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluator.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluator.java
-index e49f8dffcd8e845eb3da21bbd820b897c486976f..a2278dee92b19a5391b09a5ef196949c5643f2ab 100644
+index e49f8dffcd8e845eb3da21bbd820b897c486976f..c2fddb310ede4127abacb0e7093e3c771d05b875 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluator.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluator.java
 @@ -24,7 +24,7 @@ import net.minecraft.world.level.material.Fluids;
@@ -14,7 +14,7 @@ index e49f8dffcd8e845eb3da21bbd820b897c486976f..a2278dee92b19a5391b09a5ef196949c
  import net.minecraft.world.level.pathfinder.PathComputationType;
  import net.minecraft.world.level.pathfinder.BlockPathTypes;
 -import net.minecraft.world.level.pathfinder.PathfindingContext;
-+//import net.minecraft.world.level.pathfinder.PathfindingContext; // Backport - this does not exist in MC 1.20.1
++//import net.minecraft.world.level.pathfinder.PathfindingContext; // Backport - This does not exist in MC 1.20.1
  import net.minecraft.world.level.pathfinder.Target;
  import net.minecraft.world.phys.AABB;
  import net.minecraft.world.phys.Vec3;
@@ -243,7 +243,7 @@ index e49f8dffcd8e845eb3da21bbd820b897c486976f..a2278dee92b19a5391b09a5ef196949c
      public static final double SPACE_BETWEEN_WALL_POSTS = 0.5;
  }
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluatorBase.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluatorBase.java
-index 61793c23ae52a48587d41b69d634b1eebdf8ec07..f6c804f9eaa0bdb4f7eccc24c8aed4b684e5a563 100644
+index 61793c23ae52a48587d41b69d634b1eebdf8ec07..0b7cacf242fff4f0c2f4311e43d4e789353ce4a1 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluatorBase.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluatorBase.java
 @@ -10,7 +10,7 @@ import net.minecraft.world.level.PathNavigationRegion;
@@ -255,23 +255,26 @@ index 61793c23ae52a48587d41b69d634b1eebdf8ec07..f6c804f9eaa0bdb4f7eccc24c8aed4b6
  import net.minecraft.world.level.pathfinder.Target;
  
  public abstract class EntityNodeEvaluatorBase extends NodeEvaluator {
-@@ -18,13 +18,13 @@ public abstract class EntityNodeEvaluatorBase extends NodeEvaluator {
+@@ -18,13 +18,16 @@ public abstract class EntityNodeEvaluatorBase extends NodeEvaluator {
      protected boolean canOpenDoors;
      protected boolean canPassDoors;
      protected boolean canWalkOverFences;
 -    protected PathfindingContext currentContext;
++    // Backport start - PathfindingContext does not exist in MC 1.20.1
++//    protected PathfindingContext currentContext;
++    protected PathNavigationRegion level;
++    // Backport end
      protected int entityDepth;
      protected int entityHeight;
      protected int entityWidth;
-+    protected PathNavigationRegion level;
      protected LivingEntity mob;
      protected MobAI mvmt;
 -    protected final Int2ObjectMap nodes = new Int2ObjectOpenHashMap();
-+    protected final Int2ObjectMap<Node> nodes = new Int2ObjectOpenHashMap<Node>();
++    protected final Int2ObjectMap<Node> nodes = new Int2ObjectOpenHashMap<>();
  
      @Override
      public boolean canFloat() {
-@@ -48,7 +48,10 @@ public abstract class EntityNodeEvaluatorBase extends NodeEvaluator {
+@@ -48,7 +51,10 @@ public abstract class EntityNodeEvaluatorBase extends NodeEvaluator {
  
      @Override
      public void done() {
@@ -283,7 +286,7 @@ index 61793c23ae52a48587d41b69d634b1eebdf8ec07..f6c804f9eaa0bdb4f7eccc24c8aed4b6
          this.mob = null;
          this.mvmt = null;
      }
-@@ -63,20 +66,29 @@ public abstract class EntityNodeEvaluatorBase extends NodeEvaluator {
+@@ -63,20 +69,32 @@ public abstract class EntityNodeEvaluatorBase extends NodeEvaluator {
          return (Node) this.nodes.computeIfAbsent(Node.createHash(var0, var1, var2), var3 -> new Node(var0, var1, var2));
      }
  
@@ -310,11 +313,14 @@ index 61793c23ae52a48587d41b69d634b1eebdf8ec07..f6c804f9eaa0bdb4f7eccc24c8aed4b6
          this.mob = var1;
          this.mvmt = MobAI.from(var1);
 -        this.currentContext = new EntityPathfindingContext(var0, var1);
++        // Backport start - PathfindingContext does not exist in MC 1.20.1
++//        this.currentContext = new PathfindingContext(var0, var1);
 +        this.level = var0;
++        // Backport end
          this.nodes.clear();
          this.entityWidth = Mth.floor(var1.getBbWidth() + 1.0F);
          this.entityHeight = Mth.floor(var1.getBbHeight() + 1.0F);
-@@ -85,7 +97,10 @@ public abstract class EntityNodeEvaluatorBase extends NodeEvaluator {
+@@ -85,7 +103,10 @@ public abstract class EntityNodeEvaluatorBase extends NodeEvaluator {
  
      @Override
      public void prepare(PathNavigationRegion var0, Mob var1) {
