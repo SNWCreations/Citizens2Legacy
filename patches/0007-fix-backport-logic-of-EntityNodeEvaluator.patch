@@ -6,7 +6,7 @@ Subject: [PATCH] fix: backport logic of EntityNodeEvaluator
 
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluator.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluator.java
-index e49f8dffcd8e845eb3da21bbd820b897c486976f..c2fddb310ede4127abacb0e7093e3c771d05b875 100644
+index e49f8dffcd8e845eb3da21bbd820b897c486976f..362132d7e87470e33d8499ce200c5ae1f19744d6 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluator.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluator.java
 @@ -24,7 +24,7 @@ import net.minecraft.world.level.material.Fluids;
@@ -30,7 +30,7 @@ index e49f8dffcd8e845eb3da21bbd820b897c486976f..c2fddb310ede4127abacb0e7093e3c77
  
      private boolean canReachWithoutCollision(Node var0) {
          AABB var1 = this.mob.getBoundingBox();
-@@ -107,9 +110,23 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+@@ -107,7 +110,10 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
  
      protected BlockPathTypes getCachedPathType(int var0, int var1, int var2) {
          return (BlockPathTypes) this.pathTypesByPosCacheByMob.computeIfAbsent(BlockPos.asLong(var0, var1, var2),
@@ -41,21 +41,8 @@ index e49f8dffcd8e845eb3da21bbd820b897c486976f..c2fddb310ede4127abacb0e7093e3c77
 +                // Backport end
      }
  
-+    // Backport start - getTarget -> getGoal
-+    public Target getTarget(double x, double y, double z) {
-+        return this.getGoal(x, y, z);
-+    }
-+
-+    @Override
-+    public Target getGoal(double var0, double var2, double var4) {
-+        return this.getTargetFromNode(this.getNode(Mth.floor(var0), Mth.floor(var2), Mth.floor(var4)));
-+    }
-+    // Backport end
-+
      private Node getClosedNode(int var0, int var1, int var2, BlockPathTypes var3) {
-         Node var4 = this.getNode(var0, var1, var2);
-         var4.closed = true;
-@@ -119,7 +136,10 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+@@ -119,7 +125,10 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
      }
  
      protected double getFloorLevel(BlockPos var0) {
@@ -67,7 +54,7 @@ index e49f8dffcd8e845eb3da21bbd820b897c486976f..c2fddb310ede4127abacb0e7093e3c77
          return (this.canFloat() || this.isAmphibious()) && var1.getFluidState(var0).is(FluidTags.WATER)
                  ? var0.getY() + 0.5
                  : getFloorLevel(var1, var0);
-@@ -174,12 +194,21 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+@@ -174,12 +183,21 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
          return var5;
      }
  
@@ -91,7 +78,7 @@ index e49f8dffcd8e845eb3da21bbd820b897c486976f..c2fddb310ede4127abacb0e7093e3c77
          Set var5 = this.getPathTypeWithinMobBB(var0, var1, var2, var3);
          if (var5.contains(BlockPathTypes.FENCE))
              return BlockPathTypes.FENCE;
-@@ -187,7 +216,10 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+@@ -187,7 +205,10 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
              return BlockPathTypes.UNPASSABLE_RAIL;
          else {
              BlockPathTypes var6 = BlockPathTypes.BLOCKED;
@@ -103,7 +90,7 @@ index e49f8dffcd8e845eb3da21bbd820b897c486976f..c2fddb310ede4127abacb0e7093e3c77
  
              while (var88.hasNext()) {
                  BlockPathTypes var8 = var88.next();
-@@ -205,8 +237,9 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+@@ -205,8 +226,9 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
          }
      }
  
@@ -115,7 +102,7 @@ index e49f8dffcd8e845eb3da21bbd820b897c486976f..c2fddb310ede4127abacb0e7093e3c77
          Set var5 = this.getPathTypeWithinMobBB(var0, var1, var2, var3);
          if (var5.contains(BlockPathTypes.FENCE))
              return BlockPathTypes.FENCE;
-@@ -214,7 +247,10 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+@@ -214,7 +236,10 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
              return BlockPathTypes.UNPASSABLE_RAIL;
          else {
              BlockPathTypes var6 = BlockPathTypes.BLOCKED;
@@ -127,7 +114,7 @@ index e49f8dffcd8e845eb3da21bbd820b897c486976f..c2fddb310ede4127abacb0e7093e3c77
  
              while (var88.hasNext()) {
                  BlockPathTypes var8 = var88.next();
-@@ -232,7 +268,7 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+@@ -232,7 +257,7 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
          }
      }
  
@@ -136,7 +123,7 @@ index e49f8dffcd8e845eb3da21bbd820b897c486976f..c2fddb310ede4127abacb0e7093e3c77
          EnumSet var4 = EnumSet.noneOf(BlockPathTypes.class);
  
          for (int var5 = 0; var5 < this.entityWidth; ++var5) {
-@@ -266,7 +302,10 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+@@ -266,7 +291,10 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
      public Node getStart() {
          BlockPos.MutableBlockPos var1 = new BlockPos.MutableBlockPos();
          int var0 = this.mob.getBlockY();
@@ -148,7 +135,7 @@ index e49f8dffcd8e845eb3da21bbd820b897c486976f..c2fddb310ede4127abacb0e7093e3c77
          if (!this.mob.canStandOnFluid(var2.getFluidState())) {
              if (this.canFloat() && this.mob.isInWater()) {
                  while (true) {
-@@ -275,18 +314,20 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+@@ -275,18 +303,20 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
                          break;
                      }
                      ++var0;
@@ -173,7 +160,7 @@ index e49f8dffcd8e845eb3da21bbd820b897c486976f..c2fddb310ede4127abacb0e7093e3c77
                          break;
                      }
                  }
-@@ -298,7 +339,7 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+@@ -298,7 +328,7 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
                      break;
                  }
                  ++var0;
@@ -182,17 +169,21 @@ index e49f8dffcd8e845eb3da21bbd820b897c486976f..c2fddb310ede4127abacb0e7093e3c77
              }
          }
          BlockPos var3 = this.mob.blockPosition();
-@@ -320,14 +361,18 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+@@ -320,14 +350,20 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
          return var1;
      }
  
-+    // Backport start - the original method does not exist in MC 1.20.1
-+    /*
++    // Backport start - getTarget -> getGoal (different internal Minecraft method name)
++    public Target getTarget(double var0, double var1, double var2) {
++        return this.getGoal(var0, var1, var2);
++    }
++
      @Override
-     public Target getTarget(double var0, double var2, double var4) {
-         return this.getTargetNodeAt(var0, var2, var4);
+-    public Target getTarget(double var0, double var2, double var4) {
+-        return this.getTargetNodeAt(var0, var2, var4);
++    public Target getGoal(double var0, double var2, double var4) {
++        return this.getTargetFromNode(this.getNode(Mth.floor(var0), Mth.floor(var2), Mth.floor(var4)));
      }
-+    */
 +    // Backport end
  
      private boolean hasCollisions(AABB var0) {
@@ -202,7 +193,7 @@ index e49f8dffcd8e845eb3da21bbd820b897c486976f..c2fddb310ede4127abacb0e7093e3c77
      }
  
      protected boolean isAmphibious() {
-@@ -418,12 +463,15 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+@@ -418,12 +454,15 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
          }
      }
  
@@ -220,7 +211,7 @@ index e49f8dffcd8e845eb3da21bbd820b897c486976f..c2fddb310ede4127abacb0e7093e3c77
                          if (var8 == BlockPathTypes.DAMAGE_OTHER)
                              return BlockPathTypes.DANGER_OTHER;
                          if (var8 == BlockPathTypes.DAMAGE_FIRE || var8 == BlockPathTypes.LAVA)
-@@ -449,7 +497,10 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+@@ -449,7 +488,10 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
          return var2.getY() + (var3.isEmpty() ? 0.0 : var3.max(Axis.Y));
      }
  
@@ -232,7 +223,7 @@ index e49f8dffcd8e845eb3da21bbd820b897c486976f..c2fddb310ede4127abacb0e7093e3c77
          int var2 = var1.getX();
          int var3 = var1.getY();
          int var4 = var1.getZ();
-@@ -487,7 +538,9 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
+@@ -487,7 +529,9 @@ public class EntityNodeEvaluator extends EntityNodeEvaluatorBase {
              return var10000;
          } else
              return var5;
@@ -243,7 +234,7 @@ index e49f8dffcd8e845eb3da21bbd820b897c486976f..c2fddb310ede4127abacb0e7093e3c77
      public static final double SPACE_BETWEEN_WALL_POSTS = 0.5;
  }
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluatorBase.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluatorBase.java
-index 61793c23ae52a48587d41b69d634b1eebdf8ec07..0b7cacf242fff4f0c2f4311e43d4e789353ce4a1 100644
+index 61793c23ae52a48587d41b69d634b1eebdf8ec07..7473cbdf47f33bde3a866cc07407063d04bbeeb2 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluatorBase.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNodeEvaluatorBase.java
 @@ -10,7 +10,7 @@ import net.minecraft.world.level.PathNavigationRegion;
@@ -286,7 +277,7 @@ index 61793c23ae52a48587d41b69d634b1eebdf8ec07..0b7cacf242fff4f0c2f4311e43d4e789
          this.mob = null;
          this.mvmt = null;
      }
-@@ -63,20 +69,32 @@ public abstract class EntityNodeEvaluatorBase extends NodeEvaluator {
+@@ -63,6 +69,8 @@ public abstract class EntityNodeEvaluatorBase extends NodeEvaluator {
          return (Node) this.nodes.computeIfAbsent(Node.createHash(var0, var1, var2), var3 -> new Node(var0, var1, var2));
      }
  
@@ -295,19 +286,12 @@ index 61793c23ae52a48587d41b69d634b1eebdf8ec07..0b7cacf242fff4f0c2f4311e43d4e789
      @Override
      public BlockPathTypes getPathType(Mob var0, BlockPos var1) {
          return this.getPathType(new PathfindingContext(var0.level(), var0), var1.getX(), var1.getY(), var1.getZ());
-     }
-+    */
- 
-     @Override
-+    /*
+@@ -72,11 +80,16 @@ public abstract class EntityNodeEvaluatorBase extends NodeEvaluator {
      protected Target getTargetNodeAt(double var0, double var2, double var4) {
          return new Target(this.getNode(Mth.floor(var0), Mth.floor(var2), Mth.floor(var4)));
      }
 +    */
-+    protected Target getTargetFromNode(Node var0) {
-+        return new Target(var0);
 +    // Backport end
-+    }
  
      public void prepare(PathNavigationRegion var0, LivingEntity var1) {
          this.mob = var1;
@@ -320,7 +304,7 @@ index 61793c23ae52a48587d41b69d634b1eebdf8ec07..0b7cacf242fff4f0c2f4311e43d4e789
          this.nodes.clear();
          this.entityWidth = Mth.floor(var1.getBbWidth() + 1.0F);
          this.entityHeight = Mth.floor(var1.getBbHeight() + 1.0F);
-@@ -85,7 +103,10 @@ public abstract class EntityNodeEvaluatorBase extends NodeEvaluator {
+@@ -85,7 +98,10 @@ public abstract class EntityNodeEvaluatorBase extends NodeEvaluator {
  
      @Override
      public void prepare(PathNavigationRegion var0, Mob var1) {

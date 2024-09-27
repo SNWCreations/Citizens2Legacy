@@ -7,7 +7,7 @@ Subject: [PATCH] fix: different obfuscated field/method name causes the plugin
 
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/CitizensEntityTracker.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/CitizensEntityTracker.java
-index 9faafe9887f7ec0b889b76d1ec1d3d7a2f39c783..8e97c81de919fe23b82d1bcb2ead2e3c4ec6376d 100644
+index 5417315d1cb090437bff061635b40d799f6a141b..4de289161ccba4b20c47b328215c9adc653c641b 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/CitizensEntityTracker.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/CitizensEntityTracker.java
 @@ -148,11 +148,11 @@ public class CitizensEntityTracker extends ChunkMap.TrackedEntity {
