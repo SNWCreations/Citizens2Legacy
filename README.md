@@ -57,6 +57,6 @@ CitizensDev and will **NOT** be supported by them.
 Copyright (C) 2024 SNWCreations.
 
 This project and the patches to the upstream project
- inside this project are licensed under MIT license.
-See `LICENSE` file in this repository for the license
- content.
+ inside this project are licensed under Open Software License 3.0,
+see `LICENSE` file in this repository 
+ for the license content.
