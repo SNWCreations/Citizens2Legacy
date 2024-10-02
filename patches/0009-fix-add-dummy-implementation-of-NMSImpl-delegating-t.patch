@@ -7,13 +7,13 @@ Subject: [PATCH] fix: add dummy implementation of NMSImpl delegating to
 
 This commit should make the NMS bridge initialization successful
 
-diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R1/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R1/util/NMSImpl.java
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R3/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R3/util/NMSImpl.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..5f55ec16122f9c1d363e637dd86fe0fb58287087
+index 0000000000000000000000000000000000000000..f425f985bd2a22416a88cb74564f3211e1a79391
 --- /dev/null
-+++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R1/util/NMSImpl.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R3/util/NMSImpl.java
 @@ -0,0 +1,5 @@
-+package net.citizensnpcs.nms.v1_20_R1.util;
++package net.citizensnpcs.nms.v1_20_R3.util;
 +
 +// Dummy class used to make NMS bridge initialization successful
 +public class NMSImpl extends net.citizensnpcs.nms.v1_20_R4.util.NMSImpl {

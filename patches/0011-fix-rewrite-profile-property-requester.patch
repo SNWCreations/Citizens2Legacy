@@ -4,38 +4,3 @@ From: =?UTF-8?q?ZX=E5=A4=8F=E5=A4=9C=E4=B9=8B=E9=A3=8E?=
 Date: Sat, 21 Sep 2024 21:29:42 +0800
 Subject: [PATCH] fix: rewrite profile property requester
 
-
-diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index c369ec40acb482edf9a1fd53aa5a2d2d095e516a..135ba9a0141028ac64a842676f6196a9d8b613be 100644
---- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-+++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-@@ -599,8 +599,14 @@ public class NMSImpl implements NMSBridge {
-         URL url = HttpAuthenticationService
-                 .constantURL(getAuthServerBaseUrl() + /*UndashedUuid.toString*/com.mojang.util.UUIDTypeAdapter.fromUUID(profile.getId())); // Backport - UndashedUuid -> UUIDTypeAdapter
-         url = HttpAuthenticationService.concatenateURL(url, "unsigned=" + !requireSecure);
-+        // Backport start - Rewrite response retriever
-+        /*
-         MinecraftClient client = (MinecraftClient) MINECRAFT_CLIENT.invoke(sessionService);
-         MinecraftProfilePropertiesResponse response = client.get(url, MinecraftProfilePropertiesResponse.class);
-+        */
-+        com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService authService = ((YggdrasilMinecraftSessionService) sessionService).getAuthenticationService();
-+        MinecraftProfilePropertiesResponse response = (MinecraftProfilePropertiesResponse) MAKE_REQUEST.invoke(authService, url, null, MinecraftProfilePropertiesResponse.class);
-+        // Backport end
- 
-         // Backport start - Older authlib does not provide toProfile method so we use old way there
- //        return response.toProfile();
-@@ -2823,8 +2829,14 @@ public class NMSImpl implements NMSBridge {
-     private static final MethodHandle JUMP_FIELD = NMS.getGetter(LivingEntity.class, "bk"); // Backport - Update obfuscated name
-     private static final MethodHandle LOOK_CONTROL_SETTER = NMS.getFirstSetter(Mob.class, LookControl.class);
-     private static MethodHandle META_COMPOUND_TAG;
-+    // Backport start - Rewrite MinecraftProfilePropertiesResponse retriever
-+    private static final MethodHandle MAKE_REQUEST = NMS.getMethodHandle(com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService.class, "makeRequest", true,
-+            URL.class, Object.class, Class.class);
-+    /*
-     private static final MethodHandle MINECRAFT_CLIENT = NMS.getFirstGetter(YggdrasilMinecraftSessionService.class,
-             MinecraftClient.class);
-+    */
-+    // Backport end
-     private static final MethodHandle MOVE_CONTROLLER_OPERATION = NMS.getSetter(MoveControl.class, "k");
-     private static final MethodHandle NAVIGATION_CREATE_PATHFINDER = NMS
-             .getFirstMethodHandleWithReturnType(PathNavigation.class, true, PathFinder.class, int.class);

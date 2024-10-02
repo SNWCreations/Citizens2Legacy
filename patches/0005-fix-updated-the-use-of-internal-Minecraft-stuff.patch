@@ -7,74 +7,22 @@ Subject: [PATCH] fix: updated the use of internal Minecraft stuff
 Replaced newer record method access to fields with direct field access, use correct but older Minecraft method names for some methods the upstream uses.
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
-index 781e49c3266d631a33ba5e410c3efefd0952cb32..b168ab5dd0a978ecf21f7643adb4fe2a84cb273c 100644
+index ee5c311f5edddf22418c8c281973ce8965ac99f1..9ff8b2295317790c094239e36d316bf464899b47 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
-@@ -38,15 +38,15 @@ import net.citizensnpcs.util.Util;
- import net.minecraft.core.BlockPos;
- import net.minecraft.network.chat.Component;
- import net.minecraft.network.chat.MutableComponent;
--import net.minecraft.network.chat.contents.PlainTextContents.LiteralContents;
-+import net.minecraft.network.chat.contents/*.PlainTextContents*/.LiteralContents; // Backport - Relocated class
- import net.minecraft.network.protocol.PacketFlow;
- import net.minecraft.server.MinecraftServer;
- import net.minecraft.server.PlayerAdvancements;
--import net.minecraft.server.level.ClientInformation;
-+//import net.minecraft.server.level.ClientInformation; // Backport - This does not exist in MC 1.20.1
- import net.minecraft.server.level.ServerLevel;
- import net.minecraft.server.level.ServerPlayer;
- import net.minecraft.server.level.ServerPlayerGameMode;
--import net.minecraft.server.network.CommonListenerCookie;
-+//import net.minecraft.server.network.CommonListenerCookie; // Backport - This does not exist in MC 1.20.1
- import net.minecraft.sounds.SoundEvent;
- import net.minecraft.stats.ServerStatsCounter;
- import net.minecraft.tags.TagKey;
-@@ -70,8 +70,10 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
-     private EmptyServerStatsCounter statsCache;
- 
-     public EntityHumanNPC(MinecraftServer minecraftServer, ServerLevel world, GameProfile gameProfile,
--            ClientInformation ci, NPC npc) {
--        super(minecraftServer, world, gameProfile, ci);
-+        // Backport start - ClientInformation does not exist in MC 1.20.1
-+            /*ClientInformation ci,*/ NPC npc) {
-+        super(minecraftServer, world, gameProfile/*, ci*/);
-+        // Backport end
-         this.npc = (CitizensNPC) npc;
-         if (npc != null) {
-             ai = new BasicMobAI(this);
-@@ -81,7 +83,7 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
-             } catch (Throwable e) {
-                 e.printStackTrace();
-             }
--            initialise(minecraftServer, ci);
-+            initialise(minecraftServer/*, ci*/); // Backport - ClientInformation does not exist in MC 1.20.1
-         } else {
-             skinTracker = null;
-         }
-@@ -259,11 +261,14 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
-         return damaged;
-     }
- 
--    private void initialise(MinecraftServer minecraftServer, ClientInformation clientInfo) {
-+    private void initialise(MinecraftServer minecraftServer/*, ClientInformation clientInfo*/) { // Backport - ClientInformation does not exist in MC 1.20.1
+@@ -263,7 +263,8 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
          try {
              EmptyConnection conn = new EmptyConnection(PacketFlow.CLIENTBOUND);
--            connection = new EmptyPacketListener(minecraftServer, conn, this,
+             connection = new EmptyPacketListener(minecraftServer, conn, this,
 -                    new CommonListenerCookie(getProfile(), 0, clientInfo, false));
-+            // Backport start - Cookie system does not exist in MC 1.20.1
-+            connection = new EmptyPacketListener(minecraftServer, conn, this//,
-+//                    new CommonListenerCookie(getProfile(), 0, clientInfo, false));
-+            );
++                    new CommonListenerCookie(getProfile(), 0, clientInfo/*, false*/)); // Backport - No boolean argument in MC 1.20.4
 +            // Backport end
          } catch (IOException e) {
              e.printStackTrace();
          }
-@@ -368,12 +373,16 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
-         if (npc == null)
-             return;
+@@ -370,10 +371,14 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
  
--        detectEquipmentUpdatesPublic();
-+        detectEquipmentUpdates/*Public*/(); // Backport - Different internal Minecraft method name
+         detectEquipmentUpdatesPublic();
          float scale = this.getScale();
 +        // Backport start - Redefining scale is not supported on MC 1.20.1
 +        /*
@@ -87,30 +35,8 @@ index 781e49c3266d631a33ba5e410c3efefd0952cb32..b168ab5dd0a978ecf21f7643adb4fe2a
          Bukkit.getServer().getPluginManager().unsubscribeFromPermission("bukkit.broadcast.user", getBukkitEntity());
          updatePackets(npc.getNavigator().isNavigating());
          npc.update();
-diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HumanController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HumanController.java
-index 56d6cd4896c96f535778e7d2cb321769c40cae71..f818fc5e539c5922df8d71a4f4a6671358f0707e 100644
---- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HumanController.java
-+++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HumanController.java
-@@ -19,7 +19,7 @@ import net.citizensnpcs.trait.ScoreboardTrait;
- import net.citizensnpcs.util.NMS;
- import net.citizensnpcs.util.Util;
- import net.minecraft.server.MinecraftServer;
--import net.minecraft.server.level.ClientInformation;
-+//import net.minecraft.server.level.ClientInformation;
- import net.minecraft.server.level.ServerLevel;
- 
- public class HumanController extends AbstractEntityController {
-@@ -41,7 +41,7 @@ public class HumanController extends AbstractEntityController {
-         }
-         final GameProfile profile = new GameProfile(uuid, name);
-         final EntityHumanNPC handle = new EntityHumanNPC(MinecraftServer.getServer(), nmsWorld, profile,
--                ClientInformation.createDefault(), npc);
-+                /*ClientInformation.createDefault(),*/ npc);
-         Skin skin = handle.getSkinTracker().getSkin();
-         if (skin != null) {
-             skin.apply(handle);
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PhantomController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PhantomController.java
-index 62dd816510ff2498a1f5eed59066f4b3a437b067..41831d667207a5f334188b454a5890dc0ca808b1 100644
+index 76748779dc7ab9e34ec1d1b9e171fcd7b3dd608d..178c64a2f13100c75427930487c0d01334c959d4 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PhantomController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PhantomController.java
 @@ -83,7 +83,10 @@ public class PhantomController extends MobEntityController {
@@ -126,7 +52,7 @@ index 62dd816510ff2498a1f5eed59066f4b3a437b067..41831d667207a5f334188b454a5890dc
                  npc.update();
              }
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PufferFishController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PufferFishController.java
-index 0656b6b8cac7b7454289b1bb4ddc5f6236c7dcdc..56296335a69d868fcd0573ff55ab58c6b18479f3 100644
+index 82d63f288746916dfd1119b20e554a28df24a282..7b07966d9935850eb2d22c83761d5fe95e9ac219 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PufferFishController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PufferFishController.java
 @@ -152,11 +152,20 @@ public class PufferFishController extends MobEntityController {
@@ -151,7 +77,7 @@ index 0656b6b8cac7b7454289b1bb4ddc5f6236c7dcdc..56296335a69d868fcd0573ff55ab58c6
          @Override
          protected SoundEvent getHurtSound(DamageSource damagesource) {
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/TadpoleController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/TadpoleController.java
-index c996f7cf43f1b4e2dc73b092f34e9573c20a159e..3bcba6440242e5ca9b1e7067e8d7aa1070a2a3e4 100644
+index 2e7340d8db3cea9614fa1e29c9082b178791b98c..cc3290da22bdcbed577c3951f0c59fa5252bd3ef 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/TadpoleController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/TadpoleController.java
 @@ -200,7 +200,7 @@ public class TadpoleController extends MobEntityController {
@@ -163,28 +89,6 @@ index c996f7cf43f1b4e2dc73b092f34e9573c20a159e..3bcba6440242e5ca9b1e7067e8d7aa10
                  return InteractionResult.FAIL;
              return super.mobInteract(entityhuman, enumhand);
          }
-diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/FishingHookController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/FishingHookController.java
-index 4ff67073f8b6c739b767514b57bd9d22cfd65190..776242e4353f9ec5774494a2435c7e1c66d880d8 100644
---- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/FishingHookController.java
-+++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/FishingHookController.java
-@@ -22,7 +22,7 @@ import net.citizensnpcs.npc.ai.NPCHolder;
- import net.citizensnpcs.util.NMS;
- import net.citizensnpcs.util.Util;
- import net.minecraft.nbt.CompoundTag;
--import net.minecraft.server.level.ClientInformation;
-+//import net.minecraft.server.level.ClientInformation; // Backport - this does not exist in MC 1.20.1
- import net.minecraft.server.level.ServerLevel;
- import net.minecraft.server.level.ServerPlayer;
- import net.minecraft.tags.TagKey;
-@@ -46,7 +46,7 @@ public class FishingHookController extends MobEntityController {
-     protected org.bukkit.entity.Entity createEntity(Location at, NPC npc) {
-         ServerLevel level = ((CraftWorld) at.getWorld()).getHandle();
-         ServerPlayer sp = new ServerPlayer(level.getServer(), level,
--                new GameProfile(UUID.randomUUID(), "dummyfishhook"), ClientInformation.createDefault()) {
-+                new GameProfile(UUID.randomUUID(), "dummyfishhook")/*, ClientInformation.createDefault()*/) { // Backport - ClientInformation does not exist in MC 1.20.1
-         };
-         sp.setPos(at.getX(), at.getY(), at.getZ());
-         sp.setYRot(at.getYaw());
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/network/EmptyConnection.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/network/EmptyConnection.java
 index 80fd0c65cdbaad820b75be2af3629bbfbda2e31c..7196f97932ade3cef2f3ee672ae359b10bb53741 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/network/EmptyConnection.java
@@ -220,105 +124,8 @@ index 80fd0c65cdbaad820b75be2af3629bbfbda2e31c..7196f97932ade3cef2f3ee672ae359b1
 +    // Backport end
  }
 \ No newline at end of file
-diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/network/EmptyPacketListener.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/network/EmptyPacketListener.java
-index 679657d8b0f4bb1eade47c3f7bdfe54c4c386281..c373261df1cd0e205b184c6302750dbe4aa42402 100644
---- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/network/EmptyPacketListener.java
-+++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/network/EmptyPacketListener.java
-@@ -4,18 +4,24 @@ import net.minecraft.network.Connection;
- import net.minecraft.network.protocol.Packet;
- import net.minecraft.server.MinecraftServer;
- import net.minecraft.server.level.ServerPlayer;
--import net.minecraft.server.network.CommonListenerCookie;
-+//import net.minecraft.server.network.CommonListenerCookie;
- import net.minecraft.server.network.ServerGamePacketListenerImpl;
- 
- public class EmptyPacketListener extends ServerGamePacketListenerImpl {
--    public EmptyPacketListener(MinecraftServer minecraftServer, Connection networkManager, ServerPlayer entityPlayer,
--            CommonListenerCookie clc) {
--        super(minecraftServer, networkManager, entityPlayer, clc);
-+    // Backport start - CommonListenerCookie does not exist in MC 1.20.1
-+    public EmptyPacketListener(MinecraftServer minecraftServer, Connection networkManager, ServerPlayer entityPlayer//,
-+            /*CommonListenerCookie clc*/) {
-+        super(minecraftServer, networkManager, entityPlayer/*, clc*/);
-+    // Backport end
-     }
- 
-+    // Backport start - Newer methods does not exist in MC 1.20.1
-+    /*
-     @Override
-     public void resumeFlushing() {
-     }
-+    */
-+    // Backport end
- 
-     @Override
-     public void send(Packet<?> packet) {
-diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EmptyAdvancementDataPlayer.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EmptyAdvancementDataPlayer.java
-index bbf57f7d44b72b54e1692bb93e8dec7885d21fd9..21ba3b2f686600490a9228a34fcc67e085da2e0e 100644
---- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EmptyAdvancementDataPlayer.java
-+++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EmptyAdvancementDataPlayer.java
-@@ -11,7 +11,7 @@ import com.mojang.datafixers.DataFixer;
- 
- import net.citizensnpcs.api.CitizensAPI;
- import net.citizensnpcs.util.NMS;
--import net.minecraft.advancements.AdvancementHolder;
-+import net.minecraft.advancements.Advancement;
- import net.minecraft.advancements.AdvancementProgress;
- import net.minecraft.resources.ResourceLocation;
- import net.minecraft.server.PlayerAdvancements;
-@@ -27,7 +27,7 @@ public class EmptyAdvancementDataPlayer extends PlayerAdvancements {
-     }
- 
-     @Override
--    public boolean award(AdvancementHolder advancement, String s) {
-+    public boolean award(Advancement advancement, String s) {
-         return false;
-     }
- 
-@@ -36,7 +36,7 @@ public class EmptyAdvancementDataPlayer extends PlayerAdvancements {
-     }
- 
-     @Override
--    public AdvancementProgress getOrStartProgress(AdvancementHolder advancement) {
-+    public AdvancementProgress getOrStartProgress(Advancement advancement) {
-         return new AdvancementProgress();
-     }
- 
-@@ -45,7 +45,7 @@ public class EmptyAdvancementDataPlayer extends PlayerAdvancements {
-     }
- 
-     @Override
--    public boolean revoke(AdvancementHolder advancement, String s) {
-+    public boolean revoke(Advancement advancement, String s) {
-         return false;
-     }
- 
-@@ -59,7 +59,7 @@ public class EmptyAdvancementDataPlayer extends PlayerAdvancements {
-     }
- 
-     @Override
--    public void setSelectedTab(AdvancementHolder advancement) {
-+    public void setSelectedTab(Advancement advancement) {
-     }
- 
-     @Override
-@@ -73,12 +73,12 @@ public class EmptyAdvancementDataPlayer extends PlayerAdvancements {
-         }
- 
-         @Override
--        public AdvancementHolder get(ResourceLocation minecraftkey) {
-+        public Advancement getAdvancement(ResourceLocation minecraftkey) {
-             return null;
-         }
- 
-         @Override
--        public Collection<AdvancementHolder> getAllAdvancements() {
-+        public Collection<Advancement> getAllAdvancements() {
-             return Collections.emptyList();
-         }
-     }
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNavigation.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNavigation.java
-index fa0f5c9b1bb45b5721b4aaa2bb0683bdb3def67b..89fa335122f2dc1a02d08d8895673d51cbcc3fd5 100644
+index fa0f5c9b1bb45b5721b4aaa2bb0683bdb3def67b..e6e29c7c8675912ce2eb10916bd485f9d52ab310 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNavigation.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNavigation.java
 @@ -28,7 +28,7 @@ import net.minecraft.world.level.pathfinder.Node;
@@ -340,15 +147,6 @@ index fa0f5c9b1bb45b5721b4aaa2bb0683bdb3def67b..89fa335122f2dc1a02d08d8895673d51
 +    public boolean canCutCorner(BlockPathTypes pathtype) {
 +        return pathtype != BlockPathTypes.DANGER_FIRE && pathtype != BlockPathTypes.DANGER_POWDER_SNOW
 +                && pathtype != BlockPathTypes.DANGER_OTHER && pathtype != BlockPathTypes.WALKABLE_DOOR;
-     }
- 
-     @Override
-@@ -139,7 +139,7 @@ public class EntityNavigation extends PathNavigation {
- 
-     @Override
-     protected boolean canUpdatePath() {
--        return this.mob.onGround() || this.mob.isInLiquid() || this.mob.isPassenger();
-+        return this.mob.onGround() || /*this.mob.*/isInLiquid() || this.mob.isPassenger();
      }
  
      @Override
@@ -880,27 +678,9 @@ index dd4dd6dddeefd02107edcc33d8452afd005f3d11..37c9935df87801f138eeaa7ecdbb9466
                  }
  
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4bb96b870 100644
+index edc11fdfb50f92365b891e4e841d0c553c985b06..830a2f3c99e0bfd5b98bb9ea0d1fca0a99a4c770 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-@@ -65,7 +65,7 @@ import com.mojang.authlib.minecraft.client.MinecraftClient;
- import com.mojang.authlib.properties.Property;
- import com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService;
- import com.mojang.authlib.yggdrasil.response.MinecraftProfilePropertiesResponse;
--import com.mojang.util.UndashedUuid;
-+//import com.mojang.util.UndashedUuid; // Backport - Renamed class
- 
- import net.citizensnpcs.Settings.Setting;
- import net.citizensnpcs.api.CitizensAPI;
-@@ -275,7 +275,7 @@ import net.minecraft.nbt.Tag;
- import net.minecraft.network.Connection;
- import net.minecraft.network.chat.Component;
- import net.minecraft.network.chat.MutableComponent;
--import net.minecraft.network.chat.contents.PlainTextContents.LiteralContents;
-+import net.minecraft.network.chat.contents.LiteralContents; // Backport - PlainContents.LiteralContents -> LiteralContents
- import net.minecraft.network.protocol.Packet;
- import net.minecraft.network.protocol.game.ClientboundBundlePacket;
- import net.minecraft.network.protocol.game.ClientboundMoveEntityPacket;
 @@ -366,7 +366,7 @@ import net.minecraft.world.level.material.FluidState;
  import net.minecraft.world.level.pathfinder.Node;
  import net.minecraft.world.level.pathfinder.Path;
@@ -959,48 +739,7 @@ index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4
          }
          if (target instanceof ServerPlayer) {
              ServerPlayer entityhuman = (ServerPlayer) target;
-@@ -575,14 +592,25 @@ public class NMSImpl implements NMSBridge {
-             throw new IllegalStateException("NMS.fillProfileProperties cannot be invoked from the main thread.");
-         MinecraftSessionService sessionService = ((CraftServer) Bukkit.getServer()).getServer().getSessionService();
-         if (!(sessionService instanceof YggdrasilMinecraftSessionService))
--            return sessionService.fetchProfile(profile.getId(), requireSecure).profile();
-+            // Backport start - Use old way to fill profile properties
-+//            return sessionService.fetchProfile(profile.getId(), requireSecure).profile();
-+            return sessionService.fillProfileProperties(profile, requireSecure);
-+            // Backport end
-         URL url = HttpAuthenticationService
--                .constantURL(getAuthServerBaseUrl() + UndashedUuid.toString(profile.getId()));
-+                .constantURL(getAuthServerBaseUrl() + /*UndashedUuid.toString*/com.mojang.util.UUIDTypeAdapter.fromUUID(profile.getId())); // Backport - UndashedUuid -> UUIDTypeAdapter
-         url = HttpAuthenticationService.concatenateURL(url, "unsigned=" + !requireSecure);
-         MinecraftClient client = (MinecraftClient) MINECRAFT_CLIENT.invoke(sessionService);
-         MinecraftProfilePropertiesResponse response = client.get(url, MinecraftProfilePropertiesResponse.class);
- 
--        return response.toProfile();
-+        // Backport start - Older authlib does not provide toProfile method so we use old way there
-+//        return response.toProfile();
-+        if (response == null)
-+            return profile;
-+        GameProfile result = new GameProfile(response.getId(), response.getName());
-+        result.getProperties().putAll(response.getProperties());
-+        profile.getProperties().putAll(response.getProperties());
-+        return result;
-+        // Backport end
-     }
- 
-     public String getAuthServerBaseUrl() {
-@@ -752,7 +780,10 @@ public class NMSImpl implements NMSBridge {
-     @Override
-     public String getSoundPath(Sound flag) throws CommandException {
-         try {
--            SoundEvent effect = CraftSound.bukkitToMinecraft(flag);
-+            // Backport start - bukkitToMinecraft -> getSoundEffect
-+//            SoundEvent effect = CraftSound.bukkitToMinecraft(flag);
-+            SoundEvent effect = CraftSound.getSoundEffect(flag);
-+            // Backport end
-             if (effect == null)
-                 throw new CommandException(Messages.INVALID_SOUND);
-             return effect.getLocation().getPath();
-@@ -809,13 +840,15 @@ public class NMSImpl implements NMSBridge {
+@@ -809,13 +826,15 @@ public class NMSImpl implements NMSBridge {
          // navigation won't execute, and calling entity.move doesn't
          // entirely fix the problem.
          final PathNavigation navigation = getNavigation(entity);
@@ -1020,7 +759,7 @@ index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4
              }
          }
          navigation.getNodeEvaluator().setCanOpenDoors(params.hasExaminer(DoorExaminer.class));
-@@ -851,9 +884,9 @@ public class NMSImpl implements NMSBridge {
+@@ -851,9 +870,9 @@ public class NMSImpl implements NMSBridge {
                  }
                  if (oldWater >= 0) {
                      if (raw instanceof MobAI) {
@@ -1032,7 +771,7 @@ index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4
                      }
                  }
                  navigation.stop();
-@@ -868,7 +901,7 @@ public class NMSImpl implements NMSBridge {
+@@ -868,7 +887,7 @@ public class NMSImpl implements NMSBridge {
                          size = (EntityDimensions) SIZE_FIELD_GETTER.invoke(handle);
                          if (handle instanceof AbstractHorse) {
                              SIZE_FIELD_SETTER.invoke(handle,
@@ -1041,7 +780,7 @@ index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4
                          }
                      } catch (Throwable e) {
                          e.printStackTrace();
-@@ -1008,10 +1041,16 @@ public class NMSImpl implements NMSBridge {
+@@ -1008,10 +1027,16 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.CAT, CatController.class);
          EntityControllers.setEntityControllerForType(EntityType.CAVE_SPIDER, CaveSpiderController.class);
          EntityControllers.setEntityControllerForType(EntityType.CHEST_BOAT, ChestBoatController.class);
@@ -1060,7 +799,7 @@ index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4
                  MinecartCommandController.class);
          EntityControllers.setEntityControllerForType(EntityType.COW, CowController.class);
          EntityControllers.setEntityControllerForType(EntityType.CREEPER, CreeperController.class);
-@@ -1021,7 +1060,10 @@ public class NMSImpl implements NMSBridge {
+@@ -1021,7 +1046,10 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.DROWNED, DrownedController.class);
          EntityControllers.setEntityControllerForType(EntityType.EGG, EggController.class);
          EntityControllers.setEntityControllerForType(EntityType.ELDER_GUARDIAN, GuardianElderController.class);
@@ -1072,7 +811,7 @@ index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4
          EntityControllers.setEntityControllerForType(EntityType.ENDER_DRAGON, EnderDragonController.class);
          EntityControllers.setEntityControllerForType(EntityType.ENDER_PEARL, EnderPearlController.class);
          EntityControllers.setEntityControllerForType(EntityType.ENDERMAN, EndermanController.class);
-@@ -1029,15 +1071,30 @@ public class NMSImpl implements NMSBridge {
+@@ -1029,15 +1057,30 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.EVOKER, EvokerController.class);
          EntityControllers.setEntityControllerForType(EntityType.EVOKER_FANGS, EvokerFangsController.class);
          EntityControllers.setEntityControllerForType(EntityType.EXPERIENCE_ORB, ExperienceOrbController.class);
@@ -1104,7 +843,7 @@ index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4
          EntityControllers.setEntityControllerForType(EntityType.GHAST, GhastController.class);
          EntityControllers.setEntityControllerForType(EntityType.GIANT, GiantController.class);
          EntityControllers.setEntityControllerForType(EntityType.GLOW_ITEM_FRAME, GlowItemFrameController.class);
-@@ -1045,13 +1102,19 @@ public class NMSImpl implements NMSBridge {
+@@ -1045,13 +1088,19 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.GOAT, GoatController.class);
          EntityControllers.setEntityControllerForType(EntityType.GUARDIAN, GuardianController.class);
          EntityControllers.setEntityControllerForType(EntityType.HOGLIN, HoglinController.class);
@@ -1126,7 +865,7 @@ index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4
          EntityControllers.setEntityControllerForType(EntityType.ITEM_DISPLAY, ItemDisplayController.class);
          EntityControllers.setEntityControllerForType(EntityType.ITEM_FRAME, ItemFrameController.class);
          // Backport start - This does not exist in MC 1.20.1
-@@ -1060,13 +1123,19 @@ public class NMSImpl implements NMSBridge {
+@@ -1060,13 +1109,19 @@ public class NMSImpl implements NMSBridge {
                  OminousItemSpawnerController.class);
          */
          // Backport end
@@ -1148,7 +887,7 @@ index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4
          EntityControllers.setEntityControllerForType(EntityType.MULE, HorseMuleController.class);
          EntityControllers.setEntityControllerForType(EntityType.OCELOT, OcelotController.class);
          EntityControllers.setEntityControllerForType(EntityType.PAINTING, PaintingController.class);
-@@ -1079,7 +1148,12 @@ public class NMSImpl implements NMSBridge {
+@@ -1079,7 +1134,12 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.PILLAGER, PillagerController.class);
          EntityControllers.setEntityControllerForType(EntityType.PLAYER, HumanController.class);
          EntityControllers.setEntityControllerForType(EntityType.POLAR_BEAR, PolarBearController.class);
@@ -1161,7 +900,7 @@ index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4
          EntityControllers.setEntityControllerForType(EntityType.PUFFERFISH, PufferFishController.class);
          EntityControllers.setEntityControllerForType(EntityType.RABBIT, RabbitController.class);
          EntityControllers.setEntityControllerForType(EntityType.RAVAGER, RavagerController.class);
-@@ -1093,7 +1167,10 @@ public class NMSImpl implements NMSBridge {
+@@ -1093,7 +1153,10 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.SLIME, SlimeController.class);
          EntityControllers.setEntityControllerForType(EntityType.SMALL_FIREBALL, SmallFireballController.class);
          EntityControllers.setEntityControllerForType(EntityType.SNIFFER, SnifferController.class);
@@ -1173,7 +912,7 @@ index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4
          EntityControllers.setEntityControllerForType(EntityType.SNOWBALL, SnowballController.class);
          EntityControllers.setEntityControllerForType(EntityType.SPECTRAL_ARROW, SpectralArrowController.class);
          EntityControllers.setEntityControllerForType(EntityType.SPECTRAL_ARROW, TippedArrowController.class);
-@@ -1103,8 +1180,14 @@ public class NMSImpl implements NMSBridge {
+@@ -1103,8 +1166,14 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.STRIDER, StriderController.class);
          EntityControllers.setEntityControllerForType(EntityType.TADPOLE, TadpoleController.class);
          EntityControllers.setEntityControllerForType(EntityType.TEXT_DISPLAY, TextDisplayController.class);
@@ -1188,7 +927,7 @@ index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4
          EntityControllers.setEntityControllerForType(EntityType.TRADER_LLAMA, TraderLlamaController.class);
          EntityControllers.setEntityControllerForType(EntityType.TRIDENT, ThrownTridentController.class);
          EntityControllers.setEntityControllerForType(EntityType.TROPICAL_FISH, TropicalFishController.class);
-@@ -1345,15 +1428,15 @@ public class NMSImpl implements NMSBridge {
+@@ -1345,15 +1414,15 @@ public class NMSImpl implements NMSBridge {
              org.bukkit.entity.Entity mount, double offset) {
          offset += getRidingHeightOffset(entity, mount);
          sendPacket(player,
@@ -1207,16 +946,7 @@ index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4
      }
  
      @Override
-@@ -1440,7 +1523,7 @@ public class NMSImpl implements NMSBridge {
-                 .createPlayerInitializing(Arrays.asList(from));
-         boolean list = from instanceof NPCHolder ? !((NPCHolder) from).getNPC().shouldRemoveFromTabList() : true;
-         ClientboundPlayerInfoUpdatePacket.Entry entry = new ClientboundPlayerInfoUpdatePacket.Entry(from.getUUID(),
--                from.getGameProfile(), list, from.connection.latency(), from.gameMode.getGameModeForPlayer(),
-+                from.getGameProfile(), list, from./*connection.*/latency/*()*/, from.gameMode.getGameModeForPlayer(), // Backport - Refactored class
-                 list ? from.getTabListDisplayName() : Component.empty(),
-                 from.getChatSession() == null ? null : from.getChatSession().asData());
-         try {
-@@ -1697,9 +1780,23 @@ public class NMSImpl implements NMSBridge {
+@@ -1697,9 +1766,23 @@ public class NMSImpl implements NMSBridge {
          ((PolarBear) getHandle(entity)).setStanding(rearing);
      }
  
@@ -1241,7 +971,7 @@ index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4
      }
  
      @Override
-@@ -1759,9 +1856,14 @@ public class NMSImpl implements NMSBridge {
+@@ -1759,9 +1842,14 @@ public class NMSImpl implements NMSBridge {
      @Override
      public void setStepHeight(org.bukkit.entity.Entity entity, float height) {
          Entity handle = getHandle(entity);
@@ -1256,7 +986,7 @@ index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4
      }
  
      @Override
-@@ -2102,10 +2204,12 @@ public class NMSImpl implements NMSBridge {
+@@ -2102,10 +2190,12 @@ public class NMSImpl implements NMSBridge {
              e.printStackTrace();
              return;
          }
@@ -1272,7 +1002,7 @@ index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4
              living.setPos(living.getX() - 0.01, living.getY(), living.getZ() - 0.01);
              living.setPos(living.getX() + 0.01, living.getY(), living.getZ() + 0.01);
          }
-@@ -2474,12 +2578,20 @@ public class NMSImpl implements NMSBridge {
+@@ -2474,12 +2564,20 @@ public class NMSImpl implements NMSBridge {
      }
  
      public static void setAttribute(LivingEntity entity, Holder<Attribute> attribute, double value) {
@@ -1295,7 +1025,7 @@ index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4
                  all.put(attribute, new AttributeInstance(attribute, att -> {
                      throw new UnsupportedOperationException(
                              "Tried to change value for default attribute instance FOLLOW_RANGE");
-@@ -2551,18 +2663,22 @@ public class NMSImpl implements NMSBridge {
+@@ -2551,18 +2649,22 @@ public class NMSImpl implements NMSBridge {
              Pose entitypose = entity.getPose();
              EntityDimensions entitysize1 = entity.getDimensions(entitypose);
              SIZE_FIELD_SETTER.invoke(entity, entitysize1);
@@ -1326,7 +1056,7 @@ index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4
                      entity.move(MoverType.SELF, new Vec3(f, 0.0D, f));
                  }
              }
-@@ -2574,13 +2690,17 @@ public class NMSImpl implements NMSBridge {
+@@ -2574,13 +2676,17 @@ public class NMSImpl implements NMSBridge {
      public static void setSize(Entity entity, EntityDimensions size) {
          try {
              SIZE_FIELD_SETTER.invoke(entity, size);
@@ -1346,7 +1076,7 @@ index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4
          if (FIND_DIMENSION_ENTRY_POINT == null || entity.isRemoved())
              return null;
          NPC npc = ((NPCHolder) entity).getNPC();
-@@ -2659,8 +2779,12 @@ public class NMSImpl implements NMSBridge {
+@@ -2659,8 +2765,12 @@ public class NMSImpl implements NMSBridge {
              ServerPlayer.class, boolean.class);
      private static final Map<Class<?>, net.minecraft.world.entity.EntityType<?>> CITIZENS_ENTITY_TYPES = Maps
              .newHashMap();
@@ -1359,7 +1089,7 @@ index 036d881799f60ccff17501499ef56d51d8f96904..c9ca0765f375658fbb1c3ae0ebca8cf4
      private static final MethodHandle CRAFT_BOSSBAR_HANDLE_FIELD = NMS.getFirstSetter(CraftBossBar.class,
              ServerBossEvent.class);
      private static EntityDataAccessor<Boolean> DATA_NAME_VISIBLE = null;
-@@ -2755,4 +2879,12 @@ public class NMSImpl implements NMSBridge {
+@@ -2755,4 +2865,12 @@ public class NMSImpl implements NMSBridge {
          } catch (Throwable e) {
          }
      }

@@ -129,7 +129,7 @@ similarity index 100%
 rename from v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityPathfindingContext.java
 rename to v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityPathfindingContext.java.ignored
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 7e8a59aa61e6ab9aa31b5001f5c9c641258d6217..036d881799f60ccff17501499ef56d51d8f96904 100644
+index 6a3a86d93de356b273ecded39359e0dea8ef8667..edc11fdfb50f92365b891e4e841d0c553c985b06 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -86,14 +86,18 @@ import net.citizensnpcs.api.util.EntityDim;
