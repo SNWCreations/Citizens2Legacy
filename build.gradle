@@ -26,5 +26,5 @@ patches {
 }
 
 gitPatcher {
-    setAMExtraArguments(List.of("--ignore-space-change")) // This makes our patch applicable
+    setAMExtraArguments(List.of("--ignore-space-change", "--empty=keep")) // This makes our patch applicable
 }
