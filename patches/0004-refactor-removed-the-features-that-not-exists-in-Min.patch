@@ -129,7 +129,7 @@ similarity index 100%
 rename from v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityPathfindingContext.java
 rename to v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityPathfindingContext.java.ignored
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index c356e43267ed8813ae11dbd39e019347209ef0f0..0cf58ff69b1bc87618afbb00723dc8568e16c438 100644
+index 7e8a59aa61e6ab9aa31b5001f5c9c641258d6217..036d881799f60ccff17501499ef56d51d8f96904 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -86,14 +86,18 @@ import net.citizensnpcs.api.util.EntityDim;
@@ -233,7 +233,7 @@ index c356e43267ed8813ae11dbd39e019347209ef0f0..0cf58ff69b1bc87618afbb00723dc856
          EntityControllers.setEntityControllerForType(EntityType.LEASH_KNOT, LeashController.class);
          EntityControllers.setEntityControllerForType(EntityType.LLAMA, LlamaController.class);
          EntityControllers.setEntityControllerForType(EntityType.LLAMA_SPIT, LlamaSpitController.class);
-@@ -1103,7 +1115,7 @@ public class NMSImpl implements NMSBridge {
+@@ -1102,7 +1114,7 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.VINDICATOR, VindicatorController.class);
          EntityControllers.setEntityControllerForType(EntityType.WANDERING_TRADER, WanderingTraderController.class);
          EntityControllers.setEntityControllerForType(EntityType.WARDEN, WardenController.class);
@@ -242,7 +242,7 @@ index c356e43267ed8813ae11dbd39e019347209ef0f0..0cf58ff69b1bc87618afbb00723dc856
          EntityControllers.setEntityControllerForType(EntityType.WITCH, WitchController.class);
          EntityControllers.setEntityControllerForType(EntityType.WITHER, WitherController.class);
          EntityControllers.setEntityControllerForType(EntityType.WITHER_SKELETON, SkeletonWitherController.class);
-@@ -1484,6 +1496,8 @@ public class NMSImpl implements NMSBridge {
+@@ -1483,6 +1495,8 @@ public class NMSImpl implements NMSBridge {
  
      @Override
      public void setArmadilloState(org.bukkit.entity.Entity entity, ArmadilloState state) {
@@ -251,7 +251,7 @@ index c356e43267ed8813ae11dbd39e019347209ef0f0..0cf58ff69b1bc87618afbb00723dc856
          Armadillo.ArmadilloState s = Armadillo.ArmadilloState.IDLE;
          switch (state) {
              case IDLE:
-@@ -1500,6 +1514,8 @@ public class NMSImpl implements NMSBridge {
+@@ -1499,6 +1513,8 @@ public class NMSImpl implements NMSBridge {
                  break;
          }
          ((Armadillo) getHandle(entity)).switchToState(s);
@@ -260,7 +260,7 @@ index c356e43267ed8813ae11dbd39e019347209ef0f0..0cf58ff69b1bc87618afbb00723dc856
      }
  
      @Override
-@@ -2625,7 +2641,7 @@ public class NMSImpl implements NMSBridge {
+@@ -2624,7 +2640,7 @@ public class NMSImpl implements NMSBridge {
          }
      }
  
