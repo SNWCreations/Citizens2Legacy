@@ -7,10 +7,10 @@ Subject: [PATCH] fix: backport implementation of NMS#getRidingHeightOffset for
 
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index c9ca0765f375658fbb1c3ae0ebca8cf4bb96b870..0cde5740a9f0214441bccae1caef9c74b526f109 100644
+index 0ed524e69bc9694179f1a07e86c68142751210ba..7a118e604677c8815e50ee0c599f5d3972920915 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-@@ -773,8 +773,13 @@ public class NMSImpl implements NMSBridge {
+@@ -774,8 +774,13 @@ public class NMSImpl implements NMSBridge {
  
      @Override
      public float getRidingHeightOffset(org.bukkit.entity.Entity entity, org.bukkit.entity.Entity mount) {
