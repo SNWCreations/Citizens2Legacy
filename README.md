@@ -8,20 +8,34 @@ This branch is for Minecraft 1.20.1.
 Developed for [The SRS Project](https://github.com/TheSRSProject)
  because our tech stack is based on Minecraft 1.20.1.
 
-I also made a backport for other old patch versions,
- see them in their own branch (for example 1.20.4 version is
- at `ver/1.20.4` branch), but I am still mainly focused
- on 1.20.1 so updates of it will slower than this main branch.
-
-This repository contains support for the following Minecraft versions:
-* 1.20.1
-* 1.18.2
-* 1.20.4
-
 This is based on (my fork of)
  [GitPatcher](https://github.com/zml2008/gitpatcher),
  it makes us maintain the patches easier.
 _See my fork of it there: [Link](https://github.com/SNWCreations/gitpatcher)_
+
+## Supported versions
+
+This repository contains support for the following Minecraft versions:
+* 1.20.1
+* 1.20.4
+
+**Did not find the version you want?**
+
+If the version you want is the latest patch version of that
+ major Minecraft version (e.g. 1.18.2 is the latest patch for 1.18)
+ and the support module of it is not removed,
+ you can just clone the upstream Citizens repository, and then
+ compile it using the `full` profile, the resulting jar maybe very
+ big, but it will work well if compilation succeeded. However,
+ the versions that not included in `spigot-release` profile will NOT
+ be supported by CitizensDev. You'll have to deal with the errors
+ by yourself. **DO NOT ASK ME FOR SUPPORT, I JUST GIVE YOU A WAY.**
+
+If not, you'll have to do backport by yourself, just like what this
+ repository did. **DO NOT ASK ME TO ADD MORE SUPPORT.**
+I only consider adding more support for a random MC version when I'm bored.
+ To be honest, there's really no need to stop at a particular patch version
+ if possible.
 
 ## Compiling
 
