@@ -72,6 +72,11 @@ run `gradlew makePatches` to export them.
 After that, your patches are ready to be commited to
  the bootstrap repository (this project).
 
+If you're working with several Minecraft versions at
+ the same time, **DO NOT** merge the different branches
+ as the patches will break, Git will just tell you "patch
+ does not apply, did you hand edit the patch"?
+
 ## Disclaimer
 
 This project is unaffiliated with
