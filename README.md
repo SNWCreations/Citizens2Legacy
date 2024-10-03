@@ -4,8 +4,11 @@ This project brings back the support of
  Minecraft 1.20.1 for Citizens 2.
 
 Developed for [The SRS Project](https://github.com/TheSRSProject)
- because our tech stack is based on Minecraft 1.20.1,
- so other older patch versions are not considered.
+ because our tech stack is based on Minecraft 1.20.1.
+
+I also made a backport for Minecraft 1.20.4, see it
+ at `ver/1.20.4` branch, but I am still mainly focused
+ on 1.20.1 so updates of it will slower than this main branch.
 
 This is based on (my fork of)
  [GitPatcher](https://github.com/zml2008/gitpatcher),
