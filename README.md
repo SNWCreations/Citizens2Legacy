@@ -17,6 +17,7 @@ _See my fork of it there: [Link](https://github.com/SNWCreations/gitpatcher)_
 
 This repository contains support for the following Minecraft versions:
 * 1.20.1
+* 1.18.2
 * 1.20.4
 
 **Did not find the version you want?**
