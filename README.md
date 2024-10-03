@@ -1,14 +1,22 @@
 # Citizens2Legacy
 
 This project brings back the support of
- Minecraft 1.20.1 for Citizens 2.
+ older Minecraft versions for Citizens 2.
+
+This branch is for Minecraft 1.20.1.
 
 Developed for [The SRS Project](https://github.com/TheSRSProject)
  because our tech stack is based on Minecraft 1.20.1.
 
-I also made a backport for Minecraft 1.20.4, see it
- at `ver/1.20.4` branch, but I am still mainly focused
+I also made a backport for other old patch versions,
+ see them in their own branch (for example 1.20.4 version is
+ at `ver/1.20.4` branch), but I am still mainly focused
  on 1.20.1 so updates of it will slower than this main branch.
+
+This repository contains support for the following Minecraft versions:
+* 1.20.1
+* 1.18.2
+* 1.20.4
 
 This is based on (my fork of)
  [GitPatcher](https://github.com/zml2008/gitpatcher),
@@ -54,6 +62,12 @@ After that, your patches are ready to be commited to
 
 This project is unaffiliated with
 CitizensDev and will **NOT** be supported by them.
+
+**DO NOT EXPECT THIS ALWAYS WORK, NO WARRANTY.**
+If it does not work, you'll have to deal with the
+ exceptions by yourself. Although issues are welcome,
+ but I am still just focus on 1.20.1 unless my project
+ has moved to other Minecraft version.
 
 ## License
 
