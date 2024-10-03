@@ -7,7 +7,7 @@ Subject: [PATCH] build: POM changes
 This commit make the project only compiles with v1_20_R4 module, starts the patch to upstream.
 
 diff --git a/dist/pom.xml b/dist/pom.xml
-index 6e33bff054d912e5ac909a54e49f190a267f4297..780cb131aae12775407511e5fa237f63d5f72dad 100644
+index 6e33bff054d912e5ac909a54e49f190a267f4297..7a328e9c0a677416b8d530c61722a487333e00cd 100644
 --- a/dist/pom.xml
 +++ b/dist/pom.xml
 @@ -15,7 +15,10 @@

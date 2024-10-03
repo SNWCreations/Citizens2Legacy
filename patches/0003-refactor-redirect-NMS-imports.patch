@@ -108,6 +108,23 @@ index c34fcb9843f89469b704eb59afdca61922d6ff86..aa18cf80f822b436f8a0f4ac6d987070
  
  import net.citizensnpcs.api.npc.NPC;
  import net.citizensnpcs.nms.v1_20_R4.util.ForwardingNPCHolder;
+diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/BreezeController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/BreezeController.java
+index 5bcd325b282dd70d9e79dc0cf6199444040c1729..3f3cba5c6aee3e699fcda3c4a78a6920b1c73882 100644
+--- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/BreezeController.java
++++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/BreezeController.java
+@@ -1,9 +1,9 @@
+ package net.citizensnpcs.nms.v1_20_R4.entity;
+ 
+ import org.bukkit.Bukkit;
+-import org.bukkit.craftbukkit.v1_20_R4.CraftServer;
+-import org.bukkit.craftbukkit.v1_20_R4.entity.CraftBreeze;
+-import org.bukkit.craftbukkit.v1_20_R4.entity.CraftEntity;
++import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
++import org.bukkit.craftbukkit.v1_20_R3.entity.CraftBreeze;
++import org.bukkit.craftbukkit.v1_20_R3.entity.CraftEntity;
+ 
+ import net.citizensnpcs.api.npc.NPC;
+ import net.citizensnpcs.nms.v1_20_R4.util.ForwardingNPCHolder;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/CamelController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/CamelController.java
 index fbe3cd34fbe19d6402c653e65902d9edc8b3543c..0d94f849786bb15fb94d7dcd9a7155fbe30dfae2 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/CamelController.java
