@@ -88,41 +88,6 @@ index 2e7340d8db3cea9614fa1e29c9082b178791b98c..cc3290da22bdcbed577c3951f0c59fa5
                  return InteractionResult.FAIL;
              return super.mobInteract(entityhuman, enumhand);
          }
-diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/network/EmptyConnection.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/network/EmptyConnection.java
-index 80fd0c65cdbaad820b75be2af3629bbfbda2e31c..7196f97932ade3cef2f3ee672ae359b10bb53741 100644
---- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/network/EmptyConnection.java
-+++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/network/EmptyConnection.java
-@@ -20,9 +20,13 @@ public class EmptyConnection extends Connection {
-         };
-     }
- 
-+    // Backport start - Newer methods does not exist in MC 1.20.1
-+    /*
-     @Override
-     public void flushChannel() {
-     }
-+    */
-+    // Backport end
- 
-     @Override
-     public boolean isConnected() {
-@@ -37,6 +41,8 @@ public class EmptyConnection extends Connection {
-     public void send(Packet packet, PacketSendListener genericfuturelistener) {
-     }
- 
-+    // Backport start - Newer methods does not exist in MC 1.20.1
-+    /*
-     @Override
-     public void send(Packet packet, PacketSendListener genericfuturelistener, boolean flag) {
-     }
-@@ -50,4 +56,6 @@ public class EmptyConnection extends Connection {
-             e.printStackTrace();
-         }
-     }
-+    */
-+    // Backport end
- }
-\ No newline at end of file
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNavigation.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNavigation.java
 index fa0f5c9b1bb45b5721b4aaa2bb0683bdb3def67b..e6e29c7c8675912ce2eb10916bd485f9d52ab310 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityNavigation.java
@@ -677,7 +642,7 @@ index dd4dd6dddeefd02107edcc33d8452afd005f3d11..37c9935df87801f138eeaa7ecdbb9466
                  }
  
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..cba1a498d4ce891d4e8c40c00de50443a176b806 100644
+index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3dae71cff0 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -363,7 +363,7 @@ import net.minecraft.world.level.material.FluidState;
@@ -1080,20 +1045,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..cba1a498d4ce891d4e8c40c00de50443
          if (FIND_DIMENSION_ENTRY_POINT == null || entity.isRemoved())
              return null;
          NPC npc = ((NPCHolder) entity).getNPC();
-@@ -2654,8 +2763,12 @@ public class NMSImpl implements NMSBridge {
-             ServerPlayer.class, boolean.class);
-     private static final Map<Class<?>, net.minecraft.world.entity.EntityType<?>> CITIZENS_ENTITY_TYPES = Maps
-             .newHashMap();
-+    // Backport start - Connection listener does not exist in MC 1.20.1
-+    /*
-     public static final MethodHandle CONNECTION_DISCONNECT_LISTENER = NMS.getSetter(Connection.class, "p");
-     public static final MethodHandle CONNECTION_PACKET_LISTENER = NMS.getSetter(Connection.class, "q");
-+    */
-+    // Backport end
-     private static final MethodHandle CRAFT_BOSSBAR_HANDLE_FIELD = NMS.getFirstSetter(CraftBossBar.class,
-             ServerBossEvent.class);
-     private static EntityDataAccessor<Boolean> DATA_NAME_VISIBLE = null;
-@@ -2750,4 +2863,12 @@ public class NMSImpl implements NMSBridge {
+@@ -2750,4 +2859,12 @@ public class NMSImpl implements NMSBridge {
          } catch (Throwable e) {
          }
      }
