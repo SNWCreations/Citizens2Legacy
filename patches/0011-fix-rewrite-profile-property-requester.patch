@@ -6,7 +6,7 @@ Subject: [PATCH] fix: rewrite profile property requester
 
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 6880335bc3e2a1eafb7ed3bade658e46c3855052..8b03add85b54767c127277cff80405b2001cc84d 100644
+index 6880335bc3e2a1eafb7ed3bade658e46c3855052..4af73ec5d559aa50fbc106df561fe11fc344befb 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -600,8 +600,14 @@ public class NMSImpl implements NMSBridge {
@@ -29,12 +29,12 @@ index 6880335bc3e2a1eafb7ed3bade658e46c3855052..8b03add85b54767c127277cff80405b2
      private static final MethodHandle LOOK_CONTROL_SETTER = NMS.getFirstSetter(Mob.class, LookControl.class);
      private static MethodHandle META_COMPOUND_TAG;
 +    // Backport start - Rewrite MinecraftProfilePropertiesResponse retriever
-+    private static final MethodHandle MAKE_REQUEST = NMS.getMethodHandle(com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService.class, "makeRequest", true,
-+            URL.class, Object.class, Class.class);
 +    /*
      private static final MethodHandle MINECRAFT_CLIENT = NMS.getFirstGetter(YggdrasilMinecraftSessionService.class,
              MinecraftClient.class);
 +    */
++    private static final MethodHandle MAKE_REQUEST = NMS.getMethodHandle(com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService.class, "makeRequest", true,
++            URL.class, Object.class, Class.class);
 +    // Backport end
      private static final MethodHandle MOVE_CONTROLLER_OPERATION = NMS.getSetter(MoveControl.class, "k");
      private static final MethodHandle NAVIGATION_CREATE_PATHFINDER = NMS
