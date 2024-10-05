@@ -1254,10 +1254,10 @@ index 3b493a2191b4c0c0c846190d4dd73f9b2b61819f..0ce8e4d012ac2a676974d060cd7dcb8e
                  return super.teleportTo(worldserver, location);
              return NMSImpl.teleportAcrossWorld(this, worldserver, location);
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/ItemController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/ItemController.java
-index 9cbff911e9980bfb5d141186400a6e482174537d..db62b763a8c0c7af8ddbf47ec409627cbf6f7033 100644
+index 515054c0e324aa90e22c257a1586a28eff3c1289..19291cced73bdea175900c75d1999c4f2ade7686 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/ItemController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/ItemController.java
-@@ -119,7 +119,7 @@ public class ItemController extends AbstractEntityController {
+@@ -111,7 +111,7 @@ public class ItemController extends AbstractEntityController {
          }
  
          @Override
