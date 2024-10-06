@@ -7,7 +7,7 @@ Subject: [PATCH] build: POM changes
 This commit make the project only compiles with v1_18_R2 module, starts the patch to upstream.
 
 diff --git a/dist/pom.xml b/dist/pom.xml
-index 6e33bff054d912e5ac909a54e49f190a267f4297..3ea5c76b0a36120c3295ea181301942c118a51eb 100644
+index 6e33bff054d912e5ac909a54e49f190a267f4297..052b20f633991f2efa679c5910aac9c8aacc99f2 100644
 --- a/dist/pom.xml
 +++ b/dist/pom.xml
 @@ -15,7 +15,10 @@
@@ -65,7 +65,7 @@ index 6e33bff054d912e5ac909a54e49f190a267f4297..3ea5c76b0a36120c3295ea181301942c
  </project>
 \ No newline at end of file
 diff --git a/pom.xml b/pom.xml
-index 7c2455592c0a4e71273a6fc114e142dd43b9294e..d5c8a2da99f3df78498a5695bb95bebc9cb2d3bb 100644
+index 7c2455592c0a4e71273a6fc114e142dd43b9294e..45d7e2dceb7e0f6c40db6db3f5bd1b228a40d814 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -29,6 +29,20 @@
