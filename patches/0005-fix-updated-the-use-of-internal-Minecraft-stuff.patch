@@ -642,10 +642,10 @@ index dd4dd6dddeefd02107edcc33d8452afd005f3d11..37c9935df87801f138eeaa7ecdbb9466
                  }
  
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3dae71cff0 100644
+index 15ecf7217c387b186373ecafe76b527c06f70886..aee8ac96d08a11523c96c8b8ba8a4374739ec0f6 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-@@ -363,7 +363,7 @@ import net.minecraft.world.level.material.FluidState;
+@@ -364,7 +364,7 @@ import net.minecraft.world.level.material.FluidState;
  import net.minecraft.world.level.pathfinder.Node;
  import net.minecraft.world.level.pathfinder.Path;
  import net.minecraft.world.level.pathfinder.PathFinder;
@@ -654,7 +654,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
  import net.minecraft.world.level.portal.PortalInfo;
  import net.minecraft.world.phys.AABB;
  import net.minecraft.world.phys.Vec3;
-@@ -389,12 +389,29 @@ public class NMSImpl implements NMSBridge {
+@@ -390,12 +390,29 @@ public class NMSImpl implements NMSBridge {
  
          if (entity instanceof Player) {
              chunkMap = ((ServerChunkCache) getHandle(entity).level().getChunkSource()).chunkMap;
@@ -685,7 +685,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
          }
          return success;
      }
-@@ -444,7 +461,7 @@ public class NMSImpl implements NMSBridge {
+@@ -445,7 +462,7 @@ public class NMSImpl implements NMSBridge {
          }
          float f = (float) (hasAttackDamage ? source.getAttributeValue(Attributes.ATTACK_DAMAGE) : 1f);
          int i = source.isSprinting() ? 1 : 0;
@@ -694,7 +694,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
          i += EnchantmentHelper.getKnockbackBonus(source);
          /*       boolean crit = source.fallDistance > 0 && !source.isSprinting() && !source.onGround() && !source.onClimbable()
                  && !source.isPassenger() && !source.isInWater() && !source.hasEffect(MobEffects.BLINDNESS);
-@@ -461,7 +478,7 @@ public class NMSImpl implements NMSBridge {
+@@ -462,7 +479,7 @@ public class NMSImpl implements NMSBridge {
          }
          int fireAspectLevel = EnchantmentHelper.getFireAspect(source);
          if (fireAspectLevel > 0) {
@@ -703,7 +703,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
          }
          if (target instanceof ServerPlayer) {
              ServerPlayer entityhuman = (ServerPlayer) target;
-@@ -806,13 +823,15 @@ public class NMSImpl implements NMSBridge {
+@@ -807,13 +824,15 @@ public class NMSImpl implements NMSBridge {
          // navigation won't execute, and calling entity.move doesn't
          // entirely fix the problem.
          final PathNavigation navigation = getNavigation(entity);
@@ -723,7 +723,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
              }
          }
          navigation.getNodeEvaluator().setCanOpenDoors(params.hasExaminer(DoorExaminer.class));
-@@ -848,9 +867,9 @@ public class NMSImpl implements NMSBridge {
+@@ -849,9 +868,9 @@ public class NMSImpl implements NMSBridge {
                  }
                  if (oldWater >= 0) {
                      if (raw instanceof MobAI) {
@@ -735,7 +735,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
                      }
                  }
                  navigation.stop();
-@@ -865,7 +884,7 @@ public class NMSImpl implements NMSBridge {
+@@ -866,7 +885,7 @@ public class NMSImpl implements NMSBridge {
                          size = (EntityDimensions) SIZE_FIELD_GETTER.invoke(handle);
                          if (handle instanceof AbstractHorse) {
                              SIZE_FIELD_SETTER.invoke(handle,
@@ -744,7 +744,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
                          }
                      } catch (Throwable e) {
                          e.printStackTrace();
-@@ -1003,10 +1022,16 @@ public class NMSImpl implements NMSBridge {
+@@ -1005,10 +1024,16 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.CAT, CatController.class);
          EntityControllers.setEntityControllerForType(EntityType.CAVE_SPIDER, CaveSpiderController.class);
          EntityControllers.setEntityControllerForType(EntityType.CHEST_BOAT, ChestBoatController.class);
@@ -763,7 +763,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
                  MinecartCommandController.class);
          EntityControllers.setEntityControllerForType(EntityType.COW, CowController.class);
          EntityControllers.setEntityControllerForType(EntityType.CREEPER, CreeperController.class);
-@@ -1016,7 +1041,10 @@ public class NMSImpl implements NMSBridge {
+@@ -1018,7 +1043,10 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.DROWNED, DrownedController.class);
          EntityControllers.setEntityControllerForType(EntityType.EGG, EggController.class);
          EntityControllers.setEntityControllerForType(EntityType.ELDER_GUARDIAN, GuardianElderController.class);
@@ -775,7 +775,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
          EntityControllers.setEntityControllerForType(EntityType.ENDER_DRAGON, EnderDragonController.class);
          EntityControllers.setEntityControllerForType(EntityType.ENDER_PEARL, EnderPearlController.class);
          EntityControllers.setEntityControllerForType(EntityType.ENDERMAN, EndermanController.class);
-@@ -1024,15 +1052,30 @@ public class NMSImpl implements NMSBridge {
+@@ -1026,15 +1054,30 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.EVOKER, EvokerController.class);
          EntityControllers.setEntityControllerForType(EntityType.EVOKER_FANGS, EvokerFangsController.class);
          EntityControllers.setEntityControllerForType(EntityType.EXPERIENCE_ORB, ExperienceOrbController.class);
@@ -807,7 +807,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
          EntityControllers.setEntityControllerForType(EntityType.GHAST, GhastController.class);
          EntityControllers.setEntityControllerForType(EntityType.GIANT, GiantController.class);
          EntityControllers.setEntityControllerForType(EntityType.GLOW_ITEM_FRAME, GlowItemFrameController.class);
-@@ -1040,13 +1083,19 @@ public class NMSImpl implements NMSBridge {
+@@ -1042,13 +1085,19 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.GOAT, GoatController.class);
          EntityControllers.setEntityControllerForType(EntityType.GUARDIAN, GuardianController.class);
          EntityControllers.setEntityControllerForType(EntityType.HOGLIN, HoglinController.class);
@@ -829,7 +829,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
          EntityControllers.setEntityControllerForType(EntityType.ITEM_DISPLAY, ItemDisplayController.class);
          EntityControllers.setEntityControllerForType(EntityType.ITEM_FRAME, ItemFrameController.class);
          // Backport start - This does not exist in MC 1.20.1
-@@ -1055,14 +1104,23 @@ public class NMSImpl implements NMSBridge {
+@@ -1057,14 +1106,23 @@ public class NMSImpl implements NMSBridge {
                  OminousItemSpawnerController.class);
          */
          // Backport end
@@ -856,7 +856,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
          EntityControllers.setEntityControllerForType(EntityType.MULE, HorseMuleController.class);
          EntityControllers.setEntityControllerForType(EntityType.OCELOT, OcelotController.class);
          EntityControllers.setEntityControllerForType(EntityType.PAINTING, PaintingController.class);
-@@ -1075,7 +1133,12 @@ public class NMSImpl implements NMSBridge {
+@@ -1077,7 +1135,12 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.PILLAGER, PillagerController.class);
          EntityControllers.setEntityControllerForType(EntityType.PLAYER, HumanController.class);
          EntityControllers.setEntityControllerForType(EntityType.POLAR_BEAR, PolarBearController.class);
@@ -869,7 +869,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
          EntityControllers.setEntityControllerForType(EntityType.PUFFERFISH, PufferFishController.class);
          EntityControllers.setEntityControllerForType(EntityType.RABBIT, RabbitController.class);
          EntityControllers.setEntityControllerForType(EntityType.RAVAGER, RavagerController.class);
-@@ -1089,7 +1152,10 @@ public class NMSImpl implements NMSBridge {
+@@ -1091,7 +1154,10 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.SLIME, SlimeController.class);
          EntityControllers.setEntityControllerForType(EntityType.SMALL_FIREBALL, SmallFireballController.class);
          EntityControllers.setEntityControllerForType(EntityType.SNIFFER, SnifferController.class);
@@ -881,7 +881,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
          EntityControllers.setEntityControllerForType(EntityType.SNOWBALL, SnowballController.class);
          EntityControllers.setEntityControllerForType(EntityType.SPECTRAL_ARROW, SpectralArrowController.class);
          EntityControllers.setEntityControllerForType(EntityType.SPIDER, SpiderController.class);
-@@ -1098,8 +1164,14 @@ public class NMSImpl implements NMSBridge {
+@@ -1100,8 +1166,14 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.STRIDER, StriderController.class);
          EntityControllers.setEntityControllerForType(EntityType.TADPOLE, TadpoleController.class);
          EntityControllers.setEntityControllerForType(EntityType.TEXT_DISPLAY, TextDisplayController.class);
@@ -896,7 +896,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
          EntityControllers.setEntityControllerForType(EntityType.TRADER_LLAMA, TraderLlamaController.class);
          EntityControllers.setEntityControllerForType(EntityType.TRIDENT, ThrownTridentController.class);
          EntityControllers.setEntityControllerForType(EntityType.TROPICAL_FISH, TropicalFishController.class);
-@@ -1340,15 +1412,15 @@ public class NMSImpl implements NMSBridge {
+@@ -1342,15 +1414,15 @@ public class NMSImpl implements NMSBridge {
              org.bukkit.entity.Entity mount, double offset) {
          offset += getRidingHeightOffset(entity, mount);
          sendPacket(player,
@@ -915,7 +915,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
      }
  
      @Override
-@@ -1692,9 +1764,23 @@ public class NMSImpl implements NMSBridge {
+@@ -1694,9 +1766,23 @@ public class NMSImpl implements NMSBridge {
          ((PolarBear) getHandle(entity)).setStanding(rearing);
      }
  
@@ -940,7 +940,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
      }
  
      @Override
-@@ -1754,9 +1840,14 @@ public class NMSImpl implements NMSBridge {
+@@ -1756,9 +1842,14 @@ public class NMSImpl implements NMSBridge {
      @Override
      public void setStepHeight(org.bukkit.entity.Entity entity, float height) {
          Entity handle = getHandle(entity);
@@ -955,7 +955,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
      }
  
      @Override
-@@ -2097,10 +2188,12 @@ public class NMSImpl implements NMSBridge {
+@@ -2099,10 +2190,12 @@ public class NMSImpl implements NMSBridge {
              e.printStackTrace();
              return;
          }
@@ -971,7 +971,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
              living.setPos(living.getX() - 0.01, living.getY(), living.getZ() - 0.01);
              living.setPos(living.getX() + 0.01, living.getY(), living.getZ() + 0.01);
          }
-@@ -2469,12 +2562,20 @@ public class NMSImpl implements NMSBridge {
+@@ -2471,12 +2564,20 @@ public class NMSImpl implements NMSBridge {
      }
  
      public static void setAttribute(LivingEntity entity, Holder<Attribute> attribute, double value) {
@@ -994,7 +994,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
                  all.put(attribute, new AttributeInstance(attribute, att -> {
                      throw new UnsupportedOperationException(
                              "Tried to change value for default attribute instance FOLLOW_RANGE");
-@@ -2546,18 +2647,22 @@ public class NMSImpl implements NMSBridge {
+@@ -2548,18 +2649,22 @@ public class NMSImpl implements NMSBridge {
              Pose entitypose = entity.getPose();
              EntityDimensions entitysize1 = entity.getDimensions(entitypose);
              SIZE_FIELD_SETTER.invoke(entity, entitysize1);
@@ -1025,7 +1025,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
                      entity.move(MoverType.SELF, new Vec3(f, 0.0D, f));
                  }
              }
-@@ -2569,13 +2674,17 @@ public class NMSImpl implements NMSBridge {
+@@ -2571,13 +2676,17 @@ public class NMSImpl implements NMSBridge {
      public static void setSize(Entity entity, EntityDimensions size) {
          try {
              SIZE_FIELD_SETTER.invoke(entity, size);
@@ -1045,7 +1045,7 @@ index 7d9d5daf84cf39dfe2a62e7538d9fac7395c4f49..9bb157e6228d829cfb27590b4c1e8b3d
          if (FIND_DIMENSION_ENTRY_POINT == null || entity.isRemoved())
              return null;
          NPC npc = ((NPCHolder) entity).getNPC();
-@@ -2750,4 +2859,12 @@ public class NMSImpl implements NMSBridge {
+@@ -2752,4 +2861,12 @@ public class NMSImpl implements NMSBridge {
          } catch (Throwable e) {
          }
      }

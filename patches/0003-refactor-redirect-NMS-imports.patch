@@ -1707,7 +1707,7 @@ index 65309152d27d4bb74b3681dffa731651064b7c2b..6d220168e9eb0cf78096e9862973f3c9
  import net.citizensnpcs.api.npc.NPC;
  import net.citizensnpcs.nms.v1_20_R4.entity.MobEntityController;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/ItemController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/ItemController.java
-index 77fa91e615ccfc2824d63e1f6f227870559c535e..93675f36060d68770334f61871c9070bbc7b5248 100644
+index 147fff8235862a3b600d80dc98892ae993d69221..cb6299943573759dd6fceae27eb0145ef2382b6b 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/ItemController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/ItemController.java
 @@ -2,11 +2,11 @@ package net.citizensnpcs.nms.v1_20_R4.entity.nonliving;
@@ -2120,7 +2120,7 @@ index cb5b06b929a3eb9362ca48e2d7b12bd4a621bfb5..d3ec36fac4114b1bafde693009422fdd
  import net.citizensnpcs.util.AbstractBlockBreaker;
  import net.minecraft.core.BlockPos;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index f55db83d023c3f4e76585a4f6c236910d75b9075..166fe2de0da5351c73465af8d2bd0792242367d3 100644
+index 725e9dcd9906dfd546ec8c0b4bd3961cdbdaad11..fe72fc89a79be66f63df7ab3d7cc2280b191f49e 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -27,18 +27,18 @@ import org.bukkit.boss.BarColor;

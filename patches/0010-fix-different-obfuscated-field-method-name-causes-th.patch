@@ -7,10 +7,10 @@ Subject: [PATCH] fix: different obfuscated field/method name causes the plugin
 
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 9bb157e6228d829cfb27590b4c1e8b3dae71cff0..f3ec606f03c06bb4c8218fd73f96fd10ab6347db 100644
+index aee8ac96d08a11523c96c8b8ba8a4374739ec0f6..76130d53821bbd8221761eb9c6e58ee3af0b4cd3 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-@@ -2792,10 +2792,10 @@ public class NMSImpl implements NMSBridge {
+@@ -2794,10 +2794,10 @@ public class NMSImpl implements NMSBridge {
      private static final MethodHandle FLYING_MOVECONTROL_FLOAT_SETTER = NMS.getFirstSetter(FlyingMoveControl.class,
              boolean.class);
      private static final Location FROM_LOCATION = new Location(null, 0, 0, 0);
@@ -23,7 +23,7 @@ index 9bb157e6228d829cfb27590b4c1e8b3dae71cff0..f3ec606f03c06bb4c8218fd73f96fd10
      private static final MethodHandle LOOK_CONTROL_SETTER = NMS.getFirstSetter(Mob.class, LookControl.class);
      private static MethodHandle META_COMPOUND_TAG;
      private static final MethodHandle MINECRAFT_CLIENT = NMS.getFirstGetter(YggdrasilMinecraftSessionService.class,
-@@ -2811,12 +2811,16 @@ public class NMSImpl implements NMSBridge {
+@@ -2813,12 +2813,16 @@ public class NMSImpl implements NMSBridge {
              .getFirstFinalSetter(ClientboundPlayerInfoUpdatePacket.class, List.class);
  
      private static final MethodHandle PLAYERINFO_ENTRIES = PLAYER_INFO_ENTRIES_LIST;
@@ -44,7 +44,7 @@ index 9bb157e6228d829cfb27590b4c1e8b3dae71cff0..f3ec606f03c06bb4c8218fd73f96fd10
      public static EntityDataAccessor<Integer> RABBIT_TYPE_DATAWATCHER = null;
      private static final Random RANDOM = Util.getFastRandom();
      private static final MethodHandle SERVER_ENTITY_GETTER = NMS.getFirstGetter(TrackedEntity.class,
-@@ -2837,7 +2841,7 @@ public class NMSImpl implements NMSBridge {
+@@ -2839,7 +2843,7 @@ public class NMSImpl implements NMSBridge {
          }
          try {
              // Middle one
@@ -53,7 +53,7 @@ index 9bb157e6228d829cfb27590b4c1e8b3dae71cff0..f3ec606f03c06bb4c8218fd73f96fd10
          } catch (Exception e) {
          }
          try {
-@@ -2854,8 +2858,10 @@ public class NMSImpl implements NMSBridge {
+@@ -2856,8 +2860,10 @@ public class NMSImpl implements NMSBridge {
          } catch (Throwable e) {
          }
          try {
