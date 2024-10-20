@@ -24,7 +24,7 @@ index ac115c332ac3b95d13dcc16d1e3b995f06991732..e3241248adeac95ebdc832992ce7fd2c
  import com.google.common.collect.Lists;
  import com.mojang.datafixers.util.Pair;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/ArmorStandController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/ArmorStandController.java
-index 094489e9d09dd38b3ca4f590444b71a8e3099709..3dc7a82ff82fe06aa08f557a09a9ec6f1dae6fae 100644
+index 18c3f9bdb7b426fb8de13c415d3dae0eca191eda..940a7750a53bc102aab5f3ca0649691fa82865ad 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/ArmorStandController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/ArmorStandController.java
 @@ -1,9 +1,9 @@
@@ -330,7 +330,7 @@ index f6671bffefde90ebd71ad7f4a545bb32f9568fa5..1112c5b8effebf04e6d8505b520e8fdb
  import net.citizensnpcs.api.npc.NPC;
  import net.citizensnpcs.nms.v1_20_R4.util.ForwardingNPCHolder;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
-index c8ff437ab6a0f904c7e695721623b19a1ea6b5d7..ee5c311f5edddf22418c8c281973ce8965ac99f1 100644
+index 73b548099424523c1df9a8b9b08871b5bf2b953a..7833268a461e7f959e5b1b8301648e210b6c8fa2 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 @@ -5,8 +5,8 @@ import java.lang.invoke.MethodHandle;
@@ -600,7 +600,7 @@ index 3751cccae268418ed3466bc7e3f6ce95cdb85d31..dc1b2cf10b434db26125379c91e540ba
  import net.citizensnpcs.api.npc.NPC;
  import net.citizensnpcs.nms.v1_20_R4.util.ForwardingNPCHolder;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HumanController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HumanController.java
-index ced4d551e2b68bc66d30c71c5380438941559fbe..cadd754ff4e1decdedde7be95b35e249230f32dd 100644
+index dabcf6cedd9e33af36860a1305df614433b65bc7..227356095d26656e28844538738d68f311fa2dc3 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HumanController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HumanController.java
 @@ -4,7 +4,7 @@ import java.util.UUID;
@@ -2120,10 +2120,10 @@ index cb5b06b929a3eb9362ca48e2d7b12bd4a621bfb5..d3ec36fac4114b1bafde693009422fdd
  import net.citizensnpcs.util.AbstractBlockBreaker;
  import net.minecraft.core.BlockPos;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 29a52eb62cc8eaeb08fab7337ea0330ae95f284b..edf5d119421dc37534e5c146eb54f95398aa87be 100644
+index 294b49b443abf94498a2a5dfd2f8887edb0f0b82..ead10444fca33e6b9e7a3912a75e81ebec26b62f 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-@@ -27,18 +27,18 @@ import org.bukkit.boss.BarColor;
+@@ -27,19 +27,19 @@ import org.bukkit.boss.BarColor;
  import org.bukkit.boss.BarStyle;
  import org.bukkit.boss.BossBar;
  import org.bukkit.command.BlockCommandSender;
@@ -2131,6 +2131,7 @@ index 29a52eb62cc8eaeb08fab7337ea0330ae95f284b..edf5d119421dc37534e5c146eb54f953
 -import org.bukkit.craftbukkit.v1_20_R4.CraftSound;
 -import org.bukkit.craftbukkit.v1_20_R4.CraftWorld;
 -import org.bukkit.craftbukkit.v1_20_R4.block.CraftBlock;
+-import org.bukkit.craftbukkit.v1_20_R4.block.data.CraftBlockData;
 -import org.bukkit.craftbukkit.v1_20_R4.boss.CraftBossBar;
 -import org.bukkit.craftbukkit.v1_20_R4.command.CraftBlockCommandSender;
 -import org.bukkit.craftbukkit.v1_20_R4.entity.CraftEntity;
@@ -2143,6 +2144,7 @@ index 29a52eb62cc8eaeb08fab7337ea0330ae95f284b..edf5d119421dc37534e5c146eb54f953
 +import org.bukkit.craftbukkit.v1_20_R3.CraftSound;
 +import org.bukkit.craftbukkit.v1_20_R3.CraftWorld;
 +import org.bukkit.craftbukkit.v1_20_R3.block.CraftBlock;
++import org.bukkit.craftbukkit.v1_20_R3.block.data.CraftBlockData;
 +import org.bukkit.craftbukkit.v1_20_R3.boss.CraftBossBar;
 +import org.bukkit.craftbukkit.v1_20_R3.command.CraftBlockCommandSender;
 +import org.bukkit.craftbukkit.v1_20_R3.entity.CraftEntity;
