@@ -19,10 +19,10 @@ index 0affddbb0457795354def54e4351003b202d041f..49ac6c99202c93bffda00ae1cde129ca
                  return super.teleportTo(worldserver, location);
              return NMSImpl.teleportAcrossWorld(this, worldserver, location);
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/ArmorStandController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/ArmorStandController.java
-index 50c16896b044e01dca93ac834516c9ae45388abd..133f6d51f44e89f577d932dfce4d4204b6e24255 100644
+index 9a6108284376e573a0a694cdd9898100182d9d43..2bbb06432bcd7c21ae13a0ddf131576ba7d7d937 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/ArmorStandController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/ArmorStandController.java
-@@ -123,7 +123,7 @@ public class ArmorStandController extends MobEntityController {
+@@ -125,7 +125,7 @@ public class ArmorStandController extends MobEntityController {
          }
  
          @Override

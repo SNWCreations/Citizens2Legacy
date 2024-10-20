@@ -7,7 +7,7 @@ Subject: [PATCH] fix: updated the use of internal Minecraft stuff
 Replaced newer record method access to fields with direct field access, use correct but older Minecraft method names for some methods the upstream uses.
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
-index 781e49c3266d631a33ba5e410c3efefd0952cb32..b168ab5dd0a978ecf21f7643adb4fe2a84cb273c 100644
+index fdcaa1c4f66c66aeba41b1360bbe8aba60b82b98..7d9fb5a1e6164396ef9cd5501143dbf7185edab1 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 @@ -38,15 +38,15 @@ import net.citizensnpcs.util.Util;
@@ -88,7 +88,7 @@ index 781e49c3266d631a33ba5e410c3efefd0952cb32..b168ab5dd0a978ecf21f7643adb4fe2a
          updatePackets(npc.getNavigator().isNavigating());
          npc.update();
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HumanController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HumanController.java
-index 56d6cd4896c96f535778e7d2cb321769c40cae71..f818fc5e539c5922df8d71a4f4a6671358f0707e 100644
+index f805d4700b09e7da10de675d7e5a8f244900b6ba..15446cd753b93d304d6e7ef3d31648924eaf91e3 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HumanController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HumanController.java
 @@ -19,7 +19,7 @@ import net.citizensnpcs.trait.ScoreboardTrait;
@@ -880,10 +880,10 @@ index dd4dd6dddeefd02107edcc33d8452afd005f3d11..37c9935df87801f138eeaa7ecdbb9466
                  }
  
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6e2e5a7bc 100644
+index 7b5b9483ce06ab1041bf2e9544ad1d2ad0345c20..aa002a4b48bec4fd543a185d1f94faebab111d86 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-@@ -65,7 +65,7 @@ import com.mojang.authlib.minecraft.client.MinecraftClient;
+@@ -66,7 +66,7 @@ import com.mojang.authlib.minecraft.client.MinecraftClient;
  import com.mojang.authlib.properties.Property;
  import com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService;
  import com.mojang.authlib.yggdrasil.response.MinecraftProfilePropertiesResponse;
@@ -892,7 +892,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
  
  import net.citizensnpcs.Settings.Setting;
  import net.citizensnpcs.api.CitizensAPI;
-@@ -278,7 +278,7 @@ import net.minecraft.nbt.Tag;
+@@ -279,7 +279,7 @@ import net.minecraft.nbt.Tag;
  import net.minecraft.network.Connection;
  import net.minecraft.network.chat.Component;
  import net.minecraft.network.chat.MutableComponent;
@@ -901,7 +901,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
  import net.minecraft.network.protocol.Packet;
  import net.minecraft.network.protocol.game.ClientboundBundlePacket;
  import net.minecraft.network.protocol.game.ClientboundMoveEntityPacket;
-@@ -373,7 +373,7 @@ import net.minecraft.world.level.material.FluidState;
+@@ -375,7 +375,7 @@ import net.minecraft.world.level.material.FluidState;
  import net.minecraft.world.level.pathfinder.Node;
  import net.minecraft.world.level.pathfinder.Path;
  import net.minecraft.world.level.pathfinder.PathFinder;
@@ -910,7 +910,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
  import net.minecraft.world.level.portal.PortalInfo;
  import net.minecraft.world.phys.AABB;
  import net.minecraft.world.phys.Vec3;
-@@ -399,12 +399,29 @@ public class NMSImpl implements NMSBridge {
+@@ -402,12 +402,29 @@ public class NMSImpl implements NMSBridge {
  
          if (entity instanceof Player) {
              chunkMap = ((ServerChunkCache) getHandle(entity).level().getChunkSource()).chunkMap;
@@ -941,7 +941,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
          }
          return success;
      }
-@@ -454,7 +471,7 @@ public class NMSImpl implements NMSBridge {
+@@ -457,7 +474,7 @@ public class NMSImpl implements NMSBridge {
          }
          float f = (float) (hasAttackDamage ? source.getAttributeValue(Attributes.ATTACK_DAMAGE) : 1f);
          int i = source.isSprinting() ? 1 : 0;
@@ -950,7 +950,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
          i += EnchantmentHelper.getKnockbackBonus(source);
          /*       boolean crit = source.fallDistance > 0 && !source.isSprinting() && !source.onGround() && !source.onClimbable()
                  && !source.isPassenger() && !source.isInWater() && !source.hasEffect(MobEffects.BLINDNESS);
-@@ -471,7 +488,7 @@ public class NMSImpl implements NMSBridge {
+@@ -474,7 +491,7 @@ public class NMSImpl implements NMSBridge {
          }
          int fireAspectLevel = EnchantmentHelper.getFireAspect(source);
          if (fireAspectLevel > 0) {
@@ -959,7 +959,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
          }
          if (target instanceof ServerPlayer) {
              ServerPlayer entityhuman = (ServerPlayer) target;
-@@ -582,14 +599,25 @@ public class NMSImpl implements NMSBridge {
+@@ -585,14 +602,25 @@ public class NMSImpl implements NMSBridge {
              throw new IllegalStateException("NMS.fillProfileProperties cannot be invoked from the main thread.");
          MinecraftSessionService sessionService = ((CraftServer) Bukkit.getServer()).getServer().getSessionService();
          if (!(sessionService instanceof YggdrasilMinecraftSessionService))
@@ -988,7 +988,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
      }
  
      public String getAuthServerBaseUrl() {
-@@ -759,7 +787,10 @@ public class NMSImpl implements NMSBridge {
+@@ -768,7 +796,10 @@ public class NMSImpl implements NMSBridge {
      @Override
      public String getSoundPath(Sound flag) throws CommandException {
          try {
@@ -1000,7 +1000,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
              if (effect == null)
                  throw new CommandException(Messages.INVALID_SOUND);
              return effect.getLocation().getPath();
-@@ -816,13 +847,15 @@ public class NMSImpl implements NMSBridge {
+@@ -825,13 +856,15 @@ public class NMSImpl implements NMSBridge {
          // navigation won't execute, and calling entity.move doesn't
          // entirely fix the problem.
          final PathNavigation navigation = getNavigation(entity);
@@ -1020,7 +1020,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
              }
          }
          navigation.getNodeEvaluator().setCanOpenDoors(params.hasExaminer(DoorExaminer.class));
-@@ -858,9 +891,9 @@ public class NMSImpl implements NMSBridge {
+@@ -867,9 +900,9 @@ public class NMSImpl implements NMSBridge {
                  }
                  if (oldWater >= 0) {
                      if (raw instanceof MobAI) {
@@ -1032,7 +1032,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
                      }
                  }
                  navigation.stop();
-@@ -875,7 +908,7 @@ public class NMSImpl implements NMSBridge {
+@@ -884,7 +917,7 @@ public class NMSImpl implements NMSBridge {
                          size = (EntityDimensions) SIZE_FIELD_GETTER.invoke(handle);
                          if (handle instanceof AbstractHorse) {
                              SIZE_FIELD_SETTER.invoke(handle,
@@ -1041,7 +1041,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
                          }
                      } catch (Throwable e) {
                          e.printStackTrace();
-@@ -1017,10 +1050,16 @@ public class NMSImpl implements NMSBridge {
+@@ -1026,10 +1059,16 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.CAT, CatController.class);
          EntityControllers.setEntityControllerForType(EntityType.CAVE_SPIDER, CaveSpiderController.class);
          EntityControllers.setEntityControllerForType(EntityType.CHEST_BOAT, ChestBoatController.class);
@@ -1060,7 +1060,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
                  MinecartCommandController.class);
          EntityControllers.setEntityControllerForType(EntityType.COW, CowController.class);
          EntityControllers.setEntityControllerForType(EntityType.CREEPER, CreeperController.class);
-@@ -1030,7 +1069,10 @@ public class NMSImpl implements NMSBridge {
+@@ -1039,7 +1078,10 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.DROWNED, DrownedController.class);
          EntityControllers.setEntityControllerForType(EntityType.EGG, EggController.class);
          EntityControllers.setEntityControllerForType(EntityType.ELDER_GUARDIAN, GuardianElderController.class);
@@ -1072,7 +1072,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
          EntityControllers.setEntityControllerForType(EntityType.ENDER_DRAGON, EnderDragonController.class);
          EntityControllers.setEntityControllerForType(EntityType.ENDER_PEARL, EnderPearlController.class);
          EntityControllers.setEntityControllerForType(EntityType.ENDERMAN, EndermanController.class);
-@@ -1038,15 +1080,30 @@ public class NMSImpl implements NMSBridge {
+@@ -1047,15 +1089,30 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.EVOKER, EvokerController.class);
          EntityControllers.setEntityControllerForType(EntityType.EVOKER_FANGS, EvokerFangsController.class);
          EntityControllers.setEntityControllerForType(EntityType.EXPERIENCE_ORB, ExperienceOrbController.class);
@@ -1104,7 +1104,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
          EntityControllers.setEntityControllerForType(EntityType.GHAST, GhastController.class);
          EntityControllers.setEntityControllerForType(EntityType.GIANT, GiantController.class);
          EntityControllers.setEntityControllerForType(EntityType.GLOW_ITEM_FRAME, GlowItemFrameController.class);
-@@ -1054,13 +1111,19 @@ public class NMSImpl implements NMSBridge {
+@@ -1063,13 +1120,19 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.GOAT, GoatController.class);
          EntityControllers.setEntityControllerForType(EntityType.GUARDIAN, GuardianController.class);
          EntityControllers.setEntityControllerForType(EntityType.HOGLIN, HoglinController.class);
@@ -1126,7 +1126,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
          EntityControllers.setEntityControllerForType(EntityType.ITEM_DISPLAY, ItemDisplayController.class);
          EntityControllers.setEntityControllerForType(EntityType.ITEM_FRAME, ItemFrameController.class);
          // Backport start - This does not exist in MC 1.20.1
-@@ -1069,14 +1132,23 @@ public class NMSImpl implements NMSBridge {
+@@ -1078,14 +1141,23 @@ public class NMSImpl implements NMSBridge {
                  OminousItemSpawnerController.class);
          */
          // Backport end
@@ -1153,7 +1153,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
          EntityControllers.setEntityControllerForType(EntityType.MULE, HorseMuleController.class);
          EntityControllers.setEntityControllerForType(EntityType.OCELOT, OcelotController.class);
          EntityControllers.setEntityControllerForType(EntityType.PAINTING, PaintingController.class);
-@@ -1089,7 +1161,12 @@ public class NMSImpl implements NMSBridge {
+@@ -1098,7 +1170,12 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.PILLAGER, PillagerController.class);
          EntityControllers.setEntityControllerForType(EntityType.PLAYER, HumanController.class);
          EntityControllers.setEntityControllerForType(EntityType.POLAR_BEAR, PolarBearController.class);
@@ -1166,7 +1166,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
          EntityControllers.setEntityControllerForType(EntityType.PUFFERFISH, PufferFishController.class);
          EntityControllers.setEntityControllerForType(EntityType.RABBIT, RabbitController.class);
          EntityControllers.setEntityControllerForType(EntityType.RAVAGER, RavagerController.class);
-@@ -1103,7 +1180,10 @@ public class NMSImpl implements NMSBridge {
+@@ -1112,7 +1189,10 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.SLIME, SlimeController.class);
          EntityControllers.setEntityControllerForType(EntityType.SMALL_FIREBALL, SmallFireballController.class);
          EntityControllers.setEntityControllerForType(EntityType.SNIFFER, SnifferController.class);
@@ -1178,7 +1178,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
          EntityControllers.setEntityControllerForType(EntityType.SNOWBALL, SnowballController.class);
          EntityControllers.setEntityControllerForType(EntityType.SPECTRAL_ARROW, SpectralArrowController.class);
          EntityControllers.setEntityControllerForType(EntityType.SPIDER, SpiderController.class);
-@@ -1112,8 +1192,14 @@ public class NMSImpl implements NMSBridge {
+@@ -1121,8 +1201,14 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.STRIDER, StriderController.class);
          EntityControllers.setEntityControllerForType(EntityType.TADPOLE, TadpoleController.class);
          EntityControllers.setEntityControllerForType(EntityType.TEXT_DISPLAY, TextDisplayController.class);
@@ -1193,7 +1193,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
          EntityControllers.setEntityControllerForType(EntityType.TRADER_LLAMA, TraderLlamaController.class);
          EntityControllers.setEntityControllerForType(EntityType.TRIDENT, ThrownTridentController.class);
          EntityControllers.setEntityControllerForType(EntityType.TROPICAL_FISH, TropicalFishController.class);
-@@ -1354,15 +1440,15 @@ public class NMSImpl implements NMSBridge {
+@@ -1363,15 +1449,15 @@ public class NMSImpl implements NMSBridge {
              org.bukkit.entity.Entity mount, double offset) {
          offset += getRidingHeightOffset(entity, mount);
          sendPacket(player,
@@ -1212,7 +1212,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
      }
  
      @Override
-@@ -1449,7 +1535,7 @@ public class NMSImpl implements NMSBridge {
+@@ -1458,7 +1544,7 @@ public class NMSImpl implements NMSBridge {
                  .createPlayerInitializing(Arrays.asList(from));
          boolean list = from instanceof NPCHolder ? !((NPCHolder) from).getNPC().shouldRemoveFromTabList() : true;
          ClientboundPlayerInfoUpdatePacket.Entry entry = new ClientboundPlayerInfoUpdatePacket.Entry(from.getUUID(),
@@ -1221,7 +1221,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
                  list ? from.getTabListDisplayName() : Component.empty(),
                  from.getChatSession() == null ? null : from.getChatSession().asData());
          try {
-@@ -1724,9 +1810,23 @@ public class NMSImpl implements NMSBridge {
+@@ -1733,9 +1819,23 @@ public class NMSImpl implements NMSBridge {
          ((PolarBear) getHandle(entity)).setStanding(rearing);
      }
  
@@ -1246,7 +1246,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
      }
  
      @Override
-@@ -1786,9 +1886,14 @@ public class NMSImpl implements NMSBridge {
+@@ -1795,9 +1895,14 @@ public class NMSImpl implements NMSBridge {
      @Override
      public void setStepHeight(org.bukkit.entity.Entity entity, float height) {
          Entity handle = getHandle(entity);
@@ -1261,7 +1261,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
      }
  
      @Override
-@@ -2129,10 +2234,12 @@ public class NMSImpl implements NMSBridge {
+@@ -2138,10 +2243,12 @@ public class NMSImpl implements NMSBridge {
              e.printStackTrace();
              return;
          }
@@ -1277,7 +1277,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
              living.setPos(living.getX() - 0.01, living.getY(), living.getZ() - 0.01);
              living.setPos(living.getX() + 0.01, living.getY(), living.getZ() + 0.01);
          }
-@@ -2501,12 +2608,20 @@ public class NMSImpl implements NMSBridge {
+@@ -2510,12 +2617,20 @@ public class NMSImpl implements NMSBridge {
      }
  
      public static void setAttribute(LivingEntity entity, Holder<Attribute> attribute, double value) {
@@ -1300,7 +1300,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
                  all.put(attribute, new AttributeInstance(attribute, att -> {
                      throw new UnsupportedOperationException(
                              "Tried to change value for default attribute instance FOLLOW_RANGE");
-@@ -2578,18 +2693,22 @@ public class NMSImpl implements NMSBridge {
+@@ -2587,18 +2702,22 @@ public class NMSImpl implements NMSBridge {
              Pose entitypose = entity.getPose();
              EntityDimensions entitysize1 = entity.getDimensions(entitypose);
              SIZE_FIELD_SETTER.invoke(entity, entitysize1);
@@ -1331,7 +1331,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
                      entity.move(MoverType.SELF, new Vec3(f, 0.0D, f));
                  }
              }
-@@ -2601,13 +2720,17 @@ public class NMSImpl implements NMSBridge {
+@@ -2610,13 +2729,17 @@ public class NMSImpl implements NMSBridge {
      public static void setSize(Entity entity, EntityDimensions size) {
          try {
              SIZE_FIELD_SETTER.invoke(entity, size);
@@ -1351,7 +1351,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
          if (FIND_DIMENSION_ENTRY_POINT == null || entity.isRemoved())
              return null;
          NPC npc = ((NPCHolder) entity).getNPC();
-@@ -2686,8 +2809,12 @@ public class NMSImpl implements NMSBridge {
+@@ -2695,8 +2818,12 @@ public class NMSImpl implements NMSBridge {
              ServerPlayer.class, boolean.class);
      private static final Map<Class<?>, net.minecraft.world.entity.EntityType<?>> CITIZENS_ENTITY_TYPES = Maps
              .newHashMap();
@@ -1364,7 +1364,7 @@ index da8050c2c0bcef5d3ca02b5440e097c2009824c5..3e022ac83960ac624f381736f022a8b6
      private static final MethodHandle CRAFT_BOSSBAR_HANDLE_FIELD = NMS.getFirstSetter(CraftBossBar.class,
              ServerBossEvent.class);
      private static EntityDataAccessor<Boolean> DATA_NAME_VISIBLE = null;
-@@ -2782,4 +2909,12 @@ public class NMSImpl implements NMSBridge {
+@@ -2792,4 +2919,12 @@ public class NMSImpl implements NMSBridge {
          } catch (Throwable e) {
          }
      }
