@@ -6,7 +6,7 @@ Subject: [PATCH] fix: rewrite profile property requester
 
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index b26c8590949177ceb24b5e1d9c8df59ec570bd26..4ef8279287a4794d8b9b9c133637a03a66e6e2e4 100644
+index 55ab05bc44e53208a955d0388f6e9d2f0ecde75d..ba92cf089c62c534023f92210ba2dd2282cc72e1 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -609,8 +609,14 @@ public class NMSImpl implements NMSBridge {

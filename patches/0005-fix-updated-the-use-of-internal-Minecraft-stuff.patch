@@ -880,7 +880,7 @@ index dd4dd6dddeefd02107edcc33d8452afd005f3d11..37c9935df87801f138eeaa7ecdbb9466
                  }
  
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 7b5b9483ce06ab1041bf2e9544ad1d2ad0345c20..aa002a4b48bec4fd543a185d1f94faebab111d86 100644
+index 794ad97e278b38400d707efc9a930ca7e211f591..477b2d100f4debd8c059bb9d54dba3a71918b61d 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -66,7 +66,7 @@ import com.mojang.authlib.minecraft.client.MinecraftClient;
@@ -1364,7 +1364,7 @@ index 7b5b9483ce06ab1041bf2e9544ad1d2ad0345c20..aa002a4b48bec4fd543a185d1f94faeb
      private static final MethodHandle CRAFT_BOSSBAR_HANDLE_FIELD = NMS.getFirstSetter(CraftBossBar.class,
              ServerBossEvent.class);
      private static EntityDataAccessor<Boolean> DATA_NAME_VISIBLE = null;
-@@ -2792,4 +2919,12 @@ public class NMSImpl implements NMSBridge {
+@@ -2793,4 +2920,12 @@ public class NMSImpl implements NMSBridge {
          } catch (Throwable e) {
          }
      }
