@@ -642,7 +642,7 @@ index dd4dd6dddeefd02107edcc33d8452afd005f3d11..37c9935df87801f138eeaa7ecdbb9466
                  }
  
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index ddb6b966151ff8c21ad071c901c0e29492f5c657..544f0996e1e22462e34ae31a310f2b712f4ef5d4 100644
+index 5550e5a1ab0548748e0babd876e9f718176536de..f80636654e5c6ad321a6b3e89230cdc8e4e15dab 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -371,7 +371,7 @@ import net.minecraft.world.level.material.FluidState;
@@ -1045,7 +1045,7 @@ index ddb6b966151ff8c21ad071c901c0e29492f5c657..544f0996e1e22462e34ae31a310f2b71
          if (FIND_DIMENSION_ENTRY_POINT == null || entity.isRemoved())
              return null;
          NPC npc = ((NPCHolder) entity).getNPC();
-@@ -2786,4 +2895,12 @@ public class NMSImpl implements NMSBridge {
+@@ -2787,4 +2896,12 @@ public class NMSImpl implements NMSBridge {
          } catch (Throwable e) {
          }
      }

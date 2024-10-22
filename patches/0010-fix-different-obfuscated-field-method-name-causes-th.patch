@@ -7,7 +7,7 @@ Subject: [PATCH] fix: different obfuscated field/method name causes the plugin
 
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 544f0996e1e22462e34ae31a310f2b712f4ef5d4..eabc0bd49bdd8f7c42636ff6efd61712f0862733 100644
+index f80636654e5c6ad321a6b3e89230cdc8e4e15dab..27cbd3777aa6eeea7fa8016bbc689ae472a3411f 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -2827,10 +2827,10 @@ public class NMSImpl implements NMSBridge {
@@ -23,7 +23,7 @@ index 544f0996e1e22462e34ae31a310f2b712f4ef5d4..eabc0bd49bdd8f7c42636ff6efd61712
      private static final MethodHandle LOOK_CONTROL_SETTER = NMS.getFirstSetter(Mob.class, LookControl.class);
      private static MethodHandle META_COMPOUND_TAG;
      private static final MethodHandle MINECRAFT_CLIENT = NMS.getFirstGetter(YggdrasilMinecraftSessionService.class,
-@@ -2847,12 +2847,16 @@ public class NMSImpl implements NMSBridge {
+@@ -2848,12 +2848,16 @@ public class NMSImpl implements NMSBridge {
      private static final MethodHandle PLAYER_INFO_ENTRIES_LIST = NMS
              .getFirstFinalSetter(ClientboundPlayerInfoUpdatePacket.class, List.class);
      private static final MethodHandle PLAYERINFO_ENTRIES = PLAYER_INFO_ENTRIES_LIST;
@@ -44,7 +44,7 @@ index 544f0996e1e22462e34ae31a310f2b712f4ef5d4..eabc0bd49bdd8f7c42636ff6efd61712
      public static EntityDataAccessor<Integer> RABBIT_TYPE_DATAWATCHER = null;
      private static final Random RANDOM = Util.getFastRandom();
      private static final MethodHandle SERVER_ENTITY_GETTER = NMS.getFirstGetter(TrackedEntity.class,
-@@ -2873,7 +2877,7 @@ public class NMSImpl implements NMSBridge {
+@@ -2874,7 +2878,7 @@ public class NMSImpl implements NMSBridge {
          }
          try {
              // Middle one
@@ -53,7 +53,7 @@ index 544f0996e1e22462e34ae31a310f2b712f4ef5d4..eabc0bd49bdd8f7c42636ff6efd61712
          } catch (Exception e) {
          }
          try {
-@@ -2890,8 +2894,10 @@ public class NMSImpl implements NMSBridge {
+@@ -2891,8 +2895,10 @@ public class NMSImpl implements NMSBridge {
          } catch (Throwable e) {
          }
          try {
