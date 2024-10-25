@@ -1111,10 +1111,10 @@ index 5d5a1061ce52fc7e4eda09f562ab8fb41a938a5a..a75af9c3e001396647bb01f835ace604
                  return super.teleportTo(worldserver, location);
              return NMSImpl.teleportAcrossWorld(this, worldserver, location);
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/EggController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/EggController.java
-index 2980bea5e755cd81e5b25609645011757765134d..e8d27046bb939410c95eef80a37cccfdef3eca5d 100644
+index 57fca7837e1ef62a931fc9848dbfcbfec60780c2..2398f741b1b8610cf6d2166414fb764edc97b1a4 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/EggController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/EggController.java
-@@ -119,7 +119,7 @@ public class EggController extends AbstractEntityController {
+@@ -115,7 +115,7 @@ public class EggController extends AbstractEntityController {
          }
  
          @Override
@@ -1189,10 +1189,10 @@ index 7a05a7ed0f9c9b87ee71ba0a7de85138f79adb55..e08a23e1bda760011b48ec48fb9d69bc
                  return super.teleportTo(worldserver, location);
              return NMSImpl.teleportAcrossWorld(this, worldserver, location);
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/FallingBlockController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/FallingBlockController.java
-index c3dc5076e6fcf80860d1d5179514b4c07b7483bb..5952b9fb11cbf90f0ce445617cf04dff51a1c412 100644
+index 30e3845036fadae51330b8f241e8607b89d33fe5..360822f9030cf0d375cbc47a43690136938d5983 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/FallingBlockController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/FallingBlockController.java
-@@ -124,7 +124,7 @@ public class FallingBlockController extends AbstractEntityController {
+@@ -122,7 +122,7 @@ public class FallingBlockController extends AbstractEntityController {
          }
  
          @Override
@@ -1254,10 +1254,10 @@ index 3b493a2191b4c0c0c846190d4dd73f9b2b61819f..0ce8e4d012ac2a676974d060cd7dcb8e
                  return super.teleportTo(worldserver, location);
              return NMSImpl.teleportAcrossWorld(this, worldserver, location);
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/ItemController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/ItemController.java
-index 515054c0e324aa90e22c257a1586a28eff3c1289..19291cced73bdea175900c75d1999c4f2ade7686 100644
+index 5cbb485e7f0bfbbe048305901df220430f02f7f2..c3f535ac5aaf3bf04ef7ed2faaddc92c23086307 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/ItemController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/ItemController.java
-@@ -111,7 +111,7 @@ public class ItemController extends AbstractEntityController {
+@@ -108,7 +108,7 @@ public class ItemController extends AbstractEntityController {
          }
  
          @Override
@@ -1319,10 +1319,10 @@ index 12fdb27a0e2e7fb8d30c69b30c7977e7bbd70c2b..bf669160687e41eff9e8f9fb2713e9ff
                  return super.teleportTo(worldserver, location);
              return NMSImpl.teleportAcrossWorld(this, worldserver, location);
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/LlamaSpitController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/LlamaSpitController.java
-index fe61e51b618dcc55c101d057418df2a073ea7072..0bbc6b8b57f90d38a516deefd54400fbc5fff9c2 100644
+index d49a4b7e4ae526a1ddbf3b1012e8f5877d8ca33b..325b0a6b8dda4cc8235310e5e41c3b1e4492c860 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/LlamaSpitController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/LlamaSpitController.java
-@@ -116,7 +116,7 @@ public class LlamaSpitController extends AbstractEntityController {
+@@ -111,7 +111,7 @@ public class LlamaSpitController extends AbstractEntityController {
          }
  
          @Override

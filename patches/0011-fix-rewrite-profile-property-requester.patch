@@ -6,10 +6,10 @@ Subject: [PATCH] fix: rewrite profile property requester
 
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 55ab05bc44e53208a955d0388f6e9d2f0ecde75d..ba92cf089c62c534023f92210ba2dd2282cc72e1 100644
+index 04d55cb48e0fc098bf73754ddacface0e937bfcf..bb824214692192249eacc5b74b328a48a65459cb 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-@@ -609,8 +609,14 @@ public class NMSImpl implements NMSBridge {
+@@ -610,8 +610,14 @@ public class NMSImpl implements NMSBridge {
          URL url = HttpAuthenticationService
                  .constantURL(getAuthServerBaseUrl() + /*UndashedUuid.toString*/com.mojang.util.UUIDTypeAdapter.fromUUID(profile.getId())); // Backport - UndashedUuid -> UUIDTypeAdapter
          url = HttpAuthenticationService.concatenateURL(url, "unsigned=" + !requireSecure);
@@ -24,7 +24,7 @@ index 55ab05bc44e53208a955d0388f6e9d2f0ecde75d..ba92cf089c62c534023f92210ba2dd22
  
          // Backport start - Older authlib does not provide toProfile method so we use old way there
  //        return response.toProfile();
-@@ -2862,8 +2868,14 @@ public class NMSImpl implements NMSBridge {
+@@ -2863,8 +2869,14 @@ public class NMSImpl implements NMSBridge {
      private static final MethodHandle JUMP_FIELD = NMS.getGetter(LivingEntity.class, "bk"); // Backport - Update obfuscated name
      private static final MethodHandle LOOK_CONTROL_SETTER = NMS.getFirstSetter(Mob.class, LookControl.class);
      private static MethodHandle META_COMPOUND_TAG;

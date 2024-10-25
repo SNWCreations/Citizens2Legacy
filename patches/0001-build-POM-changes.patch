@@ -7,7 +7,7 @@ Subject: [PATCH] build: POM changes
 This commit make the project only compiles with v1_20_R4 module, starts the patch to upstream.
 
 diff --git a/dist/pom.xml b/dist/pom.xml
-index 6e33bff054d912e5ac909a54e49f190a267f4297..bc138ca360af216105db89591f0f4dcfae55d6bd 100644
+index e60f38787d0d8e2f8475a4def40b0e60e85a08ef..94125be06652c4da5b45a4b4c1fb54211d60b89e 100644
 --- a/dist/pom.xml
 +++ b/dist/pom.xml
 @@ -15,7 +15,10 @@
@@ -50,7 +50,7 @@ index 6e33bff054d912e5ac909a54e49f190a267f4297..bc138ca360af216105db89591f0f4dcf
 +                // Backport start - We only need 1.20.1
                  <dependency>
                      <groupId>${project.groupId}</groupId>
-                     <artifactId>citizens-v1_21_R1</artifactId>
+                     <artifactId>citizens-v1_21_R2</artifactId>
 @@ -89,8 +98,12 @@
                      <type>jar</type>
                      <scope>compile</scope>
@@ -74,7 +74,7 @@ index 6e33bff054d912e5ac909a54e49f190a267f4297..bc138ca360af216105db89591f0f4dcf
  </project>
 \ No newline at end of file
 diff --git a/pom.xml b/pom.xml
-index 7c2455592c0a4e71273a6fc114e142dd43b9294e..711b6015583dd619336cec03f9b1bb774c3333fa 100644
+index ccb78ca68058eab71cd6a15fbd91b62e035155b8..d04384c957e775589a3d013074c821d0ec4ac0de 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -29,6 +29,20 @@
@@ -98,15 +98,19 @@ index 7c2455592c0a4e71273a6fc114e142dd43b9294e..711b6015583dd619336cec03f9b1bb77
      </repositories>
      <build>
          <defaultGoal>clean package install</defaultGoal>
-@@ -41,12 +55,14 @@
+@@ -40,13 +54,19 @@
+                 <activeByDefault>true</activeByDefault>
              </activation>
              <modules>
-                 <module>main</module> 
--                <module>v1_19_R3</module>
-+<!--                <module>v1_19_R3</module> // Backport - We only need 1.20.1 -->
+-                <module>main</module> 
++                <module>main</module>
++                <!-- Backport start - We only need 1.20.1
+                 <module>v1_19_R3</module>
                  <module>v1_20_R4</module>
--                <module>v1_21_R1</module>
-+<!--                <module>v1_21_R1</module> // Backport - We only need 1.20.1 -->
+                 <module>v1_21_R2</module>
++                -->
++                <module>v1_20_R4</module>
++                <!-- Backport end -->
                  <module>dist</module>
              </modules>
          </profile>
@@ -115,7 +119,7 @@ index 7c2455592c0a4e71273a6fc114e142dd43b9294e..711b6015583dd619336cec03f9b1bb77
          <profile>
              <id>full</id> 
              <modules>
-@@ -75,5 +91,7 @@
+@@ -75,5 +95,7 @@
                  <module>dist</module>
              </modules>
          </profile>

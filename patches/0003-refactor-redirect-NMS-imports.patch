@@ -664,7 +664,7 @@ index c1b9a7752c8e71657658ce90ea6fdb83ff229daf..796004ac36d7ba838c97593b8e842ea7
  import net.citizensnpcs.api.npc.NPC;
  import net.citizensnpcs.nms.v1_20_R4.util.EntityMoveControl;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/MobEntityController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/MobEntityController.java
-index d4a7c490ec83086a85c1f87a6b42abf19410ae75..54cb8c450ba381b416b31fbf9f7d77e70667f078 100644
+index 58ce91e370047a442ed5876e2e1ce61438c39639..217616e702fb664f783e1a01f0ef5ddfef29556a 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/MobEntityController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/MobEntityController.java
 @@ -6,7 +6,7 @@ import java.util.WeakHashMap;
@@ -1495,7 +1495,7 @@ index e72fc0a12be025b769572bd13be111027090c0ee..5d5a1061ce52fc7e4eda09f562ab8fb4
  import net.citizensnpcs.api.npc.NPC;
  import net.citizensnpcs.nms.v1_20_R4.entity.MobEntityController;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/EggController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/EggController.java
-index fe5f4e4e60efc6ae74a5f2897d9f7e3df255d2d6..2980bea5e755cd81e5b25609645011757765134d 100644
+index 51a71b893bedda09f3293a45147211028fcb9053..57fca7837e1ef62a931fc9848dbfcbfec60780c2 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/EggController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/EggController.java
 @@ -2,10 +2,10 @@ package net.citizensnpcs.nms.v1_20_R4.entity.nonliving;
@@ -1599,7 +1599,7 @@ index ab71420cb507380f3a5ab7a816b5e1ecdc05e401..7a05a7ed0f9c9b87ee71ba0a7de85138
  
  import net.citizensnpcs.api.npc.NPC;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/FallingBlockController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/FallingBlockController.java
-index 37b28e77075dcb82964818770aff7bd7cf7418ef..c3dc5076e6fcf80860d1d5179514b4c07b7483bb 100644
+index 7f0d8e47fae41fbd75db4203227146cc382f7194..30e3845036fadae51330b8f241e8607b89d33fe5 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/FallingBlockController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/FallingBlockController.java
 @@ -2,11 +2,11 @@ package net.citizensnpcs.nms.v1_20_R4.entity.nonliving;
@@ -1690,7 +1690,7 @@ index 65309152d27d4bb74b3681dffa731651064b7c2b..3b493a2191b4c0c0c846190d4dd73f9b
  import net.citizensnpcs.api.npc.NPC;
  import net.citizensnpcs.nms.v1_20_R4.entity.MobEntityController;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/ItemController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/ItemController.java
-index 147fff8235862a3b600d80dc98892ae993d69221..515054c0e324aa90e22c257a1586a28eff3c1289 100644
+index 6e71bf4279d887281347ee152c0b46f6cc8d0923..5cbb485e7f0bfbbe048305901df220430f02f7f2 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/ItemController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/ItemController.java
 @@ -2,11 +2,11 @@ package net.citizensnpcs.nms.v1_20_R4.entity.nonliving;
@@ -1783,7 +1783,7 @@ index 6431d1471d1ccb1ed930f2de112bdee13123480c..12fdb27a0e2e7fb8d30c69b30c7977e7
  
  import net.citizensnpcs.api.npc.NPC;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/LlamaSpitController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/LlamaSpitController.java
-index 15eaf9faa02cc6c12dc9ef2cfcbdd8efcabc3700..fe61e51b618dcc55c101d057418df2a073ea7072 100644
+index 5c03a28784f391cff779971e9fa6c05c8b023975..d49a4b7e4ae526a1ddbf3b1012e8f5877d8ca33b 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/LlamaSpitController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/LlamaSpitController.java
 @@ -2,10 +2,10 @@ package net.citizensnpcs.nms.v1_20_R4.entity.nonliving;
@@ -2103,7 +2103,7 @@ index cb5b06b929a3eb9362ca48e2d7b12bd4a621bfb5..c8af06257bfa4037ae065a703b603b4e
  import net.citizensnpcs.util.AbstractBlockBreaker;
  import net.minecraft.core.BlockPos;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index aa54b4b51de8d7e8bcfbfa1b90ea5ec57cfb5d26..6176d1852ea8c2f3b698f5f1fe7f62796f23dda7 100644
+index 368c373c711059c2c6ff8dc31a83db4b2050de77..402787e8af28bec53e9c24435c0a2db72d74f1e4 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -27,19 +27,19 @@ import org.bukkit.boss.BarColor;
