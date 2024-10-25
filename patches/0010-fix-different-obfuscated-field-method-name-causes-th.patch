@@ -7,7 +7,7 @@ Subject: [PATCH] fix: different obfuscated field/method name causes the plugin
 
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index d8762c213f4f5fcf0bc3b2919f1626950ca6b84d..e010c2cbbdc3429afdda57edf394d77e2dec891e 100644
+index 28ed625722bc9c2fd79926cfb3529856f571cc02..98f22b97bc7b9489c2d23b1854c0e386096bf822 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -2826,10 +2826,10 @@ public class NMSImpl implements NMSBridge {

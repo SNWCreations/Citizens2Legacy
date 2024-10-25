@@ -7,7 +7,7 @@ Subject: [PATCH] fix: updated the use of internal Minecraft stuff
 Replaced newer record method access to fields with direct field access, use correct but older Minecraft method names for some methods the upstream uses.
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
-index 7833268a461e7f959e5b1b8301648e210b6c8fa2..bebc7ca989ba4e547bd2313930da8e5866ecff29 100644
+index 7833268a461e7f959e5b1b8301648e210b6c8fa2..5ac14c34a2b9fccc0f4eb5efc90c0b530904eca6 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 @@ -263,7 +263,7 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
@@ -23,7 +23,7 @@ index 7833268a461e7f959e5b1b8301648e210b6c8fa2..bebc7ca989ba4e547bd2313930da8e58
  
          detectEquipmentUpdatesPublic();
          float scale = this.getScale();
-+        // Backport start - Redefining scale is not supported on MC 1.20.1
++        // Backport start - Redefining scale is not supported on MC 1.20.4
 +        /*
          if (scale != this.appliedScale) {
              appliedScale = scale;
@@ -76,7 +76,7 @@ index 82d63f288746916dfd1119b20e554a28df24a282..7b07966d9935850eb2d22c83761d5fe9
          @Override
          protected SoundEvent getHurtSound(DamageSource damagesource) {
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/TadpoleController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/TadpoleController.java
-index 2e7340d8db3cea9614fa1e29c9082b178791b98c..cc3290da22bdcbed577c3951f0c59fa5252bd3ef 100644
+index 2e7340d8db3cea9614fa1e29c9082b178791b98c..223690af755cb67566c399b7fd7c6e3a7ed35c2d 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/TadpoleController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/TadpoleController.java
 @@ -200,7 +200,7 @@ public class TadpoleController extends MobEntityController {
@@ -84,7 +84,7 @@ index 2e7340d8db3cea9614fa1e29c9082b178791b98c..cc3290da22bdcbed577c3951f0c59fa5
                  return super.mobInteract(entityhuman, enumhand);
              ItemStack itemstack = entityhuman.getItemInHand(enumhand);
 -            if ((itemstack.is(ItemTags.FROG_FOOD) || itemstack.getItem() == Items.WATER_BUCKET) && isAlive())
-+            if ((/*itemstack.is(ItemTags.FROG_FOOD) || */itemstack.getItem() == Items.WATER_BUCKET) && isAlive()) // Backport - FROG_FOOD tag was added in MC 1.20.5 but not exist in MC 1.20.1
++            if ((/*itemstack.is(ItemTags.FROG_FOOD) || */itemstack.getItem() == Items.WATER_BUCKET) && isAlive()) // Backport - FROG_FOOD tag was added in MC 1.20.5 but not exist in MC 1.20.4
                  return InteractionResult.FAIL;
              return super.mobInteract(entityhuman, enumhand);
          }
@@ -642,7 +642,7 @@ index dd4dd6dddeefd02107edcc33d8452afd005f3d11..37c9935df87801f138eeaa7ecdbb9466
                  }
  
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 1050ea5d88ffdcaf5fb40247ca5e4e3988584efb..d8762c213f4f5fcf0bc3b2919f1626950ca6b84d 100644
+index fab2f437fe0a8725c3a6839582913cc0c80d04b8..28ed625722bc9c2fd79926cfb3529856f571cc02 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -372,7 +372,7 @@ import net.minecraft.world.level.material.FluidState;
@@ -828,7 +828,7 @@ index 1050ea5d88ffdcaf5fb40247ca5e4e3988584efb..d8762c213f4f5fcf0bc3b2919f162695
 +        // Backport end
          EntityControllers.setEntityControllerForType(EntityType.ITEM_DISPLAY, ItemDisplayController.class);
          EntityControllers.setEntityControllerForType(EntityType.ITEM_FRAME, ItemFrameController.class);
-         // Backport start - This does not exist in MC 1.20.1
+         // Backport start - This does not exist in MC 1.20.4
 @@ -1074,14 +1123,23 @@ public class NMSImpl implements NMSBridge {
                  OminousItemSpawnerController.class);
          */
@@ -919,7 +919,7 @@ index 1050ea5d88ffdcaf5fb40247ca5e4e3988584efb..d8762c213f4f5fcf0bc3b2919f162695
          ((PolarBear) getHandle(entity)).setStanding(rearing);
      }
  
-+    // Backport start - Pose.BY_ID does not exist in MC 1.20.1, so we simulate it there
++    // Backport start - Pose.BY_ID does not exist in MC 1.20.4, so we simulate it there
 +    private static final it.unimi.dsi.fastutil.ints.Int2ObjectMap<Pose> POSE_BY_ID;
 +    static {
 +        POSE_BY_ID = new it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap<>();
@@ -944,7 +944,7 @@ index 1050ea5d88ffdcaf5fb40247ca5e4e3988584efb..d8762c213f4f5fcf0bc3b2919f162695
      @Override
      public void setStepHeight(org.bukkit.entity.Entity entity, float height) {
          Entity handle = getHandle(entity);
-+        // Backport start - Re-implement setStepHeight using MC 1.20.1 method
++        // Backport start - Re-implement setStepHeight using MC 1.20.4 method
 +        /*
          if (!(handle instanceof LivingEntity))
              return;
@@ -975,7 +975,7 @@ index 1050ea5d88ffdcaf5fb40247ca5e4e3988584efb..d8762c213f4f5fcf0bc3b2919f162695
      }
  
      public static void setAttribute(LivingEntity entity, Holder<Attribute> attribute, double value) {
-+    // Backport start - MC 1.20.1 does not use Holder<Attribute> for attributes
++    // Backport start - MC 1.20.4 does not use Holder<Attribute> for attributes
 +        setAttribute(entity, attribute.value(), value);
 +    }
 +
@@ -987,7 +987,7 @@ index 1050ea5d88ffdcaf5fb40247ca5e4e3988584efb..d8762c213f4f5fcf0bc3b2919f162695
                  AttributeSupplier provider = (AttributeSupplier) ATTRIBUTE_SUPPLIER.invoke(entity.getAttributes());
 -                Map<Holder<Attribute>, AttributeInstance> all = Maps.newHashMap(
 -                        (Map<Holder<Attribute>, AttributeInstance>) ATTRIBUTE_PROVIDER_MAP.invoke(provider));
-+                // Backport start - MC 1.20.1 does not use Holder<Attribute> for attributes
++                // Backport start - MC 1.20.4 does not use Holder<Attribute> for attributes
 +                Map</*Holder<*/Attribute/*>*/, AttributeInstance> all = Maps.newHashMap(
 +                        (Map</*Holder<*/Attribute/*>*/, AttributeInstance>) ATTRIBUTE_PROVIDER_MAP.invoke(provider));
 +                // Backport end
@@ -1049,7 +1049,7 @@ index 1050ea5d88ffdcaf5fb40247ca5e4e3988584efb..d8762c213f4f5fcf0bc3b2919f162695
              Messaging.logTr(Messages.ERROR_GETTING_ID_MAPPING, e.getMessage());
          }
      }
-+    // Backport start - Copied from old Citizens code supporting MC 1.20.1
++    // Backport start - Copied from old Citizens code supporting MC 1.20.4
 +    private static final MethodHandle PLAYER_CHUNK_MAP_VIEW_DISTANCE_GETTER = NMS.getFirstGetter(ChunkMap.class,
 +            int.class);
 +    private static final MethodHandle PLAYER_CHUNK_MAP_VIEW_DISTANCE_SETTER = NMS.getFirstSetter(ChunkMap.class,

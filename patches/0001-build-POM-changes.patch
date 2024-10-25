@@ -7,7 +7,7 @@ Subject: [PATCH] build: POM changes
 This commit make the project only compiles with v1_20_R4 module, starts the patch to upstream.
 
 diff --git a/dist/pom.xml b/dist/pom.xml
-index e60f38787d0d8e2f8475a4def40b0e60e85a08ef..bb9c3e46e73b27bee4bb9e1d2c1092aa6d4f2b4a 100644
+index e60f38787d0d8e2f8475a4def40b0e60e85a08ef..bf5abbf13a76b7482cd8ee1460beeee39b58cd06 100644
 --- a/dist/pom.xml
 +++ b/dist/pom.xml
 @@ -15,7 +15,10 @@
@@ -15,7 +15,7 @@ index e60f38787d0d8e2f8475a4def40b0e60e85a08ef..bb9c3e46e73b27bee4bb9e1d2c1092aa
                  <artifactId>maven-assembly-plugin</artifactId>
                  <configuration>
 -                    <finalName>Citizens-${CITIZENS_VERSION}-b${BUILD_NUMBER}</finalName>
-+                    <!-- Backport start - We only need 1.20.1 -->
++                    <!-- Backport start - We only need 1.20.4 -->
 +<!--                    <finalName>Citizens-${CITIZENS_VERSION}-b${BUILD_NUMBER}</finalName>-->
 +                    <finalName>Citizens-MC1.20.4-${CITIZENS_VERSION}-b${BUILD_NUMBER}</finalName>
 +                    <!-- Backport end -->
@@ -29,7 +29,7 @@ index e60f38787d0d8e2f8475a4def40b0e60e85a08ef..bb9c3e46e73b27bee4bb9e1d2c1092aa
 -                </dependency> 
 +                </dependency>
 +                <!---
-+                // Backport start - We only need 1.20.1
++                // Backport start - We only need 1.20.4
                  <dependency>
                      <groupId>${project.groupId}</groupId>
                      <artifactId>citizens-v1_19_R3</artifactId>
@@ -47,7 +47,7 @@ index e60f38787d0d8e2f8475a4def40b0e60e85a08ef..bb9c3e46e73b27bee4bb9e1d2c1092aa
                      <scope>compile</scope>
                  </dependency>
 +                <!---
-+                // Backport start - We only need 1.20.1
++                // Backport start - We only need 1.20.4
                  <dependency>
                      <groupId>${project.groupId}</groupId>
                      <artifactId>citizens-v1_21_R2</artifactId>
@@ -60,7 +60,7 @@ index e60f38787d0d8e2f8475a4def40b0e60e85a08ef..bb9c3e46e73b27bee4bb9e1d2c1092aa
              </dependencies>
          </profile>
 +        <!---
-+        // Backport start - We only need 1.20.1
++        // Backport start - We only need 1.20.4
          <profile>
              <id>full</id>
              <dependencies>
@@ -74,7 +74,7 @@ index e60f38787d0d8e2f8475a4def40b0e60e85a08ef..bb9c3e46e73b27bee4bb9e1d2c1092aa
  </project>
 \ No newline at end of file
 diff --git a/pom.xml b/pom.xml
-index ccb78ca68058eab71cd6a15fbd91b62e035155b8..539d90c64bc385b407fceae5b4018908c40a51eb 100644
+index ccb78ca68058eab71cd6a15fbd91b62e035155b8..b716ed072f16877ae4f2e09230bb3a60260cb0c4 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -29,6 +29,20 @@
@@ -115,7 +115,7 @@ index ccb78ca68058eab71cd6a15fbd91b62e035155b8..539d90c64bc385b407fceae5b4018908
              </modules>
          </profile>
 +        <!--
-+        // Backport start - We only need 1.20.1
++        // Backport start - We only need 1.20.4
          <profile>
              <id>full</id> 
              <modules>

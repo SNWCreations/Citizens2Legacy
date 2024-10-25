@@ -27,7 +27,7 @@ similarity index 100%
 rename from v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/WindChargeController.java
 rename to v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/WindChargeController.java.ignored
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/CustomEntityRegistry.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/CustomEntityRegistry.java
-index cddac7eaddb7bc343494b8fad3b1a08649156b4e..b7e015d9978bea64c44425445050059a15308e5c 100644
+index cddac7eaddb7bc343494b8fad3b1a08649156b4e..2ed0b0c36e2b7e91956cd3f4282ad5acc615d65b 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/CustomEntityRegistry.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/CustomEntityRegistry.java
 @@ -39,7 +39,7 @@ import net.minecraft.world.entity.GlowSquid;
@@ -35,7 +35,7 @@ index cddac7eaddb7bc343494b8fad3b1a08649156b4e..b7e015d9978bea64c44425445050059a
  import net.minecraft.world.entity.LightningBolt;
  import net.minecraft.world.entity.Marker;
 -import net.minecraft.world.entity.OminousItemSpawner;
-+//import net.minecraft.world.entity.OminousItemSpawner; // Backport - This does not exist in MC 1.20.1
++//import net.minecraft.world.entity.OminousItemSpawner; // Backport - This does not exist in MC 1.20.4
  import net.minecraft.world.entity.ambient.Bat;
  import net.minecraft.world.entity.animal.Bee;
  import net.minecraft.world.entity.animal.Cat;
@@ -44,7 +44,7 @@ index cddac7eaddb7bc343494b8fad3b1a08649156b4e..b7e015d9978bea64c44425445050059a
  import net.minecraft.world.entity.animal.Wolf;
  import net.minecraft.world.entity.animal.allay.Allay;
 -import net.minecraft.world.entity.animal.armadillo.Armadillo;
-+//import net.minecraft.world.entity.animal.armadillo.Armadillo; // Backport - This does not exist in MC 1.20.1
++//import net.minecraft.world.entity.animal.armadillo.Armadillo; // Backport - This does not exist in MC 1.20.4
  import net.minecraft.world.entity.animal.axolotl.Axolotl;
  import net.minecraft.world.entity.animal.camel.Camel;
  import net.minecraft.world.entity.animal.frog.Frog;
@@ -53,7 +53,7 @@ index cddac7eaddb7bc343494b8fad3b1a08649156b4e..b7e015d9978bea64c44425445050059a
  import net.minecraft.world.entity.item.PrimedTnt;
  import net.minecraft.world.entity.monster.Blaze;
 -import net.minecraft.world.entity.monster.Bogged;
-+//import net.minecraft.world.entity.monster.Bogged; // Backport - This does not exist in MC 1.20.1
++//import net.minecraft.world.entity.monster.Bogged; // Backport - This does not exist in MC 1.20.4
  import net.minecraft.world.entity.monster.CaveSpider;
  import net.minecraft.world.entity.monster.Creeper;
  import net.minecraft.world.entity.monster.Drowned;
@@ -62,7 +62,7 @@ index cddac7eaddb7bc343494b8fad3b1a08649156b4e..b7e015d9978bea64c44425445050059a
  import net.minecraft.world.entity.monster.ZombieVillager;
  import net.minecraft.world.entity.monster.ZombifiedPiglin;
 -import net.minecraft.world.entity.monster.breeze.Breeze;
-+//import net.minecraft.world.entity.monster.breeze.Breeze; // Backport - This does not exist in MC 1.20.1
++//import net.minecraft.world.entity.monster.breeze.Breeze; // Backport - This does not exist in MC 1.20.4
  import net.minecraft.world.entity.monster.hoglin.Hoglin;
  import net.minecraft.world.entity.monster.piglin.Piglin;
  import net.minecraft.world.entity.monster.piglin.PiglinBrute;
@@ -70,7 +70,7 @@ index cddac7eaddb7bc343494b8fad3b1a08649156b4e..b7e015d9978bea64c44425445050059a
  import net.minecraft.world.entity.projectile.ThrownPotion;
  import net.minecraft.world.entity.projectile.ThrownTrident;
  import net.minecraft.world.entity.projectile.WitherSkull;
-+// Backport start - These do not exist in MC 1.20.1
++// Backport start - These do not exist in MC 1.20.4
 +/*
  import net.minecraft.world.entity.projectile.windcharge.BreezeWindCharge;
  import net.minecraft.world.entity.projectile.windcharge.WindCharge;
@@ -84,7 +84,7 @@ index cddac7eaddb7bc343494b8fad3b1a08649156b4e..b7e015d9978bea64c44425445050059a
          minecraftClassMap.put(EntityType.ALLAY, Allay.class);
          minecraftClassMap.put(EntityType.AREA_EFFECT_CLOUD, AreaEffectCloud.class);
 -        minecraftClassMap.put(EntityType.ARMADILLO, Armadillo.class);
-+//        minecraftClassMap.put(EntityType.ARMADILLO, Armadillo.class); // Backport - This does not exist in MC 1.20.1
++//        minecraftClassMap.put(EntityType.ARMADILLO, Armadillo.class); // Backport - This does not exist in MC 1.20.4
          minecraftClassMap.put(EntityType.ARMOR_STAND, ArmorStand.class);
          minecraftClassMap.put(EntityType.ARROW, Arrow.class);
          minecraftClassMap.put(EntityType.AXOLOTL, Axolotl.class);
@@ -92,7 +92,7 @@ index cddac7eaddb7bc343494b8fad3b1a08649156b4e..b7e015d9978bea64c44425445050059a
          minecraftClassMap.put(EntityType.BLAZE, Blaze.class);
          minecraftClassMap.put(EntityType.BLOCK_DISPLAY, Display.BlockDisplay.class);
          minecraftClassMap.put(EntityType.BOAT, Boat.class);
-+        // Backport start - These do not exist in MC 1.20.1
++        // Backport start - These do not exist in MC 1.20.4
 +        /*
          minecraftClassMap.put(EntityType.BOGGED, Bogged.class);
          minecraftClassMap.put(EntityType.BREEZE, Breeze.class);
@@ -107,7 +107,7 @@ index cddac7eaddb7bc343494b8fad3b1a08649156b4e..b7e015d9978bea64c44425445050059a
          minecraftClassMap.put(EntityType.ITEM_DISPLAY, Display.ItemDisplay.class);
          minecraftClassMap.put(EntityType.ITEM_FRAME, ItemFrame.class);
 -        minecraftClassMap.put(EntityType.OMINOUS_ITEM_SPAWNER, OminousItemSpawner.class);
-+//        minecraftClassMap.put(EntityType.OMINOUS_ITEM_SPAWNER, OminousItemSpawner.class); // Backport - This does not exist in MC 1.20.1
++//        minecraftClassMap.put(EntityType.OMINOUS_ITEM_SPAWNER, OminousItemSpawner.class); // Backport - This does not exist in MC 1.20.4
          minecraftClassMap.put(EntityType.FIREBALL, LargeFireball.class);
          minecraftClassMap.put(EntityType.LEASH_KNOT, LeashFenceKnotEntity.class);
          minecraftClassMap.put(EntityType.LIGHTNING_BOLT, LightningBolt.class);
@@ -116,7 +116,7 @@ index cddac7eaddb7bc343494b8fad3b1a08649156b4e..b7e015d9978bea64c44425445050059a
          minecraftClassMap.put(EntityType.WANDERING_TRADER, WanderingTrader.class);
          minecraftClassMap.put(EntityType.WARDEN, Warden.class);
 -        minecraftClassMap.put(EntityType.WIND_CHARGE, WindCharge.class);
-+//        minecraftClassMap.put(EntityType.WIND_CHARGE, WindCharge.class); // Backport - This does not exist in MC 1.20.1
++//        minecraftClassMap.put(EntityType.WIND_CHARGE, WindCharge.class); // Backport - This does not exist in MC 1.20.4
          minecraftClassMap.put(EntityType.WITCH, Witch.class);
          minecraftClassMap.put(EntityType.WITHER, WitherBoss.class);
          minecraftClassMap.put(EntityType.WITHER_SKELETON, WitherSkeleton.class);
@@ -125,7 +125,7 @@ similarity index 100%
 rename from v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityPathfindingContext.java
 rename to v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityPathfindingContext.java.ignored
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 7b6eb6f45606ad0dd5cf219c5f84a30c5ac8217e..1050ea5d88ffdcaf5fb40247ca5e4e3988584efb 100644
+index 7b6eb6f45606ad0dd5cf219c5f84a30c5ac8217e..fab2f437fe0a8725c3a6839582913cc0c80d04b8 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -87,13 +87,13 @@ import net.citizensnpcs.api.util.EntityDim;
@@ -133,7 +133,7 @@ index 7b6eb6f45606ad0dd5cf219c5f84a30c5ac8217e..1050ea5d88ffdcaf5fb40247ca5e4e39
  import net.citizensnpcs.api.util.SpigotUtil.InventoryViewAPI;
  import net.citizensnpcs.nms.v1_20_R4.entity.AllayController;
 -import net.citizensnpcs.nms.v1_20_R4.entity.ArmadilloController;
-+//import net.citizensnpcs.nms.v1_20_R4.entity.ArmadilloController; // Backport - This does not exist in MC 1.20.1
++//import net.citizensnpcs.nms.v1_20_R4.entity.ArmadilloController; // Backport - This does not exist in MC 1.20.4
  import net.citizensnpcs.nms.v1_20_R4.entity.ArmorStandController;
  import net.citizensnpcs.nms.v1_20_R4.entity.AxolotlController;
  import net.citizensnpcs.nms.v1_20_R4.entity.BatController;
@@ -149,7 +149,7 @@ index 7b6eb6f45606ad0dd5cf219c5f84a30c5ac8217e..1050ea5d88ffdcaf5fb40247ca5e4e39
  import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.BlockDisplayController;
  import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.BoatController;
 -import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.BreezeWindChargeController;
-+//import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.BreezeWindChargeController; // Backport - This does not exist in MC 1.20.1
++//import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.BreezeWindChargeController; // Backport - This does not exist in MC 1.20.4
  import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.ChestBoatController;
  import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.DragonFireballController;
  import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.EggController;
@@ -158,7 +158,7 @@ index 7b6eb6f45606ad0dd5cf219c5f84a30c5ac8217e..1050ea5d88ffdcaf5fb40247ca5e4e39
  import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.MinecartSpawnerController;
  import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.MinecartTNTController;
 -import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.OminousItemSpawnerController;
-+//import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.OminousItemSpawnerController; // Backport - This does not exist in MC 1.20.1
++//import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.OminousItemSpawnerController; // Backport - This does not exist in MC 1.20.4
  import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.PaintingController;
  import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.ShulkerBulletController;
  import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.SmallFireballController;
@@ -167,7 +167,7 @@ index 7b6eb6f45606ad0dd5cf219c5f84a30c5ac8217e..1050ea5d88ffdcaf5fb40247ca5e4e39
  import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.ThrownTridentController;
  import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.TippedArrowController;
 -import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.WindChargeController;
-+//import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.WindChargeController; // Backport - This does not exist in MC 1.20.1
++//import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.WindChargeController; // Backport - This does not exist in MC 1.20.4
  import net.citizensnpcs.nms.v1_20_R4.entity.nonliving.WitherSkullController;
  import net.citizensnpcs.npc.EntityControllers;
  import net.citizensnpcs.npc.ai.MCNavigationStrategy.MCNavigator;
@@ -176,7 +176,7 @@ index 7b6eb6f45606ad0dd5cf219c5f84a30c5ac8217e..1050ea5d88ffdcaf5fb40247ca5e4e39
  import net.minecraft.world.entity.animal.Turtle;
  import net.minecraft.world.entity.animal.allay.Allay;
 -import net.minecraft.world.entity.animal.armadillo.Armadillo;
-+//import net.minecraft.world.entity.animal.armadillo.Armadillo; // Backport - This does not exist in MC 1.20.1
++//import net.minecraft.world.entity.animal.armadillo.Armadillo; // Backport - This does not exist in MC 1.20.4
  import net.minecraft.world.entity.animal.axolotl.Axolotl;
  import net.minecraft.world.entity.animal.camel.Camel;
  import net.minecraft.world.entity.animal.horse.AbstractHorse;
@@ -185,7 +185,7 @@ index 7b6eb6f45606ad0dd5cf219c5f84a30c5ac8217e..1050ea5d88ffdcaf5fb40247ca5e4e39
          registerTraitWithCommand(manager, AllayTrait.class);
          registerTraitWithCommand(manager, AxolotlTrait.class);
 -        registerTraitWithCommand(manager, ArmadilloTrait.class);
-+//        registerTraitWithCommand(manager, ArmadilloTrait.class); // Backport - Armadillo does not exist in MC 1.20.1
++//        registerTraitWithCommand(manager, ArmadilloTrait.class); // Backport - Armadillo does not exist in MC 1.20.4
          registerTraitWithCommand(manager, BeeTrait.class);
          registerTraitWithCommand(manager, BossBarTrait.class);
          registerTraitWithCommand(manager, CamelTrait.class);
@@ -194,7 +194,7 @@ index 7b6eb6f45606ad0dd5cf219c5f84a30c5ac8217e..1050ea5d88ffdcaf5fb40247ca5e4e39
          EntityControllers.setEntityControllerForType(EntityType.ALLAY, AllayController.class);
          EntityControllers.setEntityControllerForType(EntityType.AREA_EFFECT_CLOUD, AreaEffectCloudController.class);
 -        EntityControllers.setEntityControllerForType(EntityType.ARMADILLO, ArmadilloController.class);
-+//        EntityControllers.setEntityControllerForType(EntityType.ARMADILLO, ArmadilloController.class); // Backport - This does not exist in MC 1.20.1
++//        EntityControllers.setEntityControllerForType(EntityType.ARMADILLO, ArmadilloController.class); // Backport - This does not exist in MC 1.20.4
          EntityControllers.setEntityControllerForType(EntityType.ARMOR_STAND, ArmorStandController.class);
          EntityControllers.setEntityControllerForType(EntityType.ARROW, TippedArrowController.class);
          EntityControllers.setEntityControllerForType(EntityType.AXOLOTL, AxolotlController.class);
@@ -203,7 +203,7 @@ index 7b6eb6f45606ad0dd5cf219c5f84a30c5ac8217e..1050ea5d88ffdcaf5fb40247ca5e4e39
          EntityControllers.setEntityControllerForType(EntityType.BLOCK_DISPLAY, BlockDisplayController.class);
          EntityControllers.setEntityControllerForType(EntityType.BOAT, BoatController.class);
 -        EntityControllers.setEntityControllerForType(EntityType.BOGGED, BoggedController.class);
-+        // Backport start - These do not exist in MC 1.20.1
++        // Backport start - These do not exist in MC 1.20.4
 +//        EntityControllers.setEntityControllerForType(EntityType.BOGGED, BoggedController.class);
          EntityControllers.setEntityControllerForType(EntityType.BREEZE, BreezeController.class);
 -        EntityControllers.setEntityControllerForType(EntityType.BREEZE_WIND_CHARGE, BreezeWindChargeController.class);
@@ -216,7 +216,7 @@ index 7b6eb6f45606ad0dd5cf219c5f84a30c5ac8217e..1050ea5d88ffdcaf5fb40247ca5e4e39
          EntityControllers.setEntityControllerForType(EntityType.ITEM, ItemController.class);
          EntityControllers.setEntityControllerForType(EntityType.ITEM_DISPLAY, ItemDisplayController.class);
          EntityControllers.setEntityControllerForType(EntityType.ITEM_FRAME, ItemFrameController.class);
-+        // Backport start - This does not exist in MC 1.20.1
++        // Backport start - This does not exist in MC 1.20.4
 +        /*
          EntityControllers.setEntityControllerForType(EntityType.OMINOUS_ITEM_SPAWNER,
                  OminousItemSpawnerController.class);
@@ -230,7 +230,7 @@ index 7b6eb6f45606ad0dd5cf219c5f84a30c5ac8217e..1050ea5d88ffdcaf5fb40247ca5e4e39
          EntityControllers.setEntityControllerForType(EntityType.WANDERING_TRADER, WanderingTraderController.class);
          EntityControllers.setEntityControllerForType(EntityType.WARDEN, WardenController.class);
 -        EntityControllers.setEntityControllerForType(EntityType.WIND_CHARGE, WindChargeController.class);
-+//        EntityControllers.setEntityControllerForType(EntityType.WIND_CHARGE, WindChargeController.class); // Backport - This does not exist in MC 1.20.1
++//        EntityControllers.setEntityControllerForType(EntityType.WIND_CHARGE, WindChargeController.class); // Backport - This does not exist in MC 1.20.4
          EntityControllers.setEntityControllerForType(EntityType.WITCH, WitchController.class);
          EntityControllers.setEntityControllerForType(EntityType.WITHER, WitherController.class);
          EntityControllers.setEntityControllerForType(EntityType.WITHER_SKELETON, SkeletonWitherController.class);
@@ -238,7 +238,7 @@ index 7b6eb6f45606ad0dd5cf219c5f84a30c5ac8217e..1050ea5d88ffdcaf5fb40247ca5e4e39
  
      @Override
      public void setArmadilloState(org.bukkit.entity.Entity entity, ArmadilloState state) {
-+        // Backport - Armadillo does not exist in MC 1.20.1
++        // Backport - Armadillo does not exist in MC 1.20.4
 +        /*
          Armadillo.ArmadilloState s = Armadillo.ArmadilloState.IDLE;
          switch (state) {
@@ -257,7 +257,7 @@ index 7b6eb6f45606ad0dd5cf219c5f84a30c5ac8217e..1050ea5d88ffdcaf5fb40247ca5e4e39
      }
  
 -    private static final MethodHandle ARMADILLO_SCUTE_TIME = NMS.getSetter(Armadillo.class, "cj");
-+    private static final MethodHandle ARMADILLO_SCUTE_TIME = null /*NMS.getSetter(Armadillo.class, "cj")*/; // Backport - Armadillo does not exist in MC 1.20.1
++    private static final MethodHandle ARMADILLO_SCUTE_TIME = null /*NMS.getSetter(Armadillo.class, "cj")*/; // Backport - Armadillo does not exist in MC 1.20.4
      private static final MethodHandle ATTRIBUTE_PROVIDER_MAP = NMS.getFirstGetter(AttributeSupplier.class, Map.class);
      private static final MethodHandle ATTRIBUTE_PROVIDER_MAP_SETTER = NMS.getFirstFinalSetter(AttributeSupplier.class,
              Map.class);
