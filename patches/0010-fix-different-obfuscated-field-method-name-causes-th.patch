@@ -7,17 +7,17 @@ Subject: [PATCH] fix: different obfuscated field/method name causes the plugin
 
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index f80636654e5c6ad321a6b3e89230cdc8e4e15dab..27cbd3777aa6eeea7fa8016bbc689ae472a3411f 100644
+index d8762c213f4f5fcf0bc3b2919f1626950ca6b84d..e010c2cbbdc3429afdda57edf394d77e2dec891e 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-@@ -2827,10 +2827,10 @@ public class NMSImpl implements NMSBridge {
+@@ -2826,10 +2826,10 @@ public class NMSImpl implements NMSBridge {
      private static final MethodHandle FLYING_MOVECONTROL_FLOAT_SETTER = NMS.getFirstSetter(FlyingMoveControl.class,
              boolean.class);
      private static final Location FROM_LOCATION = new Location(null, 0, 0, 0);
 -    private static final MethodHandle HEAD_HEIGHT = NMS.getSetter(Entity.class, "bg");
 +    private static final MethodHandle HEAD_HEIGHT = NMS.getSetter(Entity.class, "bi"); // Backport - Update obfuscated name
-     private static EntityDataAccessor<Float> INTERACTION_HEIGHT = null;
-     private static EntityDataAccessor<Float> INTERACTION_WIDTH = null;
+     private static final EntityDataAccessor<Float> INTERACTION_HEIGHT = NMS.getStaticObject(Interaction.class, "d");
+     private static final EntityDataAccessor<Float> INTERACTION_WIDTH = NMS.getStaticObject(Interaction.class, "c");
 -    private static final MethodHandle JUMP_FIELD = NMS.getGetter(LivingEntity.class, "bn");
 +    private static final MethodHandle JUMP_FIELD = NMS.getGetter(LivingEntity.class, "bj"); // Backport - Update obfuscated name
      private static final MethodHandle LOOK_CONTROL_SETTER = NMS.getFirstSetter(Mob.class, LookControl.class);
@@ -41,28 +41,6 @@ index f80636654e5c6ad321a6b3e89230cdc8e4e15dab..27cbd3777aa6eeea7fa8016bbc689ae4
 +    private static final MethodHandle PUFFERFISH_DEFLATE = NMS.getSetter(Pufferfish.class, "bU");
 +    private static final MethodHandle PUFFERFISH_INFLATE = NMS.getSetter(Pufferfish.class, "bT");
 +    // Backport end
-     public static EntityDataAccessor<Integer> RABBIT_TYPE_DATAWATCHER = null;
+     public static EntityDataAccessor<Integer> RABBIT_TYPE_DATAWATCHER = NMS.getFirstStaticObject(Rabbit.class,
+             EntityDataAccessor.class);
      private static final Random RANDOM = Util.getFastRandom();
-     private static final MethodHandle SERVER_ENTITY_GETTER = NMS.getFirstGetter(TrackedEntity.class,
-@@ -2874,7 +2878,7 @@ public class NMSImpl implements NMSBridge {
-         }
-         try {
-             // Middle one
--            ENDERMAN_CREEPY = (EntityDataAccessor<Boolean>) NMS.getField(EnderMan.class, "ca").get(null);
-+            ENDERMAN_CREEPY = (EntityDataAccessor<Boolean>) NMS.getField(EnderMan.class, "bV").get(null); // Backport - Update obfuscated name
-         } catch (Exception e) {
-         }
-         try {
-@@ -2891,8 +2895,10 @@ public class NMSImpl implements NMSBridge {
-         } catch (Throwable e) {
-         }
-         try {
--            DATA_POSE = (EntityDataAccessor<Pose>) NMS.getGetter(Entity.class, "at").invoke();
--            DATA_NAME_VISIBLE = (EntityDataAccessor<Boolean>) NMS.getGetter(Entity.class, "aT").invoke();
-+            // Backport start - Update obfuscated name
-+            DATA_POSE = (EntityDataAccessor<Pose>) NMS.getGetter(Entity.class, "as").invoke();
-+            DATA_NAME_VISIBLE = (EntityDataAccessor<Boolean>) NMS.getGetter(Entity.class, "aV").invoke();
-+            // Backport end
-         } catch (Throwable e) {
-         }
-     }
