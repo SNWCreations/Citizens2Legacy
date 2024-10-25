@@ -7,7 +7,7 @@ Subject: [PATCH] build: POM changes
 This commit make the project only compiles with v1_18_R2 module, starts the patch to upstream.
 
 diff --git a/dist/pom.xml b/dist/pom.xml
-index 6e33bff054d912e5ac909a54e49f190a267f4297..052b20f633991f2efa679c5910aac9c8aacc99f2 100644
+index e60f38787d0d8e2f8475a4def40b0e60e85a08ef..6b6b64224c8633f40eaf7affe2c108a82d98e97d 100644
 --- a/dist/pom.xml
 +++ b/dist/pom.xml
 @@ -15,7 +15,10 @@
@@ -65,7 +65,7 @@ index 6e33bff054d912e5ac909a54e49f190a267f4297..052b20f633991f2efa679c5910aac9c8
  </project>
 \ No newline at end of file
 diff --git a/pom.xml b/pom.xml
-index 7c2455592c0a4e71273a6fc114e142dd43b9294e..45d7e2dceb7e0f6c40db6db3f5bd1b228a40d814 100644
+index ccb78ca68058eab71cd6a15fbd91b62e035155b8..60ae481073663f94f55f869e78ee1c1a1b8fe4f0 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -29,6 +29,20 @@
@@ -89,20 +89,17 @@ index 7c2455592c0a4e71273a6fc114e142dd43b9294e..45d7e2dceb7e0f6c40db6db3f5bd1b22
      </repositories>
      <build>
          <defaultGoal>clean package install</defaultGoal>
-@@ -40,13 +54,20 @@
-                 <activeByDefault>true</activeByDefault>
+@@ -41,12 +55,18 @@
              </activation>
              <modules>
--                <module>main</module> 
-+                <module>main</module>
-+                <module>v1_18_R2</module>
-+                <!--
-+                // Backport start - We only need 1.18.2
+                 <module>main</module> 
++                <!-- Backport start - We only need 1.18.2
                  <module>v1_19_R3</module>
                  <module>v1_20_R4</module>
-                 <module>v1_21_R1</module>
-+                // Backport end
+                 <module>v1_21_R2</module>
 +                -->
++                <module>v1_18_R2</module>
++                <!-- Backport end -->
                  <module>dist</module>
              </modules>
          </profile>
@@ -111,7 +108,7 @@ index 7c2455592c0a4e71273a6fc114e142dd43b9294e..45d7e2dceb7e0f6c40db6db3f5bd1b22
          <profile>
              <id>full</id> 
              <modules>
-@@ -75,5 +96,7 @@
+@@ -75,5 +95,7 @@
                  <module>dist</module>
              </modules>
          </profile>
