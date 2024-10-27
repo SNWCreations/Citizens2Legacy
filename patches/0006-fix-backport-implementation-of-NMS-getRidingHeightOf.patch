@@ -7,7 +7,7 @@ Subject: [PATCH] fix: backport implementation of NMS#getRidingHeightOffset for
 
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 4ed6a826a2c061f8916a4e29073ce71efba6e3be..e3d64e8876e54dee0b722084dfc9abf2c242d846 100644
+index 447ba6a13b7633c035662d456769b3b441740c79..0fe3465976b4e214c2e98c512bc22b943f969e38 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -790,8 +790,13 @@ public class NMSImpl implements NMSBridge {
