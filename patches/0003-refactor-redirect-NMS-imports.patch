@@ -681,7 +681,7 @@ index c1b9a7752c8e71657658ce90ea6fdb83ff229daf..ffb1045d147dae903529979b07e3da62
  import net.citizensnpcs.api.npc.NPC;
  import net.citizensnpcs.nms.v1_20_R4.util.EntityMoveControl;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/MobEntityController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/MobEntityController.java
-index 58ce91e370047a442ed5876e2e1ce61438c39639..128cfe82e066cb69fbf7829e9375b1acf68c59df 100644
+index c8a078cbef6e3a7dd887f0c70f1b006d2430bc45..c57786547da6857d6b0aa35363c7ac0962151cfc 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/MobEntityController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/MobEntityController.java
 @@ -6,7 +6,7 @@ import java.util.WeakHashMap;
@@ -2120,7 +2120,7 @@ index cb5b06b929a3eb9362ca48e2d7b12bd4a621bfb5..d3ec36fac4114b1bafde693009422fdd
  import net.citizensnpcs.util.AbstractBlockBreaker;
  import net.minecraft.core.BlockPos;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 368c373c711059c2c6ff8dc31a83db4b2050de77..7b6eb6f45606ad0dd5cf219c5f84a30c5ac8217e 100644
+index f997cb503a5ba1598b6504055978d29fc47d5f7a..88e23e06052e4a883f30476bd677ef1c057ba472 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -27,19 +27,19 @@ import org.bukkit.boss.BarColor;
