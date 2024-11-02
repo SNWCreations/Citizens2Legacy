@@ -125,7 +125,7 @@ similarity index 100%
 rename from v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityPathfindingContext.java
 rename to v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityPathfindingContext.java.ignored
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 88e23e06052e4a883f30476bd677ef1c057ba472..5d46fc0516dfa07584d146d654fb0abd81237c81 100644
+index 64d8a42e17fda23301e93028fd3bdc00e1416422..8ad2286a6cc0797d83b01bfe4a4b76d5304f5426 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -87,13 +87,13 @@ import net.citizensnpcs.api.util.EntityDim;
@@ -180,7 +180,7 @@ index 88e23e06052e4a883f30476bd677ef1c057ba472..5d46fc0516dfa07584d146d654fb0abd
  import net.minecraft.world.entity.animal.axolotl.Axolotl;
  import net.minecraft.world.entity.animal.camel.Camel;
  import net.minecraft.world.entity.animal.horse.AbstractHorse;
-@@ -974,7 +974,7 @@ public class NMSImpl implements NMSBridge {
+@@ -979,7 +979,7 @@ public class NMSImpl implements NMSBridge {
          registerTraitWithCommand(manager, EnderDragonTrait.class);
          registerTraitWithCommand(manager, AllayTrait.class);
          registerTraitWithCommand(manager, AxolotlTrait.class);
@@ -189,7 +189,7 @@ index 88e23e06052e4a883f30476bd677ef1c057ba472..5d46fc0516dfa07584d146d654fb0abd
          registerTraitWithCommand(manager, BeeTrait.class);
          registerTraitWithCommand(manager, BossBarTrait.class);
          registerTraitWithCommand(manager, CamelTrait.class);
-@@ -1003,7 +1003,7 @@ public class NMSImpl implements NMSBridge {
+@@ -1008,7 +1008,7 @@ public class NMSImpl implements NMSBridge {
      private void loadEntityTypes() {
          EntityControllers.setEntityControllerForType(EntityType.ALLAY, AllayController.class);
          EntityControllers.setEntityControllerForType(EntityType.AREA_EFFECT_CLOUD, AreaEffectCloudController.class);
@@ -198,7 +198,7 @@ index 88e23e06052e4a883f30476bd677ef1c057ba472..5d46fc0516dfa07584d146d654fb0abd
          EntityControllers.setEntityControllerForType(EntityType.ARMOR_STAND, ArmorStandController.class);
          EntityControllers.setEntityControllerForType(EntityType.ARROW, TippedArrowController.class);
          EntityControllers.setEntityControllerForType(EntityType.AXOLOTL, AxolotlController.class);
-@@ -1012,9 +1012,11 @@ public class NMSImpl implements NMSBridge {
+@@ -1017,9 +1017,11 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.BLAZE, BlazeController.class);
          EntityControllers.setEntityControllerForType(EntityType.BLOCK_DISPLAY, BlockDisplayController.class);
          EntityControllers.setEntityControllerForType(EntityType.BOAT, BoatController.class);
@@ -212,7 +212,7 @@ index 88e23e06052e4a883f30476bd677ef1c057ba472..5d46fc0516dfa07584d146d654fb0abd
          EntityControllers.setEntityControllerForType(EntityType.CAMEL, CamelController.class);
          EntityControllers.setEntityControllerForType(EntityType.CAT, CatController.class);
          EntityControllers.setEntityControllerForType(EntityType.CAVE_SPIDER, CaveSpiderController.class);
-@@ -1065,8 +1067,12 @@ public class NMSImpl implements NMSBridge {
+@@ -1070,8 +1072,12 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.ITEM, ItemController.class);
          EntityControllers.setEntityControllerForType(EntityType.ITEM_DISPLAY, ItemDisplayController.class);
          EntityControllers.setEntityControllerForType(EntityType.ITEM_FRAME, ItemFrameController.class);
@@ -225,7 +225,7 @@ index 88e23e06052e4a883f30476bd677ef1c057ba472..5d46fc0516dfa07584d146d654fb0abd
          EntityControllers.setEntityControllerForType(EntityType.LEASH_KNOT, LeashController.class);
          EntityControllers.setEntityControllerForType(EntityType.LLAMA, LlamaController.class);
          EntityControllers.setEntityControllerForType(EntityType.LLAMA_SPIT, LlamaSpitController.class);
-@@ -1121,7 +1127,7 @@ public class NMSImpl implements NMSBridge {
+@@ -1126,7 +1132,7 @@ public class NMSImpl implements NMSBridge {
          EntityControllers.setEntityControllerForType(EntityType.VINDICATOR, VindicatorController.class);
          EntityControllers.setEntityControllerForType(EntityType.WANDERING_TRADER, WanderingTraderController.class);
          EntityControllers.setEntityControllerForType(EntityType.WARDEN, WardenController.class);
@@ -234,7 +234,7 @@ index 88e23e06052e4a883f30476bd677ef1c057ba472..5d46fc0516dfa07584d146d654fb0abd
          EntityControllers.setEntityControllerForType(EntityType.WITCH, WitchController.class);
          EntityControllers.setEntityControllerForType(EntityType.WITHER, WitherController.class);
          EntityControllers.setEntityControllerForType(EntityType.WITHER_SKELETON, SkeletonWitherController.class);
-@@ -1502,6 +1508,8 @@ public class NMSImpl implements NMSBridge {
+@@ -1507,6 +1513,8 @@ public class NMSImpl implements NMSBridge {
  
      @Override
      public void setArmadilloState(org.bukkit.entity.Entity entity, ArmadilloState state) {
@@ -243,7 +243,7 @@ index 88e23e06052e4a883f30476bd677ef1c057ba472..5d46fc0516dfa07584d146d654fb0abd
          Armadillo.ArmadilloState s = Armadillo.ArmadilloState.IDLE;
          switch (state) {
              case IDLE:
-@@ -1518,6 +1526,8 @@ public class NMSImpl implements NMSBridge {
+@@ -1523,6 +1531,8 @@ public class NMSImpl implements NMSBridge {
                  break;
          }
          ((Armadillo) getHandle(entity)).switchToState(s);
@@ -252,7 +252,7 @@ index 88e23e06052e4a883f30476bd677ef1c057ba472..5d46fc0516dfa07584d146d654fb0abd
      }
  
      @Override
-@@ -2661,7 +2671,7 @@ public class NMSImpl implements NMSBridge {
+@@ -2666,7 +2676,7 @@ public class NMSImpl implements NMSBridge {
          }
      }
  
