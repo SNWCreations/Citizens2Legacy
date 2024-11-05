@@ -25,10 +25,10 @@ index 5417315d1cb090437bff061635b40d799f6a141b..4de289161ccba4b20c47b328215c9adc
 +    private static final MethodHandle UPDATE_INTERVAL = NMS.getGetter(ServerEntity.class, "e"); // Backport - Update obfuscated name
  }
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index f012517e83627cf04d0344d253dbce242d852c15..9b8403fd66ff5ce881525193a58170c70b010802 100644
+index 15407d92b63e4aba526ee28fa4417bc4adbcbbc7..1298c9f5f1338ed7b628e9f8659855f741d7a472 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-@@ -2834,15 +2834,17 @@ public class NMSImpl implements NMSBridge {
+@@ -2833,15 +2833,17 @@ public class NMSImpl implements NMSBridge {
      // Backport end
      private static final MethodHandle CRAFT_BOSSBAR_HANDLE_FIELD = NMS.getFirstSetter(CraftBossBar.class,
              ServerBossEvent.class);
@@ -49,7 +49,7 @@ index f012517e83627cf04d0344d253dbce242d852c15..9b8403fd66ff5ce881525193a58170c7
      private static final MethodHandle ENTITY_FISH_NUM_IN_SCHOOL = NMS.getFirstSetter(AbstractSchoolingFish.class,
              int.class);
      private static MethodHandle ENTITY_NAVIGATION = NMS.getFirstSetter(Mob.class, PathNavigation.class);
-@@ -2859,10 +2861,10 @@ public class NMSImpl implements NMSBridge {
+@@ -2858,10 +2860,10 @@ public class NMSImpl implements NMSBridge {
      private static final MethodHandle FLYING_MOVECONTROL_FLOAT_SETTER = NMS.getFirstSetter(FlyingMoveControl.class,
              boolean.class);
      private static final Location FROM_LOCATION = new Location(null, 0, 0, 0);
@@ -62,7 +62,7 @@ index f012517e83627cf04d0344d253dbce242d852c15..9b8403fd66ff5ce881525193a58170c7
      private static final MethodHandle LOOK_CONTROL_SETTER = NMS.getFirstSetter(Mob.class, LookControl.class);
      private static MethodHandle META_COMPOUND_TAG;
      private static final MethodHandle MINECRAFT_CLIENT = NMS.getFirstGetter(YggdrasilMinecraftSessionService.class,
-@@ -2881,14 +2883,18 @@ public class NMSImpl implements NMSBridge {
+@@ -2880,14 +2882,18 @@ public class NMSImpl implements NMSBridge {
      private static final MethodHandle PLAYER_INFO_ENTRIES_LIST = NMS
              .getFirstFinalSetter(ClientboundPlayerInfoUpdatePacket.class, List.class);
      private static final MethodHandle PLAYERINFO_ENTRIES = PLAYER_INFO_ENTRIES_LIST;
@@ -85,7 +85,7 @@ index f012517e83627cf04d0344d253dbce242d852c15..9b8403fd66ff5ce881525193a58170c7
      private static final Random RANDOM = Util.getFastRandom();
      private static final MethodHandle SERVER_ENTITY_GETTER = NMS.getFirstGetter(TrackedEntity.class,
              ServerEntity.class);
-@@ -2901,7 +2907,7 @@ public class NMSImpl implements NMSBridge {
+@@ -2900,7 +2906,7 @@ public class NMSImpl implements NMSBridge {
      static {
          try {
              ENTITY_REGISTRY = new CustomEntityRegistry(BuiltInRegistries.ENTITY_TYPE);
