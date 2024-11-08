@@ -1501,7 +1501,7 @@ index 4b57e86a4e7496c2142d0503424c34440c051cc3..c730ca7594c334189e798055f5d097c0
                  return super.teleportTo(worldserver, location);
              return NMSImpl.teleportAcrossWorld(this, worldserver, location);
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/TNTPrimedController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/TNTPrimedController.java
-index 43ebba48e1170937a9e263f78cd0663fd9e68dbd..7d0c3728bc85aec290283eb858901201d86ce9ba 100644
+index a9e262d5df0e38712f14aa7075d08a3d6f143e2e..8e2cffcc385612cba7d25ebc72968c6fec2add1c 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/TNTPrimedController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/TNTPrimedController.java
 @@ -100,7 +100,7 @@ public class TNTPrimedController extends MobEntityController {
