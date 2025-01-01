@@ -91,7 +91,7 @@ If it does not work, you'll have to deal with the
 
 ## License
 
-Copyright (C) 2024 SNWCreations.
+Copyright (C) 2024, 2025 SNWCreations.
 
 This project and the patches to the upstream project
  inside this project are licensed under Open Software License 3.0,
