@@ -7,7 +7,7 @@ Subject: [PATCH] refactor: redirect NMS imports
 Still not works yet, need more refactoring.
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/AllayController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/AllayController.java
-index ac115c332ac3b95d13dcc16d1e3b995f06991732..0affddbb0457795354def54e4351003b202d041f 100644
+index 16bda350e4915b9990888488d2b2c6476fdd5ac1..2e29001d2e271683077e7e1589f08cf80ac3af9c 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/AllayController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/AllayController.java
 @@ -1,9 +1,9 @@
@@ -313,7 +313,7 @@ index f6671bffefde90ebd71ad7f4a545bb32f9568fa5..f32b11d23833fee5d2e40ce4b96112bc
  import net.citizensnpcs.api.npc.NPC;
  import net.citizensnpcs.nms.v1_20_R4.util.ForwardingNPCHolder;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
-index 3676658bb5bd25e82dbe23bdfbb0f51f008be62c..da07b681cfb34d5fc6cff6f7f8e2d9383663ae48 100644
+index e4f2ef6d2dc4c5292d5bcc304587bbcf5f92d0d7..51394c2289db56cb5f9cf3f9f5150865d9ad2851 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 @@ -5,8 +5,8 @@ import java.lang.invoke.MethodHandle;
@@ -745,7 +745,7 @@ index dd45d8e092864d19589e53c493f2ee6c34b8ddb0..75a91491e32df0899bf75e1370a88cfb
  import net.citizensnpcs.api.npc.NPC;
  import net.citizensnpcs.nms.v1_20_R4.util.ForwardingNPCHolder;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PhantomController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PhantomController.java
-index 521aaae45259e6259f630949704a8f59a1159b83..62dd816510ff2498a1f5eed59066f4b3a437b067 100644
+index 77eab8504fc6e389fac2b891bb7c0599f6220bbd..56b7f9a34f1e036937564b669595e73d8b8a45b6 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PhantomController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PhantomController.java
 @@ -1,9 +1,9 @@
@@ -2103,10 +2103,10 @@ index cb5b06b929a3eb9362ca48e2d7b12bd4a621bfb5..c8af06257bfa4037ae065a703b603b4e
  import net.citizensnpcs.util.AbstractBlockBreaker;
  import net.minecraft.core.BlockPos;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 20f09d90d6ff87d6daa73eb4ae28cd8b4a8b8a96..926a86f943183ce4e77e50b353b2bf95ba208f70 100644
+index f4cb727198c5fc6a576134d8e8ac41c5d45a1f71..66bd5239f2916780a80836da73af1ee493116d1c 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-@@ -28,19 +28,19 @@ import org.bukkit.boss.BarColor;
+@@ -27,19 +27,19 @@ import org.bukkit.boss.BarColor;
  import org.bukkit.boss.BarStyle;
  import org.bukkit.boss.BossBar;
  import org.bukkit.command.BlockCommandSender;

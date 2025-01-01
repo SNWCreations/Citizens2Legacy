@@ -6,10 +6,10 @@ Subject: [PATCH] fix: super method name was updated in newer MC version
 
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/AllayController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/AllayController.java
-index 0affddbb0457795354def54e4351003b202d041f..49ac6c99202c93bffda00ae1cde129ca558075b1 100644
+index 2e29001d2e271683077e7e1589f08cf80ac3af9c..1de2362dbb7be581495937bc380d716d9cf6a359 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/AllayController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/AllayController.java
-@@ -224,7 +224,7 @@ public class AllayController extends MobEntityController {
+@@ -200,7 +200,7 @@ public class AllayController extends MobEntityController {
          }
  
          @Override
@@ -539,10 +539,10 @@ index 75a91491e32df0899bf75e1370a88cfba403c386..7e032f08433f9259c9f33d700ab5ed1a
                  return super.teleportTo(worldserver, location);
              return NMSImpl.teleportAcrossWorld(this, worldserver, location);
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PhantomController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PhantomController.java
-index 41831d667207a5f334188b454a5890dc0ca808b1..6281bb490b51f34d4f1a6d1379df804fb2fa747b 100644
+index 37e3286ba05e83045ecd7abd93c7fd62d66612ce..a1a12634981656214582540165258b658bb89b3b 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PhantomController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/PhantomController.java
-@@ -235,7 +235,7 @@ public class PhantomController extends MobEntityController {
+@@ -211,7 +211,7 @@ public class PhantomController extends MobEntityController {
          }
  
          @Override
