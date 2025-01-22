@@ -25,7 +25,7 @@ index 5417315d1cb090437bff061635b40d799f6a141b..4de289161ccba4b20c47b328215c9adc
 +    private static final MethodHandle UPDATE_INTERVAL = NMS.getGetter(ServerEntity.class, "e"); // Backport - Update obfuscated name
  }
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 4094c7a310e39e3bab41c6ae1a3f02a65dba97e6..cd93664ec2b9d197029249f1254bbd1174fe7970 100644
+index 85f10b97656853419bd32737acd3332798ecbb30..a9cb5a93f21324784f9dfc2bab340ed24a745dd3 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -2863,15 +2863,17 @@ public class NMSImpl implements NMSBridge {

@@ -201,10 +201,10 @@ index 9b6f1da5f8fb468a493a9a88255fa2c0198d1ae6..7f3e822c45099673e6ecf5929dd1c11c
                  return super.teleportTo(worldserver, location);
              return NMSImpl.teleportAcrossWorld(this, worldserver, location);
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EnderDragonController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EnderDragonController.java
-index d3dcbaf71f08f487f2d22e2bf9a2ecefc9bcf587..851a652358385cc733b784d9f95a24d13098b922 100644
+index db45d115da3747422c2d466bf91404865803d70e..62eff3cd72208af878a53f00a697ae5bc92c4550 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EnderDragonController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EnderDragonController.java
-@@ -255,7 +255,7 @@ public class EnderDragonController extends MobEntityController {
+@@ -256,7 +256,7 @@ public class EnderDragonController extends MobEntityController {
          }
  
          @Override

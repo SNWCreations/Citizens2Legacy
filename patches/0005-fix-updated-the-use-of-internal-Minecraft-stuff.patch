@@ -7,7 +7,7 @@ Subject: [PATCH] fix: updated the use of internal Minecraft stuff
 Replaced newer record method access to fields with direct field access, use correct but older Minecraft method names for some methods the upstream uses.
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
-index 51394c2289db56cb5f9cf3f9f5150865d9ad2851..7bbf8bc040c2c1594beda30cc5faa8693fa54a47 100644
+index 8aa8d4fd4f8669b820a731be54dec1cfaeecc4a2..8c162a3e470f6bdffcdcd09ec742333aae8642d5 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 @@ -38,15 +38,15 @@ import net.citizensnpcs.util.Util;
@@ -29,7 +29,7 @@ index 51394c2289db56cb5f9cf3f9f5150865d9ad2851..7bbf8bc040c2c1594beda30cc5faa869
  import net.minecraft.sounds.SoundEvent;
  import net.minecraft.stats.ServerStatsCounter;
  import net.minecraft.tags.TagKey;
-@@ -68,8 +68,10 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
+@@ -69,8 +69,10 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
      private EmptyServerStatsCounter statsCache;
  
      public EntityHumanNPC(MinecraftServer minecraftServer, ServerLevel world, GameProfile gameProfile,
@@ -42,7 +42,7 @@ index 51394c2289db56cb5f9cf3f9f5150865d9ad2851..7bbf8bc040c2c1594beda30cc5faa869
          this.npc = (CitizensNPC) npc;
          if (npc != null) {
              ai = new BasicMobAI(this);
-@@ -79,7 +81,7 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
+@@ -80,7 +82,7 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
              } catch (Throwable e) {
                  e.printStackTrace();
              }
@@ -51,7 +51,7 @@ index 51394c2289db56cb5f9cf3f9f5150865d9ad2851..7bbf8bc040c2c1594beda30cc5faa869
          } else {
              skinTracker = null;
          }
-@@ -259,11 +261,14 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
+@@ -275,11 +277,14 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
          return damaged;
      }
  
@@ -69,7 +69,7 @@ index 51394c2289db56cb5f9cf3f9f5150865d9ad2851..7bbf8bc040c2c1594beda30cc5faa869
          } catch (IOException e) {
              e.printStackTrace();
          }
-@@ -367,12 +372,16 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
+@@ -383,12 +388,16 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
          if (npc == null)
              return;
  
@@ -933,7 +933,7 @@ index dd4dd6dddeefd02107edcc33d8452afd005f3d11..37c9935df87801f138eeaa7ecdbb9466
                  }
  
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 9c9be9ad9093e9308200044e69b909c108607474..83d09729a057c5a7c4e507f73c122c35259b530c 100644
+index 99eabb2931d1b7800ecc158d25970e20a9354322..454daed39a93a2fc77a5f125a2d41e4903c3b344 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -66,7 +66,7 @@ import com.mojang.authlib.minecraft.client.MinecraftClient;
