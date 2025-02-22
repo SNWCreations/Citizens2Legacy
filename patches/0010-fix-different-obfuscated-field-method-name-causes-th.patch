@@ -7,10 +7,10 @@ Subject: [PATCH] fix: different obfuscated field/method name causes the plugin
 
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 7bbb8de5a0594c88335ac7c5176fed5151d6fafd..4297ae9be9d616de0b0b381ac3ce171e3866ec6b 100644
+index 14616301a01398dbd511646b73dbe6c376a91442..905974ec161bea7a4ad6018cf04205fee15f797f 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-@@ -2830,10 +2830,10 @@ public class NMSImpl implements NMSBridge {
+@@ -2859,10 +2859,10 @@ public class NMSImpl implements NMSBridge {
      private static final MethodHandle FLYING_MOVECONTROL_FLOAT_SETTER = NMS.getFirstSetter(FlyingMoveControl.class,
              boolean.class);
      private static final Location FROM_LOCATION = new Location(null, 0, 0, 0);
@@ -23,7 +23,7 @@ index 7bbb8de5a0594c88335ac7c5176fed5151d6fafd..4297ae9be9d616de0b0b381ac3ce171e
      private static final MethodHandle LOOK_CONTROL_SETTER = NMS.getFirstSetter(Mob.class, LookControl.class);
      private static MethodHandle META_COMPOUND_TAG;
      private static final MethodHandle MINECRAFT_CLIENT = NMS.getFirstGetter(YggdrasilMinecraftSessionService.class,
-@@ -2852,12 +2852,16 @@ public class NMSImpl implements NMSBridge {
+@@ -2881,12 +2881,16 @@ public class NMSImpl implements NMSBridge {
      private static final MethodHandle PLAYER_INFO_ENTRIES_LIST = NMS
              .getFirstFinalSetter(ClientboundPlayerInfoUpdatePacket.class, List.class);
      private static final MethodHandle PLAYERINFO_ENTRIES = PLAYER_INFO_ENTRIES_LIST;
