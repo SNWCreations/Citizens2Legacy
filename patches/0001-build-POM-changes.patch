@@ -7,7 +7,7 @@ Subject: [PATCH] build: POM changes
 This commit make the project only compiles with v1_18_R2 module, starts the patch to upstream.
 
 diff --git a/dist/pom.xml b/dist/pom.xml
-index e60f38787d0d8e2f8475a4def40b0e60e85a08ef..6b6b64224c8633f40eaf7affe2c108a82d98e97d 100644
+index ca8ad74259816f774e5662b8aa6cc227fabb6a5b..aca6f69af4e0c8e09bfad4e93c6672c1c7326fad 100644
 --- a/dist/pom.xml
 +++ b/dist/pom.xml
 @@ -15,7 +15,10 @@
@@ -51,7 +51,7 @@ index e60f38787d0d8e2f8475a4def40b0e60e85a08ef..6b6b64224c8633f40eaf7affe2c108a8
              </dependencies>
          </profile>
 +        <!---
-+        // Backport start - We only need 1.20.1
++        // Backport start - We only need 1.18.2
          <profile>
              <id>full</id>
              <dependencies>
@@ -65,7 +65,7 @@ index e60f38787d0d8e2f8475a4def40b0e60e85a08ef..6b6b64224c8633f40eaf7affe2c108a8
  </project>
 \ No newline at end of file
 diff --git a/pom.xml b/pom.xml
-index ccb78ca68058eab71cd6a15fbd91b62e035155b8..60ae481073663f94f55f869e78ee1c1a1b8fe4f0 100644
+index c02678a9ced71dfc58005855cb576662ba3ec090..235a59ff2b1707f9ef3a12ec921ee0a3f2cbd4c1 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -29,6 +29,20 @@
@@ -96,7 +96,7 @@ index ccb78ca68058eab71cd6a15fbd91b62e035155b8..60ae481073663f94f55f869e78ee1c1a
 +                <!-- Backport start - We only need 1.18.2
                  <module>v1_19_R3</module>
                  <module>v1_20_R4</module>
-                 <module>v1_21_R2</module>
+                 <module>v1_21_R3</module>
 +                -->
 +                <module>v1_18_R2</module>
 +                <!-- Backport end -->
