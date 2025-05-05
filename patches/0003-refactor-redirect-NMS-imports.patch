@@ -330,7 +330,7 @@ index f6671bffefde90ebd71ad7f4a545bb32f9568fa5..1112c5b8effebf04e6d8505b520e8fdb
  import net.citizensnpcs.api.npc.NPC;
  import net.citizensnpcs.nms.v1_20_R4.util.ForwardingNPCHolder;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
-index 67321cc2d4fdaf03806ae53b8328c4f1c388ab2f..610d5973df135ba0f80102fbf6d053e9babe6660 100644
+index 67b42f7bb3f27c010bb6a5cae252f6979abb5779..89f9245dc5390160fd24035c42f062278eba7e4f 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 @@ -5,8 +5,8 @@ import java.lang.invoke.MethodHandle;
@@ -1972,7 +1972,7 @@ index 4ac967fb32fd58301577f2f7a59f78de519f99c6..17227c6d943c87cd11dbe7a9cf0e2464
  import net.citizensnpcs.api.npc.NPC;
  import net.citizensnpcs.nms.v1_20_R4.entity.MobEntityController;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/SpectralArrowController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/SpectralArrowController.java
-index fc70e5d8fd36b48cad0e43f96ef8a67467e617a9..82c856fdad56d3d29031c2022400491d72b3e30f 100644
+index 08c9f7c618b9f893716025fc9f81808d374e72f4..3da4c5e39f4b3855c01ce54073104be2fb9fccc4 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/SpectralArrowController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/SpectralArrowController.java
 @@ -1,9 +1,9 @@
@@ -2120,7 +2120,7 @@ index cb5b06b929a3eb9362ca48e2d7b12bd4a621bfb5..d3ec36fac4114b1bafde693009422fdd
  import net.citizensnpcs.util.AbstractBlockBreaker;
  import net.minecraft.core.BlockPos;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 975d0e1e8f47b9863af0b6e8f84bfcbf67080f18..a2679d4200f6b3245b41655902d564b653e969e2 100644
+index 5117b24edeb007cc8f343686b12f35bc43b62e67..afc88dae6635600abfa75af1654ad802465382d4 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -27,19 +27,19 @@ import org.bukkit.boss.BarColor;
