@@ -7,7 +7,7 @@ Subject: [PATCH] build: POM changes
 This commit make the project only compiles with v1_18_R2 module, starts the patch to upstream.
 
 diff --git a/dist/pom.xml b/dist/pom.xml
-index ca8ad74259816f774e5662b8aa6cc227fabb6a5b..aca6f69af4e0c8e09bfad4e93c6672c1c7326fad 100644
+index edbc40f70f3f4d2de00e0a3cc553d13539f3858c..430ae3cafe803e21a69e4eb5bcc911d1f958d84a 100644
 --- a/dist/pom.xml
 +++ b/dist/pom.xml
 @@ -15,7 +15,10 @@
@@ -65,7 +65,7 @@ index ca8ad74259816f774e5662b8aa6cc227fabb6a5b..aca6f69af4e0c8e09bfad4e93c6672c1
  </project>
 \ No newline at end of file
 diff --git a/pom.xml b/pom.xml
-index c02678a9ced71dfc58005855cb576662ba3ec090..235a59ff2b1707f9ef3a12ec921ee0a3f2cbd4c1 100644
+index 4bc373c717e5844e1bc2dd6e3e72ac179b384c55..c8ec86e2b7b4e6b9ebd7129d3025c35545b79673 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -29,6 +29,20 @@
@@ -96,7 +96,7 @@ index c02678a9ced71dfc58005855cb576662ba3ec090..235a59ff2b1707f9ef3a12ec921ee0a3
 +                <!-- Backport start - We only need 1.18.2
                  <module>v1_19_R3</module>
                  <module>v1_20_R4</module>
-                 <module>v1_21_R3</module>
+                 <module>v1_21_R4</module>
 +                -->
 +                <module>v1_18_R2</module>
 +                <!-- Backport end -->
