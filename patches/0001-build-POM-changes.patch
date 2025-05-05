@@ -7,7 +7,7 @@ Subject: [PATCH] build: POM changes
 This commit make the project only compiles with v1_20_R4 module, starts the patch to upstream.
 
 diff --git a/dist/pom.xml b/dist/pom.xml
-index ca8ad74259816f774e5662b8aa6cc227fabb6a5b..615eefe42777233878c273280986eeb9d0f0bbd9 100644
+index edbc40f70f3f4d2de00e0a3cc553d13539f3858c..cb71eba80ff715fb6c42e27200b05c7a8a1469ac 100644
 --- a/dist/pom.xml
 +++ b/dist/pom.xml
 @@ -15,7 +15,10 @@
@@ -50,7 +50,7 @@ index ca8ad74259816f774e5662b8aa6cc227fabb6a5b..615eefe42777233878c273280986eeb9
 +                // Backport start - We only need 1.20.1
                  <dependency>
                      <groupId>${project.groupId}</groupId>
-                     <artifactId>citizens-v1_21_R3</artifactId>
+                     <artifactId>citizens-v1_21_R4</artifactId>
 @@ -89,8 +98,12 @@
                      <type>jar</type>
                      <scope>compile</scope>
@@ -74,7 +74,7 @@ index ca8ad74259816f774e5662b8aa6cc227fabb6a5b..615eefe42777233878c273280986eeb9
  </project>
 \ No newline at end of file
 diff --git a/pom.xml b/pom.xml
-index c02678a9ced71dfc58005855cb576662ba3ec090..2f570ef0337a3fbbf2c12dd2586fdecf161ba80a 100644
+index 4bc373c717e5844e1bc2dd6e3e72ac179b384c55..41486d9ef577febd8905d0e0ad95c24b9635edfa 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -29,6 +29,20 @@
@@ -107,7 +107,7 @@ index c02678a9ced71dfc58005855cb576662ba3ec090..2f570ef0337a3fbbf2c12dd2586fdecf
 +                <!-- Backport start - We only need 1.20.1
                  <module>v1_19_R3</module>
                  <module>v1_20_R4</module>
-                 <module>v1_21_R3</module>
+                 <module>v1_21_R4</module>
 +                -->
 +                <module>v1_20_R4</module>
 +                <!-- Backport end -->

@@ -1488,7 +1488,7 @@ index c0fae8c14db2d1bc94f717be9b386faf70e59d22..d68359a7a029e23f16340cded1d4ec51
                  return super.teleportTo(worldserver, location);
              return NMSImpl.teleportAcrossWorld(this, worldserver, location);
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/SpectralArrowController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/SpectralArrowController.java
-index 4b57e86a4e7496c2142d0503424c34440c051cc3..c730ca7594c334189e798055f5d097c00a683339 100644
+index 0dc85cba6c002708afbba40051bb2924e723fc9c..23eb25eafb288c352166f81fda4bb5cc029adfaf 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/SpectralArrowController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/nonliving/SpectralArrowController.java
 @@ -100,7 +100,7 @@ public class SpectralArrowController extends MobEntityController {

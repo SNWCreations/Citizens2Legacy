@@ -6,7 +6,7 @@ Subject: [PATCH] build: let v1_20_R4 module use Minecraft 1.20.1
 
 
 diff --git a/v1_20_R4/pom.xml b/v1_20_R4/pom.xml
-index 8896220d45a35a1c51995d3f714d15e91f5e2617..72ba9ba04ee6cb46ed525f8498bdee853461091c 100644
+index 81ad736b42e24f6c16932684fe84581a6a7662a8..06c661612dc3e39ce4df248a5b74fcb20cc006c7 100644
 --- a/v1_20_R4/pom.xml
 +++ b/v1_20_R4/pom.xml
 @@ -9,7 +9,7 @@
