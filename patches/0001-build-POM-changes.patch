@@ -73,7 +73,7 @@ index b73e7f6da1fe9188108127067345d51b20916dc4..7d746ba4cae3927f965d4acfff1c12a1
  </project>
 \ No newline at end of file
 diff --git a/pom.xml b/pom.xml
-index f5d6aa691edaf0b215348764d151b86ae45681c7..f1201a8f1f2e1a9c4674a239c41314383d1e453c 100644
+index f5d6aa691edaf0b215348764d151b86ae45681c7..87138115c0dbb3a830e6143f0004fa3a3f22027d 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -29,6 +29,20 @@
@@ -97,18 +97,19 @@ index f5d6aa691edaf0b215348764d151b86ae45681c7..f1201a8f1f2e1a9c4674a239c4131438
      </repositories>
      <build>
          <defaultGoal>clean package install</defaultGoal>
-@@ -40,13 +54,19 @@
+@@ -40,13 +54,20 @@
                  <activeByDefault>true</activeByDefault>
              </activation>
              <modules>
 -                <module>main</module> 
 +                <module>main</module>
-+                <!-- Backport start - We only need 1.20.4
++                <!-- Backport start - We only need 1.20.4 -->
++                <module>v1_20_R4</module>
++                <!--
                  <module>v1_19_R3</module>
                  <module>v1_20_R4</module>
                  <module>v1_21_R5</module>
 +                -->
-+                <module>v1_20_R4</module>
 +                <!-- Backport end -->
                  <module>dist</module>
              </modules>
@@ -118,7 +119,7 @@ index f5d6aa691edaf0b215348764d151b86ae45681c7..f1201a8f1f2e1a9c4674a239c4131438
          <profile>
              <id>full</id> 
              <modules>
-@@ -75,5 +95,7 @@
+@@ -75,5 +96,7 @@
                  <module>dist</module>
              </modules>
          </profile>
