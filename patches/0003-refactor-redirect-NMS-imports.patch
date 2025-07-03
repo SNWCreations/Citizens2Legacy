@@ -2120,7 +2120,7 @@ index cb5b06b929a3eb9362ca48e2d7b12bd4a621bfb5..d3ec36fac4114b1bafde693009422fdd
  import net.citizensnpcs.util.AbstractBlockBreaker;
  import net.minecraft.core.BlockPos;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 5117b24edeb007cc8f343686b12f35bc43b62e67..afc88dae6635600abfa75af1654ad802465382d4 100644
+index b97bc100a074cc5da62a1b4f60ce92d347025c4d..1e980b5f059b0e732cfeb33d3b5a0ffa0f6ac342 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -27,19 +27,19 @@ import org.bukkit.boss.BarColor;

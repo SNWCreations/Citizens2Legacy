@@ -6,7 +6,7 @@ Subject: [PATCH] build: POM changes
 
 
 diff --git a/dist/pom.xml b/dist/pom.xml
-index edbc40f70f3f4d2de00e0a3cc553d13539f3858c..4db9bf64a68f6b80d7bade5f0de343423494d512 100644
+index b73e7f6da1fe9188108127067345d51b20916dc4..7d746ba4cae3927f965d4acfff1c12a186aa5684 100644
 --- a/dist/pom.xml
 +++ b/dist/pom.xml
 @@ -15,7 +15,10 @@
@@ -49,7 +49,7 @@ index edbc40f70f3f4d2de00e0a3cc553d13539f3858c..4db9bf64a68f6b80d7bade5f0de34342
 +                // Backport start - We only need 1.20.4
                  <dependency>
                      <groupId>${project.groupId}</groupId>
-                     <artifactId>citizens-v1_21_R4</artifactId>
+                     <artifactId>citizens-v1_21_R5</artifactId>
 @@ -89,8 +98,12 @@
                      <type>jar</type>
                      <scope>compile</scope>
@@ -73,7 +73,7 @@ index edbc40f70f3f4d2de00e0a3cc553d13539f3858c..4db9bf64a68f6b80d7bade5f0de34342
  </project>
 \ No newline at end of file
 diff --git a/pom.xml b/pom.xml
-index 4bc373c717e5844e1bc2dd6e3e72ac179b384c55..c96bc954f107740858b630247b925a46b94f7ba9 100644
+index f5d6aa691edaf0b215348764d151b86ae45681c7..f1201a8f1f2e1a9c4674a239c41314383d1e453c 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -29,6 +29,20 @@
@@ -106,7 +106,7 @@ index 4bc373c717e5844e1bc2dd6e3e72ac179b384c55..c96bc954f107740858b630247b925a46
 +                <!-- Backport start - We only need 1.20.4
                  <module>v1_19_R3</module>
                  <module>v1_20_R4</module>
-                 <module>v1_21_R4</module>
+                 <module>v1_21_R5</module>
 +                -->
 +                <module>v1_20_R4</module>
 +                <!-- Backport end -->
