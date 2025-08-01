@@ -129,7 +129,7 @@ similarity index 100%
 rename from v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityPathfindingContext.java
 rename to v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/EntityPathfindingContext.java.ignored
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index e41a6f0f778390d7317a407c97b8b01a339b868d..fd4ccfd79efe2965377332de1c109cea9b560d4f 100644
+index e41a6f0f778390d7317a407c97b8b01a339b868d..b844af5cbec37799354024b2b661816463040913 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -88,14 +88,18 @@ import net.citizensnpcs.api.util.EntityDim;
@@ -260,6 +260,15 @@ index e41a6f0f778390d7317a407c97b8b01a339b868d..fd4ccfd79efe2965377332de1c109cea
      }
  
      @Override
+@@ -2612,7 +2628,7 @@ public class NMSImpl implements NMSBridge {
+         try {
+             if (entity instanceof LivingEntity) {
+                 AttributeMap map = ((LivingEntity) entity).getAttributes();
+-                if (map.hasAttribute(Attributes.SCALE) && Math.abs(map.getValue(Attributes.SCALE) - 1) > 0.01)
++                if (false/*map.hasAttribute(Attributes.SCALE) && Math.abs(map.getValue(Attributes.SCALE) - 1) > 0.01*/) // Backport - Attributes.SCALE does not exist in MC 1.20.1
+                     return;
+             }
+             EntityDimensions entitysize = (EntityDimensions) SIZE_FIELD_GETTER.invoke(entity);
 @@ -2708,7 +2724,7 @@ public class NMSImpl implements NMSBridge {
          }
      }

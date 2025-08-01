@@ -934,7 +934,7 @@ index dd4dd6dddeefd02107edcc33d8452afd005f3d11..37c9935df87801f138eeaa7ecdbb9466
                  }
  
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index fd4ccfd79efe2965377332de1c109cea9b560d4f..05f8a1b3d3a02bd28de9e8146ff153879abd0bbb 100644
+index b844af5cbec37799354024b2b661816463040913..c5b79b6f52b0c1422604d0a5cd1f24b75a5688d3 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -66,7 +66,7 @@ import com.mojang.authlib.minecraft.client.MinecraftClient;
