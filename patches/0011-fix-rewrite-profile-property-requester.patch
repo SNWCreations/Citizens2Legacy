@@ -6,7 +6,7 @@ Subject: [PATCH] fix: rewrite profile property requester
 
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index fb98fd2cbeaa130befcee3649c13e1580cd0d582..dbe06cd990c41959d4bd1027b8f0e56ba64c9e23 100644
+index 286b43db1062536dce4714560434b9ea46fa24e5..ce6f558aad42fa298194cc15d4ff076cdab36c1d 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -619,8 +619,14 @@ public class NMSImpl implements NMSBridge {
@@ -24,7 +24,7 @@ index fb98fd2cbeaa130befcee3649c13e1580cd0d582..dbe06cd990c41959d4bd1027b8f0e56b
  
          // Backport start - Older authlib does not provide toProfile method so we use old way there
  //        return response.toProfile();
-@@ -2904,8 +2910,14 @@ public class NMSImpl implements NMSBridge {
+@@ -2909,8 +2915,14 @@ public class NMSImpl implements NMSBridge {
      private static final MethodHandle JUMP_FIELD = NMS.getGetter(LivingEntity.class, "bk"); // Backport - Update obfuscated name
      private static final MethodHandle LOOK_CONTROL_SETTER = NMS.getFirstSetter(Mob.class, LookControl.class);
      private static MethodHandle META_COMPOUND_TAG;

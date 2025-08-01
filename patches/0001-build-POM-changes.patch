@@ -74,7 +74,7 @@ index b73e7f6da1fe9188108127067345d51b20916dc4..38675260b61d265ee479fa5d2d0f4f41
  </project>
 \ No newline at end of file
 diff --git a/pom.xml b/pom.xml
-index f5d6aa691edaf0b215348764d151b86ae45681c7..ea28290bfc52524578d5dd0cf0262ebe7c0469ae 100644
+index f5d6aa691edaf0b215348764d151b86ae45681c7..d6e00008755d7e03be1d45bfbd4df78622842dd4 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -29,6 +29,20 @@

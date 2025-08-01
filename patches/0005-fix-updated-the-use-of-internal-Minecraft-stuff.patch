@@ -934,7 +934,7 @@ index dd4dd6dddeefd02107edcc33d8452afd005f3d11..37c9935df87801f138eeaa7ecdbb9466
                  }
  
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index dcc373ac1bfa526d07686e2845ddae6132014a00..25afe105b82965eaba9708e7f03c9a19362a8ddc 100644
+index fd4ccfd79efe2965377332de1c109cea9b560d4f..05f8a1b3d3a02bd28de9e8146ff153879abd0bbb 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 @@ -66,7 +66,7 @@ import com.mojang.authlib.minecraft.client.MinecraftClient;
@@ -1042,7 +1042,7 @@ index dcc373ac1bfa526d07686e2845ddae6132014a00..25afe105b82965eaba9708e7f03c9a19
      }
  
      public String getAuthServerBaseUrl() {
-@@ -783,7 +811,10 @@ public class NMSImpl implements NMSBridge {
+@@ -794,7 +822,10 @@ public class NMSImpl implements NMSBridge {
      @Override
      public String getSoundPath(Sound flag) throws CommandException {
          try {
@@ -1266,7 +1266,7 @@ index dcc373ac1bfa526d07686e2845ddae6132014a00..25afe105b82965eaba9708e7f03c9a19
      }
  
      @Override
-@@ -1474,7 +1560,7 @@ public class NMSImpl implements NMSBridge {
+@@ -1479,7 +1565,7 @@ public class NMSImpl implements NMSBridge {
                  .createPlayerInitializing(Arrays.asList(from));
          boolean list = from instanceof NPCHolder ? !((NPCHolder) from).getNPC().shouldRemoveFromTabList() : true;
          ClientboundPlayerInfoUpdatePacket.Entry entry = new ClientboundPlayerInfoUpdatePacket.Entry(from.getUUID(),
@@ -1275,7 +1275,7 @@ index dcc373ac1bfa526d07686e2845ddae6132014a00..25afe105b82965eaba9708e7f03c9a19
                  list ? from.getTabListDisplayName() : Component.empty(),
                  from.getChatSession() == null ? null : from.getChatSession().asData());
          try {
-@@ -1749,9 +1835,23 @@ public class NMSImpl implements NMSBridge {
+@@ -1754,9 +1840,23 @@ public class NMSImpl implements NMSBridge {
          ((PolarBear) getHandle(entity)).setStanding(rearing);
      }
  
@@ -1300,7 +1300,7 @@ index dcc373ac1bfa526d07686e2845ddae6132014a00..25afe105b82965eaba9708e7f03c9a19
      }
  
      @Override
-@@ -1811,9 +1911,14 @@ public class NMSImpl implements NMSBridge {
+@@ -1816,9 +1916,14 @@ public class NMSImpl implements NMSBridge {
      @Override
      public void setStepHeight(org.bukkit.entity.Entity entity, float height) {
          Entity handle = getHandle(entity);
@@ -1315,7 +1315,7 @@ index dcc373ac1bfa526d07686e2845ddae6132014a00..25afe105b82965eaba9708e7f03c9a19
      }
  
      @Override
-@@ -2177,10 +2282,12 @@ public class NMSImpl implements NMSBridge {
+@@ -2182,10 +2287,12 @@ public class NMSImpl implements NMSBridge {
              e.printStackTrace();
              return;
          }
@@ -1331,7 +1331,7 @@ index dcc373ac1bfa526d07686e2845ddae6132014a00..25afe105b82965eaba9708e7f03c9a19
              living.setPos(living.getX() - 0.01, living.getY(), living.getZ() - 0.01);
              living.setPos(living.getX() + 0.01, living.getY(), living.getZ() + 0.01);
          }
-@@ -2548,12 +2655,20 @@ public class NMSImpl implements NMSBridge {
+@@ -2553,12 +2660,20 @@ public class NMSImpl implements NMSBridge {
      }
  
      public static void setAttribute(LivingEntity entity, Holder<Attribute> attribute, double value) {
@@ -1354,7 +1354,7 @@ index dcc373ac1bfa526d07686e2845ddae6132014a00..25afe105b82965eaba9708e7f03c9a19
                  all.put(attribute, new AttributeInstance(attribute, att -> {
                      throw new UnsupportedOperationException(
                              "Tried to change value for default attribute instance FOLLOW_RANGE");
-@@ -2630,18 +2745,22 @@ public class NMSImpl implements NMSBridge {
+@@ -2635,18 +2750,22 @@ public class NMSImpl implements NMSBridge {
              Pose entitypose = entity.getPose();
              EntityDimensions entitysize1 = entity.getDimensions(entitypose);
              SIZE_FIELD_SETTER.invoke(entity, entitysize1);
@@ -1385,7 +1385,7 @@ index dcc373ac1bfa526d07686e2845ddae6132014a00..25afe105b82965eaba9708e7f03c9a19
                      entity.move(MoverType.SELF, new Vec3(f, 0.0D, f));
                  }
              }
-@@ -2653,13 +2772,17 @@ public class NMSImpl implements NMSBridge {
+@@ -2658,13 +2777,17 @@ public class NMSImpl implements NMSBridge {
      public static void setSize(Entity entity, EntityDimensions size) {
          try {
              SIZE_FIELD_SETTER.invoke(entity, size);
@@ -1405,7 +1405,7 @@ index dcc373ac1bfa526d07686e2845ddae6132014a00..25afe105b82965eaba9708e7f03c9a19
          if (FIND_DIMENSION_ENTRY_POINT == null || entity.isRemoved())
              return null;
          NPC npc = ((NPCHolder) entity).getNPC();
-@@ -2735,8 +2858,12 @@ public class NMSImpl implements NMSBridge {
+@@ -2740,8 +2863,12 @@ public class NMSImpl implements NMSBridge {
              ServerPlayer.class, boolean.class);
      private static final Map<Class<?>, net.minecraft.world.entity.EntityType<?>> CITIZENS_ENTITY_TYPES = Maps
              .newHashMap();
@@ -1418,7 +1418,7 @@ index dcc373ac1bfa526d07686e2845ddae6132014a00..25afe105b82965eaba9708e7f03c9a19
      private static final MethodHandle CRAFT_BOSSBAR_HANDLE_FIELD = NMS.getFirstSetter(CraftBossBar.class,
              ServerBossEvent.class);
      private static final EntityDataAccessor<Boolean> DATA_NAME_VISIBLE = NMS.getStaticObject(Entity.class, "aT");
-@@ -2814,4 +2941,12 @@ public class NMSImpl implements NMSBridge {
+@@ -2819,4 +2946,12 @@ public class NMSImpl implements NMSBridge {
              Messaging.logTr(Messages.ERROR_GETTING_ID_MAPPING, e.getMessage());
          }
      }
