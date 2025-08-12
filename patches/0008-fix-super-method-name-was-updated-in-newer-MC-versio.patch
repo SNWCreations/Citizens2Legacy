@@ -357,10 +357,10 @@ index 1e2c1d2b1997dec89707a512f7b618ce370c9530..6aec4332306e226ea8215a8441f76327
                  return super.teleportTo(worldserver, location);
              return NMSImpl.teleportAcrossWorld(this, worldserver, location);
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HoglinController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HoglinController.java
-index 58b58bc528c76390eff837c5fa2879383c244808..6a59209fe7d737ec12312fe14cf39e6ca56dceda 100644
+index 4c8da63b60173d7f664d0b2115f91c3f7faeb44e..ee0b893067c1c208954e8edbff7fc116089fd7fe 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HoglinController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HoglinController.java
-@@ -191,7 +191,7 @@ public class HoglinController extends MobEntityController {
+@@ -188,7 +188,7 @@ public class HoglinController extends MobEntityController {
          }
  
          @Override
@@ -942,10 +942,10 @@ index 18f0eaa3b7cf93e9ed1d56dec6b4ea4ce2fc8ab9..2c4f216d026190ba4674dd610df9dbc1
                  return super.teleportTo(worldserver, location);
              return NMSImpl.teleportAcrossWorld(this, worldserver, location);
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/WardenController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/WardenController.java
-index 2f6d4544b159222064bc2a8b7347d607c76a27d6..90ed12e9cf685b8ccf17a055a4667ea26fdef13e 100644
+index 9686d344322f1d721fe0db710ba118dfc17d6260..cf11a8d76d45b530bcaab83605013322694e97db 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/WardenController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/WardenController.java
-@@ -192,7 +192,7 @@ public class WardenController extends MobEntityController {
+@@ -185,7 +185,7 @@ public class WardenController extends MobEntityController {
          }
  
          @Override

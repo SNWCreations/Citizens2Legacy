@@ -313,7 +313,7 @@ index f6671bffefde90ebd71ad7f4a545bb32f9568fa5..f32b11d23833fee5d2e40ce4b96112bc
  import net.citizensnpcs.api.npc.NPC;
  import net.citizensnpcs.nms.v1_20_R4.util.ForwardingNPCHolder;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
-index 67b42f7bb3f27c010bb6a5cae252f6979abb5779..e50a931d3c50581eaf263da01f5c434be5c79642 100644
+index de268fcd5a723ea34fe1f698e36ffae3a477a3e3..92de669727ad0b06ea51383379a648fad44f2708 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 @@ -5,8 +5,8 @@ import java.lang.invoke.MethodHandle;
@@ -481,7 +481,7 @@ index 4f6f6bb779a0ce7ca2ca92d3dc4bb1f48000c2bf..1e2c1d2b1997dec89707a512f7b618ce
  import net.citizensnpcs.api.npc.NPC;
  import net.citizensnpcs.nms.v1_20_R4.util.ForwardingNPCHolder;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HoglinController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HoglinController.java
-index 16c809d7f121743ab0e5908d719d939bf67df81f..58b58bc528c76390eff837c5fa2879383c244808 100644
+index e96f6d3b8e1ba4e1700b435f5571edd9f7a550d7..4c8da63b60173d7f664d0b2115f91c3f7faeb44e 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HoglinController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/HoglinController.java
 @@ -1,9 +1,9 @@
@@ -1272,7 +1272,7 @@ index 965fe3634992ccaf696940d53059d26229322c1a..18f0eaa3b7cf93e9ed1d56dec6b4ea4c
  import net.citizensnpcs.api.npc.NPC;
  import net.citizensnpcs.nms.v1_20_R4.util.ForwardingNPCHolder;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/WardenController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/WardenController.java
-index 9a64990651c2cabbb88467731c8574bfac05cf1c..2f6d4544b159222064bc2a8b7347d607c76a27d6 100644
+index 4ab7d45079c4bcdb454d330eb1466f18e84405ed..9686d344322f1d721fe0db710ba118dfc17d6260 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/WardenController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/WardenController.java
 @@ -1,9 +1,9 @@
@@ -2103,10 +2103,10 @@ index cb5b06b929a3eb9362ca48e2d7b12bd4a621bfb5..c8af06257bfa4037ae065a703b603b4e
  import net.citizensnpcs.util.AbstractBlockBreaker;
  import net.minecraft.core.BlockPos;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-index 99582dd59466ef0aaefacdf29125245759ba31e7..e41a6f0f778390d7317a407c97b8b01a339b868d 100644
+index 128551cac2a55ee08c40cc982fe8632d45031284..f561fa9ed55253e3eeceb67d0fbe45c4fd0ff333 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/util/NMSImpl.java
-@@ -27,19 +27,19 @@ import org.bukkit.boss.BarColor;
+@@ -26,19 +26,19 @@ import org.bukkit.boss.BarColor;
  import org.bukkit.boss.BarStyle;
  import org.bukkit.boss.BossBar;
  import org.bukkit.command.BlockCommandSender;
