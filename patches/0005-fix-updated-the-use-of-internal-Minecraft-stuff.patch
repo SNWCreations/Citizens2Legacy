@@ -7,7 +7,7 @@ Subject: [PATCH] fix: updated the use of internal Minecraft stuff
 Replaced newer record method access to fields with direct field access, use correct but older Minecraft method names for some methods the upstream uses.
 
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
-index 92de669727ad0b06ea51383379a648fad44f2708..6106b6e6bea161b7c9e1a4f06f6b0f724e49317e 100644
+index a6ab639869b8b82540f88fc1af5df291b5e3cacb..996a1b17e100c50417897a60265f1bbbb1198b8d 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 @@ -38,15 +38,15 @@ import net.citizensnpcs.util.Util;
@@ -29,7 +29,7 @@ index 92de669727ad0b06ea51383379a648fad44f2708..6106b6e6bea161b7c9e1a4f06f6b0f72
  import net.minecraft.sounds.SoundEvent;
  import net.minecraft.stats.ServerStatsCounter;
  import net.minecraft.tags.TagKey;
-@@ -69,8 +69,10 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
+@@ -70,8 +70,10 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
      private EmptyServerStatsCounter statsCache;
  
      public EntityHumanNPC(MinecraftServer minecraftServer, ServerLevel world, GameProfile gameProfile,
@@ -42,7 +42,7 @@ index 92de669727ad0b06ea51383379a648fad44f2708..6106b6e6bea161b7c9e1a4f06f6b0f72
          this.npc = (CitizensNPC) npc;
          if (npc != null) {
              ai = new BasicMobAI(this);
-@@ -80,7 +82,7 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
+@@ -81,7 +83,7 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
              } catch (Throwable e) {
                  e.printStackTrace();
              }
@@ -51,7 +51,7 @@ index 92de669727ad0b06ea51383379a648fad44f2708..6106b6e6bea161b7c9e1a4f06f6b0f72
          } else {
              skinTracker = null;
          }
-@@ -273,11 +275,14 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
+@@ -274,11 +276,14 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
          return damaged;
      }
  
@@ -69,7 +69,7 @@ index 92de669727ad0b06ea51383379a648fad44f2708..6106b6e6bea161b7c9e1a4f06f6b0f72
          } catch (IOException e) {
              e.printStackTrace();
          }
-@@ -388,13 +393,17 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
+@@ -389,13 +394,17 @@ public class EntityHumanNPC extends ServerPlayer implements NPCHolder, Skinnable
                  e.printStackTrace();
              }
          } else {

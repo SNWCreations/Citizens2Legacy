@@ -313,7 +313,7 @@ index f6671bffefde90ebd71ad7f4a545bb32f9568fa5..f32b11d23833fee5d2e40ce4b96112bc
  import net.citizensnpcs.api.npc.NPC;
  import net.citizensnpcs.nms.v1_20_R4.util.ForwardingNPCHolder;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
-index de268fcd5a723ea34fe1f698e36ffae3a477a3e3..92de669727ad0b06ea51383379a648fad44f2708 100644
+index 7574b50251e45368de09913c017d1a08ab1279b9..a6ab639869b8b82540f88fc1af5df291b5e3cacb 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/EntityHumanNPC.java
 @@ -5,8 +5,8 @@ import java.lang.invoke.MethodHandle;
@@ -1272,7 +1272,7 @@ index 965fe3634992ccaf696940d53059d26229322c1a..18f0eaa3b7cf93e9ed1d56dec6b4ea4c
  import net.citizensnpcs.api.npc.NPC;
  import net.citizensnpcs.nms.v1_20_R4.util.ForwardingNPCHolder;
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/WardenController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/WardenController.java
-index 4ab7d45079c4bcdb454d330eb1466f18e84405ed..9686d344322f1d721fe0db710ba118dfc17d6260 100644
+index e1a53880950423531f2a36d2179545b5495b76fd..6f38518f3a32b407dfe2dafac5a9130c5641bf09 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/WardenController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/WardenController.java
 @@ -1,9 +1,9 @@

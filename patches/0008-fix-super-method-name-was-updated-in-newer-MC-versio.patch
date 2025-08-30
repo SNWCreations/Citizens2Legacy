@@ -942,10 +942,10 @@ index 18f0eaa3b7cf93e9ed1d56dec6b4ea4ce2fc8ab9..2c4f216d026190ba4674dd610df9dbc1
                  return super.teleportTo(worldserver, location);
              return NMSImpl.teleportAcrossWorld(this, worldserver, location);
 diff --git a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/WardenController.java b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/WardenController.java
-index 9686d344322f1d721fe0db710ba118dfc17d6260..cf11a8d76d45b530bcaab83605013322694e97db 100644
+index 6f38518f3a32b407dfe2dafac5a9130c5641bf09..7aac9640375cfb586660f72def17026342078247 100644
 --- a/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/WardenController.java
 +++ b/v1_20_R4/src/main/java/net/citizensnpcs/nms/v1_20_R4/entity/WardenController.java
-@@ -185,7 +185,7 @@ public class WardenController extends MobEntityController {
+@@ -189,7 +189,7 @@ public class WardenController extends MobEntityController {
          }
  
          @Override
